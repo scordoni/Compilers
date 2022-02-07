@@ -65,6 +65,9 @@ public class Compiler{
 	    }//catch
 
 
+        System.out.println("Welcome to the lexer");
+
+        System.out.println("Lexing Program ...");
         
         Lexer.Lex(testprogram);
 

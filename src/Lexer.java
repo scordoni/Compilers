@@ -21,6 +21,8 @@ public class Lexer {
 
     static int position = 0;
 
+    static int lineNumber = 0;
+
     int programCounter = 2;
 
     int lastPosition = 0;
@@ -33,14 +35,13 @@ public class Lexer {
 
     static int ErrorFlag = 0;
 
+    static int intFlag = 0;
+
     //This method pushes each letter of the array into the stack
 	public static void Lex(ArrayList program){
 
         System.out.println(" ");
-        System.out.println("Welcome to the lexer");
-
-
-        System.out.println("INFO  Lexer - Lexing program 1");
+        
 
         
         
@@ -65,8 +66,13 @@ public class Lexer {
                             break fullbreak;
 
                         }//if
+
+                        theToken.setKind("L_BRACE");
+                        theToken.setSymbol("{");
+                        theToken.setLineNumber(lineNumber);
+                        theToken.setPosition(position);
                         
-                        System.out.println("DEBUG Lexer - L_BRACE [ { ] found at " + position);
+                        System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
                     
 
@@ -78,7 +84,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - R_BRACE [ } ] found at " + position);
+                        System.out.println("DEBUG Lexer - R_BRACE [ } ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
 
                     case "$":
@@ -86,13 +92,13 @@ public class Lexer {
                         if(commentFlag == 1){
 
 
-                            System.out.println("ERROR - Unclosed comment found at " + position);
+                            System.out.println("ERROR - Unclosed comment found at " + "(" + lineNumber + ":" + position + ")");
 
                             break fullbreak;
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - EOP [ $ ] found at " + position);
+                        System.out.println("DEBUG Lexer - EOP [ $ ] found at " + "(" + lineNumber + ":" + position + ")");
 
                         System.out.println(" ");
 
@@ -174,11 +180,29 @@ public class Lexer {
 
                         }//if
 
-                        
+                        else if(program.get(i + 1).toString().compareToIgnoreCase("=") == 0){
+
+                            theToken.setKind("EQUALITY");
+                            theToken.setSymbol("==");
+                            theToken.setLineNumber(lineNumber);
+                            theToken.setPosition(position);
+                            
+                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        }//else if
+
+
+                        else{
+                            theToken.setKind("ASSIGNMENT");
+                            theToken.setSymbol("=");
+                            theToken.setLineNumber(lineNumber);
+                            theToken.setPosition(position);
+                            
+                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+
+
+                        }//else
 
                         break;
-
-                    
                     
                     case "0":
 
@@ -188,7 +212,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - DIGIT [ 0 ] found at " + position);
+                        System.out.println("DEBUG Lexer - DIGIT [ 0 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -200,7 +224,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - DIGIT [ 1 ] found at " + position);
+                        System.out.println("DEBUG Lexer - DIGIT [ 1 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -212,7 +236,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - DIGIT [ 2 ] found at " + position);
+                        System.out.println("DEBUG Lexer - DIGIT [ 2 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -224,7 +248,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - DIGIT [ 3 ] found at " + position);
+                        System.out.println("DEBUG Lexer - DIGIT [ 3 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -236,7 +260,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 4 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 4 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -248,7 +272,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 5 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 5 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -261,7 +285,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 6 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 6 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -273,7 +297,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 7 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 7 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -285,7 +309,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 8 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 8 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -297,7 +321,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ 9 ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ 9 ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -309,7 +333,18 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ a ] found at " + position);
+                        else{
+
+
+                            theToken.setKind("ID");
+                            theToken.setSymbol("a");
+                            theToken.setLineNumber(lineNumber);
+                            theToken.setPosition(position);
+                        
+                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        }//else
+
+                        
                         
                         break;
                         
@@ -321,7 +356,16 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ b ] found at " + position);
+                        else{
+
+
+                            theToken.setKind("ID");
+                            theToken.setSymbol("b");
+                            theToken.setLineNumber(lineNumber);
+                            theToken.setPosition(position);
+                        
+                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        }//else
                         
                         break;                          
                           
@@ -334,7 +378,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ c ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ c ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -346,7 +390,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ d ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -358,7 +402,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ e ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ e ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -371,7 +415,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ f ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ f ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -384,7 +428,13 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ g ] found at " + position);
+                        else if(stringFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ g ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -396,17 +446,47 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ h ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ h ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
                     case "i":
 
-                        if(commentFlag == 1){
+
+                        if(program.get(i + 1).toString().compareToIgnoreCase("n") == 0){
+
+                            if(program.get(i + 2).toString().compareToIgnoreCase("t") == 0){
+
+                            
+                                theToken.setKind("INT");
+                                theToken.setSymbol("int");
+                                theToken.setLineNumber(lineNumber);
+                                theToken.setPosition(position);
+                        
+
+                                System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        
+                                intFlag = 1;
+
+                                break;
+
+                            }//if
+                            
+                        }//if
+
+                        else if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
+
+                        else if(stringFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        
 
                         break;
 
@@ -418,7 +498,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ j ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ j ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -430,7 +510,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ k ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ k ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -442,7 +522,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ l ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ l ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -455,7 +535,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ m ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ m ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -467,7 +547,19 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ n ] found at " + position);
+                        else if(intFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if(stringFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ n ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
                     
@@ -479,7 +571,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ o ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ o ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -491,7 +583,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ p ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ p ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -503,7 +595,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ q ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ q ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -515,7 +607,13 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ r ] found at " + position);
+                        else if(stringFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ r ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -527,7 +625,33 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ s ] found at " + position);
+                        if(program.get(i + 1).toString().compareToIgnoreCase("t") == 0){
+
+                            if(program.get(i + 2).toString().compareToIgnoreCase("r") == 0){
+
+                                if(program.get(i + 3).toString().compareToIgnoreCase("i") == 0){
+
+                                    if(program.get(i + 4).toString().compareToIgnoreCase("n") == 0){
+                                       
+                                        if(program.get(i + 5).toString().compareToIgnoreCase("g") == 0){
+                                                theToken.setKind("STRING");
+                                                theToken.setSymbol("string");
+                                                theToken.setLineNumber(lineNumber);
+                                                theToken.setPosition(position);
+                                        
+
+                                                System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                                        
+                                                stringFlag = 1;
+
+                                                break;
+                                        }//if
+                                     }//if
+                                }//if
+                            }//if 
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ s ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -539,7 +663,19 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ t ] found at " + position);
+                        if(intFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if(stringFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ t ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -551,7 +687,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ u ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ u ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -563,7 +699,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ v ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ v ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -575,7 +711,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ w ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ w ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -589,7 +725,7 @@ public class Lexer {
                     
 
 
-                        System.out.println("DEBUG Lexer - ID [ x ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ x ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -601,7 +737,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ y ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ y ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
 
@@ -613,7 +749,7 @@ public class Lexer {
 
                         }//if
 
-                        System.out.println("DEBUG Lexer - ID [ z ] found at " + position);
+                        System.out.println("DEBUG Lexer - ID [ z ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                         break;
                         

@@ -12,6 +12,7 @@ public class Token {
     * Instance Variable for tokens 
     */
     private String myKind;
+    private String mySymbol;
     private int myLineNumber;
     private int myPosition;
     
@@ -46,6 +47,22 @@ public class Token {
     */
     public String getKind()
         {return myKind;}//get kind
+
+
+    /**
+    * the setter for the item data
+    * @param newSymbol the incoming data of the item
+    */
+    public void setSymbol(String newSymbol)
+        {mySymbol = newSymbol;} //set kind
+
+    /**
+    * The getter for the item data
+    * @return the incoming data of the item
+    */
+    public String getSymbol()
+        {return mySymbol;}//get kind
+
 
     /**
     * the setter for the item data
