@@ -4,7 +4,12 @@
 
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,13 +19,13 @@ public class Compiler{
     // Create a new keyboard Scanner object.
     static Scanner keyboard = new Scanner(System.in);
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
         //Declare and initialize variables 
 
 		String fileName;
         String name;
-		ArrayList <String> program = new ArrayList <String>();
+		ArrayList < ArrayList <Character>>  program = new ArrayList < ArrayList <Character>>();
         Token theToken = new Token();
         Lexer theLexer = new Lexer();
 		
@@ -36,21 +41,34 @@ public class Compiler{
 		try
 		{
 
-			//create scanner
-			Scanner input = new Scanner(myFile);
+            InputStream in = new FileInputStream(myFile);
+            Reader reader = new InputStreamReader(in);
 
-            int i = 0;
+            int j = 0;
 
-			//while there are more lines in the file it inputs them into a word array
-		    while(input.hasNext())
-		    {	
-			    //Input into array 
-				program.add(input.next());		
-				i++;
-		    }//while
+
+            for(int i = 0; i < program.size(); i++){
+
+                //for( int j = 0; j < program.get(i).size(); j++){
+                    
+                    while(((i = reader.read()) != -1) && ((i = reader.read()) != '$'))
+                    {	
+                        //Input into array 
+                        program.get(i).add(j, (char) i);		
+                        j++;
+                    }//while
+
+
+                //}//for j
+
+
+            }//for i
 
 			
-			input.close();	
+
+			
+			in.close();	
+            reader.close();
 
 		}//try
 		
@@ -60,9 +78,19 @@ public class Compiler{
 	      System.out.println("Failed to find file: " + myFile.getAbsolutePath()); 
 	    }//catch
 
+		for(int i = 0; i < program.size(); i++){
+
+            for( int j = 0; j < program.get(i).size(); j++){
+                
+                System.out.println(program.get(i).get(j));
+
+
+            }//for j
+
+
+        }//for i
 		
-		
-		Lexer.Lex(program);
+		//Lexer.Lex(program);
 		
 		
 		}//main

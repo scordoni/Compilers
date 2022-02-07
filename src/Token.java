@@ -6,6 +6,8 @@
 
 public class Token {
 
+
+
     /**
     * Instance Variable for tokens 
     */
@@ -30,6 +32,48 @@ public class Token {
         myLineNumber = newLineNumber;
         myPosition = newPosition;
     }//Token
+
+    /**
+    * the setter for the item data
+    * @param newKind the incoming data of the item
+    */
+    public void setKind(String newKind)
+        {myKind = newKind;} //set kind
+
+    /**
+    * The getter for the item data
+    * @return the incoming data of the item
+    */
+    public String getKind()
+        {return myKind;}//get kind
+
+    /**
+    * the setter for the item data
+    * @param newLineNumber the incoming data of the item
+    */
+    public void setLineNumber(int newLineNumber)
+        {myLineNumber = newLineNumber;} //set kind
+
+    /**
+    * The getter for the item data
+    * @return the incoming data of the item
+    */
+    public int getLineNumber()
+        {return myLineNumber;}//get kind
+
+    /**
+    * the setter for the item data
+    * @param newPosition  the incoming data of the item
+    */
+    public void setPosition (int newPosition )
+        {myPosition  = newPosition ;} //set kind
+
+    /**
+    * The getter for the item data
+    * @return the incoming data of the item
+    */
+    public int getPosition ()
+        {return myPosition ;}//get kind
     
     
 }//Token Class
