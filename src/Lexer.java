@@ -15,298 +15,603 @@ public class Lexer {
     //Declare Variables
     static Token theToken = new Token();
 
-    static char character;
+    static String character;
 
     ArrayList <String> tokenOutput = new ArrayList <String>();
 
     static int position = 0;
 
+    int programCounter = 2;
+
+    int lastPosition = 0;
+
+    int currentPosition =0;
+
+    static int commentFlag = 0;
+
+    static int stringFlag = 0;
+
+    static int ErrorFlag = 0;
+
     //This method pushes each letter of the array into the stack
 	public static void Lex(ArrayList program){
 
+        System.out.println(" ");
+        System.out.println("Welcome to the lexer");
+
+
+        System.out.println("INFO  Lexer - Lexing program 1");
+
+        
+        
 		//goes through the arraylist
 		for(int i = 0; i < program.size(); i++){
 			
             //System.out.println(program.get(i));
 
-            for(int j = 0; j < program.get(i).toString().length() ; j++){
-                
-                System.out.println(program.get(i).toString().charAt(j));
 
-                
+            character = program.get(i).toString();
 
-                
+
+            fullbreak:
+
+
                 switch(character){
 
-                    case '{':
+                    case "{":
 
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
                         
                         System.out.println("DEBUG Lexer - L_BRACE [ { ] found at " + position);
                         break;
                     
 
-                    case '}':
+                    case "}":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - R_BRACE [ } ] found at " + position);
                         break;
 
-                    case '$':
+                    case "$":
+
+                        if(commentFlag == 1){
+
+
+                            System.out.println("ERROR - Unclosed comment found at " + position);
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - EOP [ $ ] found at " + position);
+
+                        System.out.println(" ");
+
+                        System.out.println(" ");
+
+                        System.out.println(" ");
+
+                        System.out.println(" ");
+
+                        
                         break;
 
-                    case '/':
+                    case "\"":
 
-                        while((Character.compare((program.get(i).toString().charAt(j)), '/') != 0)){
-                            System.out.println(j);
-                            j++;
-                        }//while
-                    
-                        break;
 
-                    case '!':
+                        if(commentFlag == 1){
 
-                        if(Character.compare((program.get(i).toString().charAt(j++)), '=') == 0){
-                                
-                            System.out.println("DEBUG Lexer - NO_EQUALITY [ != ] found at " + position);
+                            break fullbreak;
 
                         }//if
 
-                    case '=':
+                        if (stringFlag == 0){
 
-                        if(Character.compare((program.get(i).toString().charAt(j++)), '=') == 0){
-                            
-                            System.out.println("DEBUG Lexer - EQUALITY [ == ] found at " + position);
+                            stringFlag = 1;
+                        }//if
+
+                        else if (stringFlag == 0){
+
+                            stringFlag = 1;
+                        }//if
+                    
+                        break;
+
+                    case "/":
+
+
+                        if(program.get(i + 1).toString().compareToIgnoreCase("*") == 0){
+
+                            commentFlag = 1;
 
                         }//if
 
-                        else {
-                            
-                            System.out.println("DEBUG Lexer - ASSIGN_OP [ = ] found at " + position);
+                        else if(program.get(i + 1).toString().compareToIgnoreCase("*") != 0){
 
-                        }//else
+                            commentFlag = 0;
+
+                        }//if
+                    
+                        break;
+
+
+                    case "*":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        break;
+
+                    case "!":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        break;
+
+                        
+
+                    case "=":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        
 
                         break;
 
                     
                     
-                    
+                    case "0":
 
-                    case '0':
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - DIGIT [ 0 ] found at " + position);
                         
                         break;
 
-                    case '1':
+                    case "1":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - DIGIT [ 1 ] found at " + position);
                         
                         break;
 
-                    case '2':
+                    case "2":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - DIGIT [ 2 ] found at " + position);
                         
                         break;
 
-                    case '3':
+                    case "3":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - DIGIT [ 3 ] found at " + position);
                         
                         break;
 
-                    case '4':
+                    case "4":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 4 ] found at " + position);
                         
                         break;
 
-                    case '5':
+                    case "5":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 5 ] found at " + position);
                         
                         break;
 
-                    case '6':
+                    case "6":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 6 ] found at " + position);
                         
                         break;
 
-                    case '7':
+                    case "7":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 7 ] found at " + position);
                         
                         break;
 
-                    case '8':
+                    case "8":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 8 ] found at " + position);
                         
                         break;
 
-                    case '9':
+                    case "9":
 
-                        System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        System.out.println("DEBUG Lexer - ID [ 9 ] found at " + position);
                         
                         break;
 
-                    case 'a':
+                    case "a":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ a ] found at " + position);
                         
                         break;
                         
-                    case 'b':
+                    case "b":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ b ] found at " + position);
                         
                         break;                          
                           
-                    case 'c':
+                    case "c":
+                    
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ c ] found at " + position);
                         
                         break;
 
-                    case 'd':
+                    case "d":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ d ] found at " + position);
                         
                         break;
 
-                    case 'e':
+                    case "e":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ e ] found at " + position);
                         
                         break;
 
 
-                    case 'f':
+                    case "f":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ f ] found at " + position);
                         
                         break;
 
 
-                    case 'g':
+                    case "g":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ g ] found at " + position);
                         
                         break;
 
-                    case 'h':
+                    case "h":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ h ] found at " + position);
                         
                         break;
 
-                    case 'i':
+                    case "i":
 
-                        if(Character.compare((program.get(i).toString().charAt(j++)), 'n') == 0){
-                                    
-                            System.out.println("DEBUG Lexer - INT [ int ] found at " + position);
+                        if(commentFlag == 1){
+
+                            break fullbreak;
 
                         }//if
 
-                    case 'j':
+                        break;
+
+                    case "j":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ j ] found at " + position);
                         
                         break;
 
-                    case 'k':
+                    case "k":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ k ] found at " + position);
                         
                         break;
 
-                    case 'l':
+                    case "l":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ l ] found at " + position);
                         
                         break;
 
-                    case 'm':
+                    case "m":
+                    
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ m ] found at " + position);
                         
                         break;
 
-                    case 'n':
+                    case "n":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ n ] found at " + position);
                         
                         break;
                     
-                    case 'o':
+                    case "o":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ o ] found at " + position);
                         
                         break;
 
-                    case 'p':
+                    case "p":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ p ] found at " + position);
                         
                         break;
 
-                    case 'q':
+                    case "q":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ q ] found at " + position);
                         
                         break;
 
-                    case 'r':
+                    case "r":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ r ] found at " + position);
                         
                         break;
 
-                    case 's':
+                    case "s":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ s ] found at " + position);
                         
                         break;
 
-                    case 't':
+                    case "t":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ t ] found at " + position);
                         
                         break;
 
-                    case 'u':
+                    case "u":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ u ] found at " + position);
                         
                         break;
 
-                    case 'v':
+                    case "v":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ v ] found at " + position);
                         
                         break;
 
-                    case 'w':
+                    case "w":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ w ] found at " + position);
                         
                         break;
 
-                    case 'x':
+                    case "x":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+                    
+
 
                         System.out.println("DEBUG Lexer - ID [ x ] found at " + position);
                         
                         break;
 
-                    case 'y':
+                    case "y":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ y ] found at " + position);
                         
                         break;
 
-                    case 'z':
+                    case "z":
+
+                        if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
 
                         System.out.println("DEBUG Lexer - ID [ z ] found at " + position);
                         
@@ -314,34 +619,18 @@ public class Lexer {
                         
                     default:
 
-                        System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.get(i).toString().charAt(j));
+                        ErrorFlag = 1;
+                        System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.get(i).toString());
                     
                 
                 }//switch
 
 
-               
-  
-            }//for j
-
 		}//for
 
-
-        
+  
 			
 	}//Lex
 
-
-
-    /*
-    //this method find the sum of the array passed in
-    public static int commentMethod(int programcounter) {
-        
-        while((Character.compare((program.get(i).toString().charAt(j)), '/') != 0)){
-
-            j++;
-        }//while
-    }//
-    */
 
 }//Lexer

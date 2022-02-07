@@ -4,12 +4,7 @@
 
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -19,18 +14,21 @@ public class Compiler{
     // Create a new keyboard Scanner object.
     static Scanner keyboard = new Scanner(System.in);
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 
         //Declare and initialize variables 
 
 		String fileName;
         String name;
-		ArrayList < ArrayList <Character>>  program = new ArrayList < ArrayList <Character>>();
+		ArrayList < Integer > program = new ArrayList < Integer >();
+        ArrayList < String > testprogram = new ArrayList < String >();
         Token theToken = new Token();
         Lexer theLexer = new Lexer();
+        int programNumber = 1;
 		
 
         //ask the user for the path and name to the file
+        System.out.println("Welcome to the Compiler");
         System.out.print("Enter a filename: ");
         fileName = keyboard.next();        
     
@@ -41,34 +39,22 @@ public class Compiler{
 		try
 		{
 
-            InputStream in = new FileInputStream(myFile);
-            Reader reader = new InputStreamReader(in);
+			//create scanner
+			Scanner input = new Scanner(myFile).useDelimiter("\\s*");
 
-            int j = 0;
+            int i = 0;
 
+            while(input.hasNext()){
 
-            for(int i = 0; i < program.size(); i++){
-
-                //for( int j = 0; j < program.get(i).size(); j++){
-                    
-                    while(((i = reader.read()) != -1) && ((i = reader.read()) != '$'))
-                    {	
-                        //Input into array 
-                        program.get(i).add(j, (char) i);		
-                        j++;
-                    }//while
+                testprogram.add(input.next());
+                
 
 
-                //}//for j
+            }//while
 
-
-            }//for i
-
+        
 			
-
-			
-			in.close();	
-            reader.close();
+			input.close();	
 
 		}//try
 		
@@ -78,20 +64,14 @@ public class Compiler{
 	      System.out.println("Failed to find file: " + myFile.getAbsolutePath()); 
 	    }//catch
 
-		for(int i = 0; i < program.size(); i++){
 
-            for( int j = 0; j < program.get(i).size(); j++){
-                
-                System.out.println(program.get(i).get(j));
+        
+        Lexer.Lex(testprogram);
 
-
-            }//for j
+        
 
 
-        }//for i
-		
-		//Lexer.Lex(program);
-		
+        
 		
 		}//main
 
