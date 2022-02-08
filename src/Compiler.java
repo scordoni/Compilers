@@ -24,8 +24,9 @@ public class Compiler{
         String beforeEOP;
         String afterEOP;
 		
+        String line;
 
-        ArrayList < String > tokens = new ArrayList < String >();
+        ArrayList < Token > tokens = new ArrayList < Token >();
         ArrayList < String > program = new ArrayList < String >();
 
 
@@ -39,8 +40,8 @@ public class Compiler{
 
         //ask the user for the path and name to the file
         System.out.println("Welcome to the Compiler");
-        System.out.print("Enter a filename: ");
-        fileName = keyboard.next();        
+        
+        fileName = args[0];        
     
         //create the reference to the file
         File myFile = new File(fileName);
@@ -53,6 +54,8 @@ public class Compiler{
             
             //.useDelimiter("\\s*");
 
+            fullbreak:
+
             if(input.hasNext() == false){
 
                 System.out.println("This text file is empty.");
@@ -60,50 +63,56 @@ public class Compiler{
             }//if
 
 
-            while(input.hasNext()){
 
-                System.out.println(input.nextLine()); //prints line
+            else{
 
-                System.out.println(input.nextLine().contains(EOP)); //prints true
+                System.out.println(" ");
+                System.out.println("Lexing Program: " + programNumber);
 
-                System.out.println(input.nextLine().indexOf(EOP));  //prints 
+                while(input.hasNext()){
 
-                System.out.println(input.nextLine().substring(0, input.nextLine().indexOf(EOP)));
+                    line = input.nextLine();
 
+                    if(line .contains(EOP)){
+
+                        beforeEOP = line .substring(0, line .indexOf(EOP) + 1);
+
+                        afterEOP = line .substring(line .indexOf(EOP) + 1, line .length());
+
+                        sourceCode = sourceCode + beforeEOP;
+
+                        tokens = Lexer.Lex(sourceCode);
+
+                        //CST = parse(tokens)      // project 2
+        
+                        sourceCode = afterEOP;
+
+                        lineNumber++;
+
+                        programNumber++;
+
+
+                        System.out.println(" ");
+                        System.out.println("Lexing Program: " + programNumber);
+
+                    }//if
+
+                    else if( (!(line .contains(EOP))) && (input.hasNext() == false)){
+
+                        System.out.println("The last program does not have a \"$\" to end the program, therefore it cannot be processed.");
+
+                    }//else ig
+
+                    else{
                 
+                        sourceCode = sourceCode + line ;
+                        lineNumber++;
 
-                if(input.nextLine().contains(EOP)){
+                    }//else  
 
-                    beforeEOP = input.nextLine().substring(0, input.nextLine().indexOf(EOP));
+                }//while
 
-                    afterEOP = input.nextLine().substring(input.nextLine().indexOf(EOP) + 1, input.nextLine().length());
-
-                    sourceCode = sourceCode + beforeEOP;
-
-                    tokens = Lexer.Lex(sourceCode);
-
-                    //CST = parse(tokens)      // project 2
-      
-                    sourceCode = afterEOP;
-
-                    lineNumber++;
-
-                }//if
-
-                else if( (!(input.nextLine().contains(EOP))) && (input.hasNext() == false)){
-
-                    System.out.println("The last program does not have a \"$\" to end the program, therefore it cannot be processed.");
-
-                }//else ig
-
-                else{
-               
-                    sourceCode = sourceCode + input.nextLine();
-                    lineNumber++;
-
-                }//else  
-
-            }//while
+            }//else
 
 			input.close();	
 
