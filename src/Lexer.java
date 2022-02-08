@@ -5,10 +5,7 @@
 */
 
 
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.io.LineNumberReader;
+import java.util.*; 
 
 public class Lexer {
 
@@ -17,7 +14,7 @@ public class Lexer {
 
     static String character;
 
-    ArrayList <String> tokenOutput = new ArrayList <String>();
+    static ArrayList <Token> tokenOutput = new ArrayList <Token>();
 
     static int position = 0;
 
@@ -42,11 +39,11 @@ public class Lexer {
     static int parenFlag = 0;
 
     //This method pushes each letter of the array into the stack
-	public static void Lex(ArrayList program){
+	public static ArrayList Lex(ArrayList program){
 
         System.out.println(" ");
         
-
+        Token Token = new Token();
         
         
 		//goes through the arraylist
@@ -55,6 +52,7 @@ public class Lexer {
             //System.out.println(program.get(i));
 
 
+            /*
             character = program.get(i).toString();
 
 
@@ -73,12 +71,14 @@ public class Lexer {
 
                         }//if
 
-                        theToken.setKind("L_BRACE");
-                        theToken.setSymbol("{");
-                        theToken.setLineNumber(lineNumber);
-                        theToken.setPosition(position);
+                        Token.setKind("L_BRACE");
+                        Token.setSymbol("{");
+                        Token.setLineNumber(lineNumber);
+                        Token.setPosition(position);
+
+                        tokenOutput.add(Token);
                         
-                        System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
                     
 
@@ -90,12 +90,14 @@ public class Lexer {
 
                         }//if
 
-                        theToken.setKind("R_BRACE");
-                        theToken.setSymbol("}");
-                        theToken.setLineNumber(lineNumber);
-                        theToken.setPosition(position);
+                        Token.setKind("R_BRACE");
+                        Token.setSymbol("}");
+                        Token.setLineNumber(lineNumber);
+                        Token.setPosition(position);
+
+                        tokenOutput.add(Token);
                         
-                        System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                        System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
 
                     case "$":
@@ -128,12 +130,14 @@ public class Lexer {
 
                         
 
-                        theToken.setKind("EOP");
-                        theToken.setSymbol("$");
-                        theToken.setLineNumber(lineNumber);
-                        theToken.setPosition(position);
+                        Token.setKind("EOP");
+                        Token.setSymbol("$");
+                        Token.setLineNumber(lineNumber);
+                        Token.setPosition(position);
+
+                        tokenOutput.add(Token);
                         
-                        System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                        System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
 
                         System.out.println(" ");
 
@@ -157,24 +161,28 @@ public class Lexer {
 
                         else if (stringFlag == 1){
 
-                            theToken.setKind("CHAR ");
-                            theToken.setSymbol("(");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CHAR ");
+                            Token.setSymbol("(");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
                         else{
 
                             parenFlag = 1;
 
-                            theToken.setKind("OPEN_PAREN");
-                            theToken.setSymbol("(");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("OPEN_PAREN");
+                            Token.setSymbol("(");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
 
                         }//else
                     
@@ -191,24 +199,28 @@ public class Lexer {
 
                         else if (stringFlag == 1){
 
-                            theToken.setKind("CHAR ");
-                            theToken.setSymbol(")");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CHAR ");
+                            Token.setSymbol(")");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
                         else{
 
                             parenFlag = 1;
 
-                            theToken.setKind("CLOSE_PAREN");
-                            theToken.setSymbol(")");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CLOSE_PAREN");
+                            Token.setSymbol(")");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
 
                         }//else
                     
@@ -227,24 +239,28 @@ public class Lexer {
 
                             stringFlag = 1;
 
-                            theToken.setKind("OPEN_QUOTE");
-                            theToken.setSymbol("\"");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("OPEN_QUOTE");
+                            Token.setSymbol("\"");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
                         else if (stringFlag == 1){
 
                             stringFlag = 0;
 
-                            theToken.setKind("CLOSE_QUOTE");
-                            theToken.setSymbol("\"");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CLOSE_QUOTE");
+                            Token.setSymbol("\"");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//if
                     
                         break;
@@ -278,22 +294,26 @@ public class Lexer {
                         else if (stringFlag == 1){
 
 
-                            theToken.setKind("CHAR");
-                            theToken.setSymbol("+");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CHAR");
+                            Token.setSymbol("+");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
                         else{
 
-                            theToken.setKind("ADDITION");
-                            theToken.setSymbol("+");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ADDITION");
+                            Token.setSymbol("+");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//if
 
                         break;
@@ -330,22 +350,26 @@ public class Lexer {
 
                         else if(program.get(i + 1).toString().compareToIgnoreCase("=") == 0){
 
-                            theToken.setKind("EQUALITY");
-                            theToken.setSymbol("==");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("EQUALITY");
+                            Token.setSymbol("==");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
 
                         else{
-                            theToken.setKind("ASSIGNMENT");
-                            theToken.setSymbol("=");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ASSIGNMENT");
+                            Token.setSymbol("=");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -368,12 +392,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("0");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("0");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -388,12 +414,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("1");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("1");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -408,12 +436,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("2");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("2");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -428,12 +458,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("3");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("3");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -448,12 +480,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("4");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("4");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -468,12 +502,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("5");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("5");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -489,12 +525,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("6");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("6");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -509,12 +547,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("7");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("7");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -529,12 +569,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("8");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("8");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -549,12 +591,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("DIGIT");
-                            theToken.setSymbol("9");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("DIGIT");
+                            Token.setSymbol("9");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -571,12 +615,14 @@ public class Lexer {
                         else{
 
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("a");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("a");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else
 
                         
@@ -594,12 +640,14 @@ public class Lexer {
                         else{
 
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("b");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("b");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else
                         
                         break;                          
@@ -614,12 +662,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("c");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("c");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -634,12 +684,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("d");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("d");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -654,12 +706,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("e");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("e");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -675,12 +729,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("f");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("f");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -702,12 +758,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("g");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("g");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -722,12 +780,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("h");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("h");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -741,13 +801,14 @@ public class Lexer {
                             if(program.get(i + 2).toString().compareToIgnoreCase("t") == 0){
 
                             
-                                theToken.setKind("INT");
-                                theToken.setSymbol("int");
-                                theToken.setLineNumber(lineNumber);
-                                theToken.setPosition(position);
-                        
+                                Token.setKind("INT");
+                                Token.setSymbol("int");
+                                Token.setLineNumber(lineNumber);
+                                Token.setPosition(position);
 
-                                System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                                tokenOutput.add(Token);
+                        
+                                System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         
                                 intFlag = 1;
 
@@ -771,12 +832,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("i");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("i");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else
 
                         break;
@@ -790,12 +853,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("j");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("j");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -810,12 +875,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("k");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("k");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                            
                         }//else
 
@@ -830,12 +897,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("l");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("l");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -851,12 +920,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("m");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("m");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                            
                         }//else
 
@@ -878,12 +949,14 @@ public class Lexer {
 
                         else if(stringFlag == 1){
 
-                            theToken.setKind("CHAR");
-                            theToken.setSymbol("n");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("CHAR");
+                            Token.setSymbol("n");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
                             break fullbreak;
 
@@ -891,12 +964,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("n");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("n");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else
 
                       
@@ -912,12 +987,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("o");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("o");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                           
                         }//else
 
@@ -933,12 +1010,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("p");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("p");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -953,12 +1032,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("q");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("q");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -979,12 +1060,14 @@ public class Lexer {
                         }//if
 
                         else{
-                            theToken.setKind("ID");
-                            theToken.setSymbol("r");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("r");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                             
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                             
                         }//else
 
@@ -1007,13 +1090,15 @@ public class Lexer {
                                     if(program.get(i + 4).toString().compareToIgnoreCase("n") == 0){
                                        
                                         if(program.get(i + 5).toString().compareToIgnoreCase("g") == 0){
-                                                theToken.setKind("STRING");
-                                                theToken.setSymbol("string");
-                                                theToken.setLineNumber(lineNumber);
-                                                theToken.setPosition(position);
+                                                Token.setKind("STRING");
+                                                Token.setSymbol("string");
+                                                Token.setLineNumber(lineNumber);
+                                                Token.setPosition(position);
+
+                                                tokenOutput.add(Token);
                                         
 
-                                                System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                                                System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
                                                 stringFlag = 1;
 
@@ -1026,12 +1111,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("s");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("s");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1062,12 +1149,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("t");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("t");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1084,12 +1173,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("u");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("u");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1106,12 +1197,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("v");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("v");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1128,12 +1221,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("w");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("w");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1150,12 +1245,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("x");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("x");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1172,12 +1269,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("y");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("y");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1194,12 +1293,14 @@ public class Lexer {
 
                         else{
 
-                            theToken.setKind("ID");
-                            theToken.setSymbol("z");
-                            theToken.setLineNumber(lineNumber);
-                            theToken.setPosition(position);
+                            Token.setKind("ID");
+                            Token.setSymbol("z");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
                         
-                            System.out.println("DEBUG Lexer - " + theToken.getKind() + " [ " + theToken.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
 
                         }//else
@@ -1214,10 +1315,13 @@ public class Lexer {
                 
                 }//switch
 
+                */
 
 		}//for
 
   
+
+        return tokenOutput;
 			
 	}//Lex
 

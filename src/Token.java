@@ -91,6 +91,11 @@ public class Token {
     */
     public int getPosition ()
         {return myPosition ;}//get kind
+
+    /**
+    * Text description of each token
+    */
+   
     
     
 }//Token Class
