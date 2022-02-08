@@ -62,11 +62,11 @@ public class Compiler{
 
             while(input.hasNext()){
 
-                //System.out.println(input.nextLine()); //prints line
+                System.out.println(input.nextLine()); //prints line
 
-                //System.out.println(input.nextLine().contains(EOP)); //prints true
+                System.out.println(input.nextLine().contains(EOP)); //prints true
 
-                //System.out.println(input.nextLine().indexOf(EOP));  //prints 2
+                System.out.println(input.nextLine().indexOf(EOP));  //prints 
 
                 System.out.println(input.nextLine().substring(0, input.nextLine().indexOf(EOP)));
 
@@ -80,7 +80,7 @@ public class Compiler{
 
                     sourceCode = sourceCode + beforeEOP;
 
-                    tokens = Lexer.Lex(program);
+                    tokens = Lexer.Lex(sourceCode);
 
                     //CST = parse(tokens)      // project 2
       

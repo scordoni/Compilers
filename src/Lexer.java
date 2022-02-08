@@ -39,7 +39,7 @@ public class Lexer {
     static int parenFlag = 0;
 
     //This method pushes each letter of the array into the stack
-	public static ArrayList Lex(ArrayList program){
+	public static ArrayList Lex(String program){
 
         System.out.println(" ");
         
@@ -47,9 +47,9 @@ public class Lexer {
         
         
 		//goes through the arraylist
-		for(int i = 0; i < program.size(); i++){
+		for(int i = 0; i < program.length(); i++){
 			
-            //System.out.println(program.get(i));
+            System.out.println(program.charAt(i));
 
 
             /*
