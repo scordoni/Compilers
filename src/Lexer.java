@@ -884,20 +884,25 @@ public class Lexer {
 
                         break;
 
+                    //the aplhabet
+
                     case 'a':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is involved in the spelling of "boolean" then we skip
                         else if(booleanFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //if our symbol is in a string then we create a char chracter
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -911,8 +916,8 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an ID token
                         else{
-
 
                             Token.setKind("ID");
                             Token.setSymbol("a");
@@ -923,19 +928,19 @@ public class Lexer {
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else
-
-                        
                         
                         break;
                         
                     case 'b':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it spells boolean we create a boolean token and set the flag
                         else if(Character.compare(program.charAt(i + 1), 'o')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'o')  == 0){
@@ -966,6 +971,7 @@ public class Lexer {
                             }//if
                         }//else if
 
+                        //else if it is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -979,8 +985,8 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an ID token
                         else{
-
 
                             Token.setKind("ID");
                             Token.setSymbol("b");
@@ -996,13 +1002,14 @@ public class Lexer {
                           
                     case 'c':
                     
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1016,6 +1023,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an ID Token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("c");
@@ -1032,12 +1040,14 @@ public class Lexer {
 
                     case 'd':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1051,6 +1061,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("d");
@@ -1067,24 +1078,28 @@ public class Lexer {
 
                     case 'e':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is involved in spelling "while" then we skip and reset the flag
                         else if(whileFlag == 1){
 
                             whileFlag = 0;
 
                         }//if
 
+                        //else if our symbol is involved in spelling "boolean" then we skip
                         else if(booleanFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1098,6 +1113,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("e");
@@ -1115,12 +1131,14 @@ public class Lexer {
 
                     case 'f':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is involed in spelling "if" then we skip and reset the if flag
                         if(ifFlag == 1){
 
                             ifFlag = 0;
@@ -1128,6 +1146,7 @@ public class Lexer {
 
                         }//if
 
+                        //else if out symbol is involved in spelling "false"  we create a flase token
                         else if(Character.compare(program.charAt(i + 1), 'a')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'l')  == 0){
@@ -1150,6 +1169,7 @@ public class Lexer {
                             }//if
                         }//if
 
+                        //else if our symbol is in a string we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1163,6 +1183,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("f");
@@ -1180,19 +1201,21 @@ public class Lexer {
 
                     case 'g':
 
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is involved in spelling "string" then we skip and reset the flag
                         else if(stringWordFlag == 1){
 
                             stringWordFlag = 0;
 
                         }//else if
 
+                        //if the symbol is in the string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1206,6 +1229,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("g");
@@ -1221,19 +1245,22 @@ public class Lexer {
                         break;
 
                     case 'h':
-
+                        
+                        //if our symbol is a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is invovled in spelling " while" then we skip
                         else if(whileFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1247,6 +1274,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an Id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("h");
@@ -1263,30 +1291,35 @@ public class Lexer {
 
                     case 'i':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //if our symbol is invovled in spelling "print" then we skip
                         else if(printFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //if our symbol si involved in spelling "while" then we skip
                         else if(whileFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is involved in spelling "string" then we skip
                         else if(stringWordFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if our symbol starts the work "int" then we create the int token
                         else if(Character.compare(program.charAt(i + 1), 'n')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 't')  == 0){
@@ -1309,6 +1342,7 @@ public class Lexer {
                             
                         }//if
 
+                        //else if our symbol is involved in spelling "if" then we create the if token
                         else if(Character.compare(program.charAt(i + 1), 'f')  == 0){
 
                             Token.setKind("IF");
@@ -1324,6 +1358,7 @@ public class Lexer {
                         
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1337,6 +1372,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -1353,12 +1389,14 @@ public class Lexer {
 
                     case 'j':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1372,6 +1410,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we createa an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("j");
@@ -1388,12 +1427,14 @@ public class Lexer {
 
                     case 'k':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1407,6 +1448,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("k");
@@ -1423,24 +1465,28 @@ public class Lexer {
 
                     case 'l':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it is involved in spelling "boolean" then we skip
                         else if(booleanFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if it is involved in spelling "while" then we skip
                         else if(whileFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if the symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1454,6 +1500,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("l");
@@ -1470,13 +1517,14 @@ public class Lexer {
 
                     case 'm':
                     
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1490,6 +1538,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("m");
@@ -1506,37 +1555,42 @@ public class Lexer {
 
                     case 'n':
 
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it is involved in spelling "int" then we skip
                         else if(intFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if it is involved in spelling "print" then we skip
                         else if(printFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if it involved in spelling "boolean" then we skip
                         else if(booleanFlag == 1){
 
                             booleanFlag = 0;
 
                         }//else if
 
+                        //else if it is involved in spelling "string" then we skip
                         else if(stringWordFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if the symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1552,6 +1606,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -1569,18 +1624,21 @@ public class Lexer {
                     
                     case 'o':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is involved in spelling "boolean" then we skip
                         else if(booleanFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1594,6 +1652,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("o");
@@ -1611,12 +1670,14 @@ public class Lexer {
                         //print
                     case 'p':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it spells the word "print" then we create a print token
                         else if(Character.compare(program.charAt(i + 1), 'r')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'i')  == 0){
@@ -1644,6 +1705,7 @@ public class Lexer {
                             }//if 
                         }//else if
 
+                        //else if the symbol is in a string then we make a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1657,6 +1719,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("p");
@@ -1673,12 +1736,14 @@ public class Lexer {
 
                     case 'q':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1692,6 +1757,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("q");
@@ -1708,25 +1774,28 @@ public class Lexer {
 
                     case 'r':
 
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is involved in spelling "print" then we skip
                         else if(printFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else if our symbol is involved in spelling "string" then we skip
                         else if(stringWordFlag == 1){
 
                             break fullbreak;
 
                         }//else if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1740,6 +1809,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
                             Token.setKind("ID");
                             Token.setSymbol("r");
@@ -1756,16 +1826,14 @@ public class Lexer {
 
                     case 's':
 
-                       
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
-                        
-
+                        //if our symbol starts the spelling of "string" then we create a string token
                         else if(Character.compare(program.charAt(i + 1), 't')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'r')  == 0){
@@ -1787,14 +1855,13 @@ public class Lexer {
 
                                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
-
-                                            
                                         }//if
                                      }//if
                                 }//if
                             }//if 
                         }//else if
 
+                        //else if our symbol is involved in string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1808,7 +1875,7 @@ public class Lexer {
 
                         }//else if
 
-
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -1820,22 +1887,20 @@ public class Lexer {
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
-
                         }//else
 
-          
-                        
                         break;
 
                     case 't':
 
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is involved in spelling the word "int" then we skip and reset the flag
                         if(intFlag == 1){
 
                             intFlag = 0;
@@ -1843,6 +1908,7 @@ public class Lexer {
                             
                         }//else if
 
+                        //if our symbol is involved in spelling the word "print" then we skip and reset the flag
                         if(printFlag == 1){
 
                             printFlag = 0;
@@ -1851,12 +1917,14 @@ public class Lexer {
 
                         }//else if
 
+                        //if our symbol is involved in spelling the word "string" then we skip 
                         if(stringWordFlag == 1){
                             
                             break fullbreak;
                             
                         }//else if
 
+                        //else if our symbol creates the word "true" then we create the true token
                         if(Character.compare(program.charAt(i + 1), 'r')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'u')  == 0){
@@ -1876,6 +1944,7 @@ public class Lexer {
                             }//if
                         }//else if
 
+                        //else if our symbol is in a string then we create a char token
                         if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1889,6 +1958,7 @@ public class Lexer {
                             break fullbreak;
                         }//else if
                         
+                        //else we create an id token
                         if((commentFlag==0)&&(intFlag==0)&&(printFlag==0)&&(stringWordFlag==0)&&(stringFlag==0)){
 
                             Token.setKind("ID");
@@ -1907,12 +1977,14 @@ public class Lexer {
 
                     case 'u':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1926,6 +1998,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -1944,12 +2017,14 @@ public class Lexer {
 
                     case 'v':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1963,6 +2038,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -1981,12 +2057,14 @@ public class Lexer {
 
                     case 'w':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if it creates the word "while" then we create the while token
                         else if(Character.compare(program.charAt(i + 1), 'h')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'i')  == 0){
@@ -2011,6 +2089,7 @@ public class Lexer {
                             }//if 
                         }//else if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -2024,6 +2103,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -2042,12 +2122,14 @@ public class Lexer {
 
                     case 'x':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol si in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -2061,6 +2143,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -2072,19 +2155,20 @@ public class Lexer {
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
-
                         }//else
                         
                         break;
 
                     case 'y':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -2098,6 +2182,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -2116,12 +2201,14 @@ public class Lexer {
 
                     case 'z':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -2135,6 +2222,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create an id token
                         else{
 
                             Token.setKind("ID");
@@ -2151,30 +2239,31 @@ public class Lexer {
                         
                         break;
                         
+                    //by default we have an error
                     default:
 
+                        //if we have a comment then we ignore the symbol
                         if(commentFlag == 1){
-
+                            
                             break fullbreak;
 
                         }//if
 
+                        //set the error flag if the symbol is unrecognized
                         ErrorFlag = 1;
+
+                        //increment number of errors for output later
                         numberOfErrors++;
+
                         System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
                     
-                
                 }//switch
-
-                
 
 		}//for
 
-  
-
+        //return the arraylist of tokens
         return tokenOutput;
 			
 	}//Lex
-
 
 }//Lexer
