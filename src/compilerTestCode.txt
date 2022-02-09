@@ -46,3 +46,28 @@ $
 
 
 { " THIS is wrong " }$
+
+
+/* Long Test Case */ 
+{
+    /* Int Declaration */ 
+    boolean a = false
+    int b
+    a = true
+    b=7
+    /* While Loop */
+    while (a != 3) {
+        print(a) 
+        while(b!=3){
+            print(b) 
+            b=1+b
+            if (b == 2) {
+                /* Print Statement */
+                print("compilers are GREAT ! " )
+            }
+        }
+        b=0
+        a=1+a
+    } 
+}
+$

@@ -51,6 +51,10 @@ public class Lexer {
 
     static int ifFlag = 0;
 
+    static int trueFlag = 0;
+
+    static int falseFlag = 0;
+
     
 
     //This method pushes each letter of the array into the stack
@@ -203,6 +207,8 @@ public class Lexer {
                             System.out.println(" ");
 
                         }//else
+
+                        numberOfErrors = 0;
                         
                         break;
 
@@ -430,6 +436,20 @@ public class Lexer {
                             break fullbreak;
 
                         }//if
+
+                        //if our symbol is in a string then we create a char character
+                        else if(stringFlag == 1){
+
+                            Token.setKind("CHAR");
+                            Token.setSymbol("!");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
+                        
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+
+                        }//else if
 
                         //else we check to see if we have a != sign and if so we create the token
                         else if(Character.compare(program.charAt(i + 1), '=')  == 0){
@@ -902,6 +922,13 @@ public class Lexer {
 
                         }//else if
 
+                        //if our symbol is involved in the spelling of "false" then we skip
+                        else if(falseFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
                         //if our symbol is in a string then we create a char chracter
                         else if(stringFlag == 1){
 
@@ -1085,6 +1112,22 @@ public class Lexer {
 
                         }//if
 
+                        //if our symbol is involved in the spelling of "false" then we skip
+                        else if(falseFlag == 1){
+
+                            falseFlag = 0;
+                            break fullbreak;
+
+                        }//else if
+
+                        //if our symbol is involved in the spelling of "true" then we skip
+                        else if(trueFlag == 1){
+
+                            trueFlag = 0;
+                            break fullbreak;
+
+                        }//else if
+
                         //else if our symbol is involved in spelling "while" then we skip and reset the flag
                         else if(whileFlag == 1){
 
@@ -1161,6 +1204,8 @@ public class Lexer {
                                         Token.setPosition(position);
 
                                         tokenOutput.add(Token);
+
+                                        falseFlag = 1;
                                     
                                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
@@ -1479,6 +1524,13 @@ public class Lexer {
 
                         }//else if
 
+                        //if our symbol is involved in the spelling of "false" then we skip
+                        else if(falseFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
                         //else if it is involved in spelling "while" then we skip
                         else if(whileFlag == 1){
 
@@ -1580,6 +1632,7 @@ public class Lexer {
                         else if(booleanFlag == 1){
 
                             booleanFlag = 0;
+                            break fullbreak;
 
                         }//else if
 
@@ -1795,6 +1848,13 @@ public class Lexer {
 
                         }//else if
 
+                        //if our symbol is involved in the spelling of "true" then we skip
+                        else if(trueFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
                         //if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
@@ -1832,6 +1892,13 @@ public class Lexer {
                             break fullbreak;
 
                         }//if
+
+                        //if our symbol is involved in the spelling of "false" then we skip
+                        else if(falseFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
 
                         //if our symbol starts the spelling of "string" then we create a string token
                         else if(Character.compare(program.charAt(i + 1), 't')  == 0){
@@ -1937,6 +2004,8 @@ public class Lexer {
                                         Token.setPosition(position);
 
                                         tokenOutput.add(Token);
+
+                                        trueFlag = 1;
                                     
                                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         break fullbreak;
@@ -1983,6 +2052,13 @@ public class Lexer {
                             break fullbreak;
 
                         }//if
+
+                        //if our symbol is involved in the spelling of "true" then we skip
+                        else if(trueFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
 
                         //else if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
