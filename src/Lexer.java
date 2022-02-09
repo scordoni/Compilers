@@ -56,8 +56,10 @@ public class Lexer {
     //This method pushes each letter of the array into the stack
 	public static ArrayList<Token> Lex(String program){
 
+        //print out space for formating
         System.out.println(" ");
         
+        //create a new instance of the token class
         Token Token = new Token();
         
         
@@ -75,18 +77,22 @@ public class Lexer {
             fullbreak:
 
 
+                //here we switch through each symbol in our language grammer so that we know
+                //what to do and what token to create 
                 switch(character){
 
                     //To start we have all the special characters
 
                     case '{':
 
+                        //if the symbol is in a comment we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //we then create the token for the character
                         Token.setKind("L_BRACE");
                         Token.setSymbol("{");
                         Token.setLineNumber(lineNumber);
@@ -94,18 +100,21 @@ public class Lexer {
 
                         tokenOutput.add(Token);
                         
+                        //print out to the command line
                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
                     
 
                     case '}':
 
+                        //if the symbol is in a comment we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //we then create the token for the character
                         Token.setKind("R_BRACE");
                         Token.setSymbol("}");
                         Token.setLineNumber(lineNumber);
@@ -113,11 +122,13 @@ public class Lexer {
 
                         tokenOutput.add(Token);
                         
+                        //print out to the command line
                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         break;
 
                     case '$':
 
+                        //if the symbol is in a comment then we have an unclosed comment and an error
                         if(commentFlag == 1){
 
 
@@ -136,6 +147,7 @@ public class Lexer {
 
                         }//if
 
+                        //if the symbol is in a string then we have an unclosed string and an error
                         else if(stringFlag == 1){
 
 
@@ -154,6 +166,7 @@ public class Lexer {
 
                         }//if
 
+                        //else we create the token 
                         else{
 
                             Token.setKind("EOP");
@@ -166,18 +179,21 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
 
 
+                            //if the error flag is one then we print how many errors we have and reset the flag
                             if (ErrorFlag == 1){
                                 System.out.println("ERROR Lexer - Lex failed with " + numberOfErrors + " error(s)");
 
                                 ErrorFlag = 0;
                             }//if
 
+                            //else we had a successful program and we print that
                             else{
 
                                 System.out.println("INFO  Lexer - Lex completed with 0 errors");
 
                             }//else
 
+                            //space for fomatting to see the difference in programs
                             System.out.println(" ");
 
                             System.out.println(" ");
@@ -192,13 +208,14 @@ public class Lexer {
 
                     case '(':
 
-
+                        //if the symbol is in a comment we skip     
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if the symbol is in a string we create a char token from it
                         else if (stringFlag == 1){
 
                             Token.setKind("CHAR ");
@@ -211,6 +228,7 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        //else we set the paren flag and create the token
                         else{
 
                             parenFlag = 1;
@@ -230,13 +248,14 @@ public class Lexer {
 
                     case ')':
 
-
+                        //if the symbol is in a comment we skip  
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if the symbol is in a string we create a char token from it
                         else if (stringFlag == 1){
 
                             Token.setKind("CHAR ");
@@ -249,9 +268,10 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        //else we set the paren flag back to 0 and create the token
                         else{
 
-                            parenFlag = 1;
+                            parenFlag = 0;
 
                             Token.setKind("CLOSE_PAREN");
                             Token.setSymbol(")");
@@ -268,13 +288,14 @@ public class Lexer {
 
                     case '\"':
 
-
+                        //if the symbol is in a comment we skip 
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if the flag isnt set we set it to 1 and create the open token
                         else if (stringFlag == 0){
 
                             stringFlag = 1;
@@ -289,6 +310,7 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        //if the flag is set then we reset it and create the closed token
                         else if (stringFlag == 1){
 
                             stringFlag = 0;
@@ -307,13 +329,14 @@ public class Lexer {
 
                     case '/':
 
-
+                        //if the character after is * then we have a comment and set the flag
                         if(Character.compare(program.charAt(i + 1), '*') == 0){
 
                             commentFlag = 1;
 
                         }//if
 
+                        //if the character before is * then we have an end comment and reset the flag
                         else if(Character.compare(program.charAt(i - 1), '*')  == 0){
 
                             commentFlag = 0;
@@ -325,12 +348,14 @@ public class Lexer {
 
                     case '+':
 
+                        //if the symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if the symbol is in a string then we create a char token
                         else if (stringFlag == 1){
 
 
@@ -344,6 +369,7 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ]  found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        //else we create the addition token
                         else{
 
                             Token.setKind("ADDITION");
@@ -360,12 +386,14 @@ public class Lexer {
 
                     case ' ':
 
+                        //if the symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if the symbol is in a string then we create a char charcter
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -385,6 +413,7 @@ public class Lexer {
 
                     case '*':
 
+                        //if the symbol is in a comment then we ignore
                         if(commentFlag == 1){
 
                             break fullbreak;
@@ -395,12 +424,14 @@ public class Lexer {
 
                     case '!':
 
+                        //if the symbol is in a comment then we ignore
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else we check to see if we have a != sign and if so we create the token
                         else if(Character.compare(program.charAt(i + 1), '=')  == 0){
 
                             Token.setKind("NON_EQUALITY");
@@ -420,12 +451,14 @@ public class Lexer {
 
                     case '=':
 
+                        //if the symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else we check to see if we have a double = and if so we create the token
                         else if(Character.compare(program.charAt(i + 1), '=')  == 0){
 
                             Token.setKind("EQUALITY");
@@ -438,18 +471,21 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        //else we check to see if we have a double = and if so we skip
                         else if(Character.compare(program.charAt(i - 1), '=')  == 0){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else we check to see if we have a ! = and if so we skip
                         else if(Character.compare(program.charAt(i - 1), '!')  == 0){
 
                             break fullbreak;
 
                         }//else if
 
+                        //else we create the normal assignment token
                         else{
                             Token.setKind("ASSIGNMENT");
                             Token.setSymbol("=");
@@ -466,17 +502,32 @@ public class Lexer {
                         break;
                     
 
-
                     //Everthing below here is numbers 1 - 9 and the alphabet
 
                     case '0':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char character
+                        else if(stringFlag == 1){
+
+                            Token.setKind("CHAR");
+                            Token.setSymbol("0");
+                            Token.setLineNumber(lineNumber);
+                            Token.setPosition(position);
+
+                            tokenOutput.add(Token);
+                        
+                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+
+                        }//else if
+
+                        //else we creat the digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("0");
@@ -493,12 +544,14 @@ public class Lexer {
 
                     case '1':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -512,6 +565,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create the digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("1");
@@ -528,12 +582,14 @@ public class Lexer {
 
                     case '2':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -547,6 +603,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create the digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("2");
@@ -563,12 +620,14 @@ public class Lexer {
 
                     case '3':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if the symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -582,6 +641,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create the digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("3");
@@ -598,12 +658,14 @@ public class Lexer {
 
                     case '4':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we creat a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -617,6 +679,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("4");
@@ -633,12 +696,14 @@ public class Lexer {
 
                     case '5':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -652,6 +717,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("5");
@@ -668,13 +734,14 @@ public class Lexer {
 
                     case '6':
 
-
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -688,6 +755,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("6");
@@ -704,12 +772,14 @@ public class Lexer {
 
                     case '7':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -723,6 +793,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("7");
@@ -739,12 +810,14 @@ public class Lexer {
 
                     case '8':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if the symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -758,6 +831,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("8");
@@ -774,12 +848,14 @@ public class Lexer {
 
                     case '9':
 
+                        //if our symbol is in a comment then we skip
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
+                        //else if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -793,6 +869,7 @@ public class Lexer {
 
                         }//else if
 
+                        //else we create a digit token
                         else{
                             Token.setKind("DIGIT");
                             Token.setSymbol("9");

@@ -1,5 +1,8 @@
 /**
  * Compiler.java 
+ * 
+ * This is the main code for the compiler
+ * Here we will read our text file and pass each program to the lexer, parser and so on
  */
 
 
