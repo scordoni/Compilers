@@ -53,6 +53,8 @@ public class Lexer {
 
     
 
+    
+
     //This method pushes each letter of the array into the stack
 	public static ArrayList<Token> Lex(String program, int lineNumber){
 
@@ -62,7 +64,7 @@ public class Lexer {
         System.out.println("Lexing Program: " + programNumber);
 
         programNumber++;
-        
+
 		//goes through the prgram letter by letter to create tokens
 		for(int i = 0; i < program.length(); i++){
 			
@@ -103,6 +105,9 @@ public class Lexer {
                         Token.setPosition(position);
 
                         tokenOutput.add(Token);
+
+                        //set brace flag
+                        braceFlag = 1;
                         
                         //print out to the command line
                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
@@ -125,6 +130,9 @@ public class Lexer {
                         Token.setPosition(position);
 
                         tokenOutput.add(Token);
+
+                        //reset brace flag
+                        braceFlag = 0;
                         
                         //print out to the command line
                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
@@ -136,7 +144,7 @@ public class Lexer {
                         if(commentFlag == 1){
 
 
-                            System.out.println("ERROR - Unclosed comment found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("ERROR - Unclosed comment found at " + "(" + lineNumber + ":" + position + ") - fix by adding \"/*\" at the end of your comment");
 
                             System.out.println("ERROR Lexer - Lex failed");
 
@@ -147,15 +155,53 @@ public class Lexer {
 
                             commentFlag = 0;
 
-                            break fullbreak;
+                            
 
                         }//if
+
+                        //if the symbol is in a string then we have an unclosed string and an error
+                        else if(braceFlag == 1){
+
+
+                            System.out.println("ERROR - Unclosed brace found at " + "(" + lineNumber + ":" + position + ") - fix by adding \"}\" at the end of your statement");
+
+                            System.out.println("ERROR Lexer - Lex failed");
+
+                            System.out.println(" ");
+
+                            System.out.println(" ");
+
+
+                            braceFlag = 0;
+
+                            
+
+                        }//else if
+
+                        //if the symbol is in a string then we have an unclosed string and an error
+                        else if(parenFlag == 1){
+
+
+                            System.out.println("ERROR - Unclosed parenthesie found at " + "(" + lineNumber + ":" + position + ") - fix by adding \")\" at the end of your string");
+
+                            System.out.println("ERROR Lexer - Lex failed");
+
+                            System.out.println(" ");
+
+                            System.out.println(" ");
+
+
+                            parenFlag = 0;
+
+                            
+
+                        }//else if
 
                         //if the symbol is in a string then we have an unclosed string and an error
                         else if(stringFlag == 1){
 
 
-                            System.out.println("ERROR - Unclosed string found at " + "(" + lineNumber + ":" + position + ")");
+                            System.out.println("ERROR - Unclosed string found at " + "(" + lineNumber + ":" + position + ") - fix by adding \"\"\" at the end of your string");
 
                             System.out.println("ERROR Lexer - Lex failed");
 
@@ -166,9 +212,9 @@ public class Lexer {
 
                             stringFlag = 0;
 
-                            break fullbreak;
+                            
 
-                        }//if
+                        }//else if
 
                         //else we create the token 
                         else{
@@ -206,9 +252,15 @@ public class Lexer {
 
                             System.out.println(" ");
 
+                            
                         }//else
 
                         numberOfErrors = 0;
+                        commentFlag = 0;
+                        braceFlag = 0;
+                        parenFlag = 0;
+                        stringFlag = 0;
+                        ErrorFlag = 0;
                         
                         break;
 

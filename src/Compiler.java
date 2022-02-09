@@ -30,10 +30,9 @@ public class Compiler{
 		
         String line;
 
+
         ArrayList < Token > tokens = new ArrayList < Token >();
         
-        
-
         int lineNumber = 1;
 
         //ask the user for the path and name to the file
@@ -60,13 +59,11 @@ public class Compiler{
             //else we can run through the file to create the programs
             else{
 
-
                 while(input.hasNext()){
-
 
                     //while there is a next line we set it to a temp variable
                     line = input.nextLine();
-
+                    
                     //if the line contains the character to end the program then we split the txt file
                     if((line .contains(EOP))){
 
@@ -106,6 +103,7 @@ public class Compiler{
                         sourceCode = sourceCode + line ;
 
                         //increment line number to keep track
+                        
                         lineNumber++;
 
                     }//else  
