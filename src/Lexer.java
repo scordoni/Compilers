@@ -19,13 +19,9 @@ public class Lexer {
 
     static int position = 0;
 
+    static int programNumber = 1;
+
     static int lineNumber = 0;
-
-    int programCounter = 2;
-
-    int lastPosition = 0;
-
-    int currentPosition =0;
 
     static int commentFlag = 0;
 
@@ -58,14 +54,14 @@ public class Lexer {
     
 
     //This method pushes each letter of the array into the stack
-	public static ArrayList<Token> Lex(String program){
+	public static ArrayList<Token> Lex(String program, int lineNumber){
 
         //print out space for formating
         System.out.println(" ");
-        
-        //create a new instance of the token class
-        Token Token = new Token();
-        
+
+        System.out.println("Lexing Program: " + programNumber);
+
+        programNumber++;
         
 		//goes through the prgram letter by letter to create tokens
 		for(int i = 0; i < program.length(); i++){
@@ -73,9 +69,13 @@ public class Lexer {
             //Print to check
             //System.out.println(program.charAt(i));
 
+            //create a new instance of the token class
+            Token Token = new Token();
             
             //assign the character to a variable for the switch statement.
             character = program.charAt(i);
+
+            position = i;
 
             //create a labeled break to break completely out of the switch statement
             fullbreak:
@@ -2335,6 +2335,7 @@ public class Lexer {
                     
                 }//switch
 
+                
 		}//for
 
         //return the arraylist of tokens

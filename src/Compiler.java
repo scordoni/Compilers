@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+
 public class Compiler{
 
     // Create a new keyboard Scanner object.
@@ -31,10 +32,9 @@ public class Compiler{
 
         ArrayList < Token > tokens = new ArrayList < Token >();
         
-        int programNumber = 1;
+        
 
-        int lineNumber = 0;
-		
+        int lineNumber = 1;
 
         //ask the user for the path and name to the file
         System.out.println("Welcome to the Compiler");
@@ -60,17 +60,15 @@ public class Compiler{
             //else we can run through the file to create the programs
             else{
 
-                System.out.println(" ");
-                System.out.println("Lexing Program: " + programNumber);
-
 
                 while(input.hasNext()){
+
 
                     //while there is a next line we set it to a temp variable
                     line = input.nextLine();
 
                     //if the line contains the character to end the program then we split the txt file
-                    if(line .contains(EOP)){
+                    if((line .contains(EOP))){
 
                         //here we set a variable to what comes before the end character
                         beforeEOP = line .substring(0, line .indexOf(EOP) + 1);
@@ -81,7 +79,7 @@ public class Compiler{
                         sourceCode = sourceCode + beforeEOP;
 
                         //we then pass the code to the lexer
-                        tokens = Lexer.Lex(sourceCode);
+                        tokens = Lexer.Lex(sourceCode, lineNumber);
 
                         //here we pass the code to the parser for project 2
                         //CST = parse(tokens)      // project 2
@@ -92,13 +90,6 @@ public class Compiler{
 
                         //increment the line number to keep track
                         lineNumber++;
-
-                        //increment the program number to keep track
-                        programNumber++;
-
-
-                        System.out.println(" ");
-                        System.out.println("Lexing Program: " + programNumber);
 
                     }//if
 
@@ -113,7 +104,10 @@ public class Compiler{
                     else{
                 
                         sourceCode = sourceCode + line ;
+
+                        //increment line number to keep track
                         lineNumber++;
+
                     }//else  
 
                 }//while
