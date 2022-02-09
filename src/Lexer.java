@@ -1,6 +1,7 @@
 /*
 * 
 * This is the Lexer component of the compiler
+* Here we take in the program as a string and go through letter by letter to lex the program
 * 
 */
 
@@ -30,6 +31,8 @@ public class Lexer {
 
     static int stringFlag = 0;
 
+    static int stringWordFlag = 0;
+
     static int ErrorFlag = 0;
 
     static int numberOfErrors = 0;
@@ -40,6 +43,16 @@ public class Lexer {
 
     static int parenFlag = 0;
 
+    static int whileFlag = 0;
+
+    static int printFlag = 0;
+
+    static int booleanFlag = 0;
+
+    static int ifFlag = 0;
+
+    
+
     //This method pushes each letter of the array into the stack
 	public static ArrayList<Token> Lex(String program){
 
@@ -48,16 +61,17 @@ public class Lexer {
         Token Token = new Token();
         
         
-		//goes through the arraylist
+		//goes through the prgram letter by letter to create tokens
 		for(int i = 0; i < program.length(); i++){
 			
+            //Print to check
             //System.out.println(program.charAt(i));
 
             
-            
+            //assign the character to a variable for the switch statement.
             character = program.charAt(i);
 
-
+            //create a labeled break to break completely out of the switch statement
             fullbreak:
 
 
@@ -424,6 +438,17 @@ public class Lexer {
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         }//else if
 
+                        else if(Character.compare(program.charAt(i - 1), '=')  == 0){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(Character.compare(program.charAt(i - 1), '!')  == 0){
+
+                            break fullbreak;
+
+                        }//else if
 
                         else{
                             Token.setKind("ASSIGNMENT");
@@ -790,6 +815,12 @@ public class Lexer {
 
                         }//if
 
+                        else if(booleanFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -850,6 +881,7 @@ public class Lexer {
                                                 System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                                                     
 
+                                                booleanFlag = 1;
                                             }//if
                                         }//if
                                     }//if
@@ -964,6 +996,18 @@ public class Lexer {
 
                         }//if
 
+                        else if(whileFlag == 1){
+
+                            whileFlag = 0;
+
+                        }//if
+
+                        else if(booleanFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -996,6 +1040,13 @@ public class Lexer {
 
                         if(commentFlag == 1){
 
+                            break fullbreak;
+
+                        }//if
+
+                        if(ifFlag == 1){
+
+                            ifFlag = 0;
                             break fullbreak;
 
                         }//if
@@ -1052,11 +1103,18 @@ public class Lexer {
 
                     case 'g':
 
+
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
+
+                        else if(stringWordFlag == 1){
+
+                            stringWordFlag = 0;
+
+                        }//else if
 
                         else if(stringFlag == 1){
 
@@ -1093,6 +1151,12 @@ public class Lexer {
 
                         }//if
 
+                        else if(whileFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1122,8 +1186,31 @@ public class Lexer {
 
                     case 'i':
 
+                        if(commentFlag == 1){
 
-                        if(Character.compare(program.charAt(i + 1), 'n')  == 0){
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(printFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(whileFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if(stringWordFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(Character.compare(program.charAt(i + 1), 'n')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 't')  == 0){
 
@@ -1153,15 +1240,11 @@ public class Lexer {
                             Token.setPosition(position);
 
                             tokenOutput.add(Token);
+
+                            ifFlag = 1;
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                         
-                        }//if
-
-                        else if(commentFlag == 1){
-
-                            break fullbreak;
-
                         }//if
 
                         else if(stringFlag == 1){
@@ -1269,6 +1352,18 @@ public class Lexer {
 
                         }//if
 
+                        else if(booleanFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(whileFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
                         else if(stringFlag == 1){
 
                             Token.setKind("CHAR");
@@ -1334,6 +1429,7 @@ public class Lexer {
 
                     case 'n':
 
+
                         if(commentFlag == 1){
 
                             break fullbreak;
@@ -1341,6 +1437,24 @@ public class Lexer {
                         }//if
 
                         else if(intFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(printFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(booleanFlag == 1){
+
+                            booleanFlag = 0;
+
+                        }//else if
+
+                        else if(stringWordFlag == 1){
 
                             break fullbreak;
 
@@ -1379,6 +1493,12 @@ public class Lexer {
                     case 'o':
 
                         if(commentFlag == 1){
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if(booleanFlag == 1){
 
                             break fullbreak;
 
@@ -1437,6 +1557,7 @@ public class Lexer {
 
                                             tokenOutput.add(Token);
                                         
+                                            printFlag = 1;
 
                                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
@@ -1510,11 +1631,24 @@ public class Lexer {
 
                     case 'r':
 
+
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
+
+                        else if(printFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
+
+                        else if(stringWordFlag == 1){
+
+                            break fullbreak;
+
+                        }//else if
 
                         else if(stringFlag == 1){
 
@@ -1545,11 +1679,15 @@ public class Lexer {
 
                     case 's':
 
+                       
+
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
+
+                        
 
                         else if(Character.compare(program.charAt(i + 1), 't')  == 0){
 
@@ -1560,17 +1698,20 @@ public class Lexer {
                                     if(Character.compare(program.charAt(i + 4), 'n')  == 0){
                                        
                                         if(Character.compare(program.charAt(i + 5), 'g')  == 0){
-                                                Token.setKind("STRING");
-                                                Token.setSymbol("string");
-                                                Token.setLineNumber(lineNumber);
-                                                Token.setPosition(position);
+                                               
+                                            Token.setKind("STRING");
+                                            Token.setSymbol("string");
+                                            Token.setLineNumber(lineNumber);
+                                            Token.setPosition(position);
 
-                                                tokenOutput.add(Token);
+                                            tokenOutput.add(Token);
+                                        
+                                            stringWordFlag = 1;
+
+                                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
 
-                                                System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
-                                        
-
+                                            
                                         }//if
                                      }//if
                                 }//if
@@ -1611,20 +1752,35 @@ public class Lexer {
 
                     case 't':
 
+
                         if(commentFlag == 1){
 
                             break fullbreak;
 
                         }//if
 
-                        else if(intFlag == 1){
+                        if(intFlag == 1){
 
                             intFlag = 0;
+                            break fullbreak;
+                            
+                        }//else if
+
+                        if(printFlag == 1){
+
+                            printFlag = 0;
+                            break fullbreak;
                             
 
                         }//else if
 
-                        else if(Character.compare(program.charAt(i + 1), 'r')  == 0){
+                        if(stringWordFlag == 1){
+                            
+                            break fullbreak;
+                            
+                        }//else if
+
+                        if(Character.compare(program.charAt(i + 1), 'r')  == 0){
 
                             if(Character.compare(program.charAt(i + 2), 'u')  == 0){
 
@@ -1638,12 +1794,12 @@ public class Lexer {
                                         tokenOutput.add(Token);
                                     
                                         System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
-
+                                        break fullbreak;
                                 }//if
                             }//if
-                        }//if
+                        }//else if
 
-                        else if(stringFlag == 1){
+                        if(stringFlag == 1){
 
                             Token.setKind("CHAR");
                             Token.setSymbol("t");
@@ -1653,10 +1809,10 @@ public class Lexer {
                             tokenOutput.add(Token);
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
-
+                            break fullbreak;
                         }//else if
-
-                        else{
+                        
+                        if((commentFlag==0)&&(intFlag==0)&&(printFlag==0)&&(stringWordFlag==0)&&(stringFlag==0)){
 
                             Token.setKind("ID");
                             Token.setSymbol("t");
@@ -1666,7 +1822,7 @@ public class Lexer {
                             tokenOutput.add(Token);
                         
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
-
+                            break fullbreak;
 
                         }//else
                         
@@ -1769,6 +1925,7 @@ public class Lexer {
 
                                             tokenOutput.add(Token);
                                         
+                                            whileFlag = 1;
 
                                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
                                         
