@@ -6,8 +6,11 @@
  */
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -17,7 +20,7 @@ public class Compiler{
     // Create a new keyboard Scanner object.
     static Scanner keyboard = new Scanner(System.in);
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 
         //Declare and initialize variables 
 
@@ -30,6 +33,7 @@ public class Compiler{
 		
         String line;
 
+        
 
         ArrayList < Token > tokens = new ArrayList < Token >();
         
@@ -48,6 +52,7 @@ public class Compiler{
 
 			//create scanner
 			Scanner input = new Scanner(myFile);
+            
 
             //if the file is empty we let the user know there is nothing in the file
             if(input.hasNext() == false){
@@ -55,6 +60,8 @@ public class Compiler{
                 System.out.println("This text file is empty.");
 
             }//if
+
+            
 
             //else we can run through the file to create the programs
             else{
@@ -104,7 +111,9 @@ public class Compiler{
 
                         //increment line number to keep track
                         
-                        lineNumber++;
+                            lineNumber++;
+                        
+                        
 
                     }//else  
 
