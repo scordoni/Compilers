@@ -1,0 +1,213 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CMPT 432
+% Spring 2022
+% Lab One
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from: http://www.LaTeXTemplates.com
+% Original author: % Frits Wenneker (http://www.howtotex.com)
+% License: CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Modified by Alan G. Labouseur  - alan@labouseur.com
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[letterpaper, 10pt,DIV=13]{scrartcl} 
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyph
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm,xfrac} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\usepackage{graphicx}
+\usepackage[lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{lastpage}
+
+\allsectionsfont{\normalfont\scshape} % Make all section titles in default font and small caps.
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{page \thepage\ of \pageref{LastPage}} % Page numbering for right footer
+
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs.
+
+\binoppenalty=3000
+\relpenalty=3000
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 432 - Spring 2022 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Lab One  \\     	    % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+
+\author{Shannon Cordoni \\ \normalsize Shannon.Cordoni@Marist.edu}
+
+\date{\normalsize\today} 	% Today's date.
+
+\begin{document}
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%   start PROBLEM ONE
+%----------------------------------------------------------------------------------------
+\section{Problem One: Crafting a Compiler 1.11}
+
+\paragraph{} MOSS is an interesting new technology used to find similarities in computer programs. It compares the similarities between to files and returns a percentage representing the amount of similarity between the two files.
+
+
+\section{Problem Two: Crafting a Compiler 3.1}
+
+\paragraph{} The token sequence that would be produced is:
+
+\lstset{numbers=left, numberstyle=\tiny, stepnumber=1, numbersep=5pt, basicstyle=\footnotesize\ttfamily}
+\begin{lstlisting}[frame=single, ] 
+
+DEBUG Lexer - MAIN [ main ]
+DEBUG Lexer - CONST [ const ]
+DEBUG Lexer - FLOAT [ float ]
+DEBUG Lexer - ID [ payment ]
+DEBUG Lexer - ASSIGNMENT [ = ]
+DEBUG Lexer - DIGIT [ 3 ]
+DEBUG Lexer - DIGIT [ 8 ]
+DEBUG Lexer - DIGIT [ 4 ]
+DEBUG Lexer - DECIMAL [ . ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - FLOAT [ float ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - INT [ int ]
+DEBUG Lexer - ID [ month ]
+DEBUG Lexer - ASSIGNMENT [ = ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - ASSIGNMENT [ = ]
+DEBUG Lexer - DIGIT [ 1 ]
+DEBUG Lexer - DIGIT [ 5 ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - WHILE [ while ]
+DEBUG Lexer - LPAREN [ ( ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - GREATERTHAN [ > ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - RPAREN [ ) ]
+DEBUG Lexer - LBRACE [ { ]
+DEBUG Lexer - PRINT [ print ]
+DEBUG Lexer - LPAREN [ ( ]
+DEBUG Lexer - OPENQUOTE [ " ]
+DEBUG Lexer - CHAR [ M ]
+DEBUG Lexer - CHAR [ o ]
+DEBUG Lexer - CHAR [ n ]
+DEBUG Lexer - CHAR [ t ]
+DEBUG Lexer - CHAR [ h ]
+DEBUG Lexer - SEMICOLON [ : ]
+DEBUG Lexer - SPACE [  ]
+DEBUG Lexer - PERCENT [ % ]
+DEBUG Lexer - DIGIT [ 2 ]
+DEBUG Lexer - CHAR [ d ]
+DEBUG Lexer - SPACE [  ]
+DEBUG Lexer - CHAR [ B ]
+DEBUG Lexer - CHAR [ a ]
+DEBUG Lexer - CHAR [ l ]
+DEBUG Lexer - CHAR [ a ]
+DEBUG Lexer - CHAR [ n ]
+DEBUG Lexer - CHAR [ c ]
+DEBUG Lexer - CHAR [ e ]
+DEBUG Lexer - SEMICOLON [ : ]
+DEBUG Lexer - SPACE [  ]
+DEBUG Lexer - PERCENT [ % ]
+DEBUG Lexer - DIGIT [ 1 ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DECIMAL [ . ]
+DEBUG Lexer - DIGIT [ 2 ]
+DEBUG Lexer - CHAR [ f ]
+DEBUG Lexer - CHAR [ \ ]
+DEBUG Lexer - CHAR [ n ]
+DEBUG Lexer - CLOSEQUOTE [ " ]
+DEBUG Lexer - COMMA [ , ]
+DEBUG Lexer - ID [ month ]
+DEBUG Lexer - COMMA [ , ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - RPAREN [ ) ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - ASSIGNMENT [ = ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - MINUS [ - ]
+DEBUG Lexer - ID [ payment ]
+DEBUG Lexer - PLUS [ + ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DECIMAL [ . ]
+DEBUG Lexer - DIGIT [ 0 ]
+DEBUG Lexer - DIGIT [ 1 ]
+DEBUG Lexer - DIGIT [ 5 ]
+DEBUG Lexer - MULTIPLY [ * ]
+DEBUG Lexer - ID [ bal ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - ID [ month ]
+DEBUG Lexer - ASSIGNMENT [ = ]
+DEBUG Lexer - ID [ month ]
+DEBUG Lexer - PLUS [ + ]
+DEBUG Lexer - DIGIT [ 1 ]
+DEBUG Lexer - SEMICOLON [ ; ]
+DEBUG Lexer - RBRACE [ } ]
+DEBUG Lexer - RBRACE [ } ]
+\end{lstlisting}
+
+\section{Problem Three: Dragon 1.1.4}
+
+The advantages to using C as a target language for a compiler is that is it available on many platforms allowing for wide spread use. Along with having a simple set of keywords it makes it easy for fast computation of machine code.
+
+\section{Problem Three: Dragon 1.6.1}
+
+The value assigned to $w$ is $i+j$, or $6+7$ which is 13. The value assigned to $x$ is also $i+j$, but this time it equivocates to $6+5$ which is 11. The value assigned to $y$ is also $i+j$, or $8+5$, which is 13. Lastly, the value assigned to $z$ which is also $i+j$, or $6+5$ which is 11.
+
+%----------------------------------------------------------------------------------------
+%   REFERENCES
+%----------------------------------------------------------------------------------------
+% The following two commands are all you need in the initial runs of your .Tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+\bibliography{lab01} 
+% You must have a proper ".bib" file and remember to run:
+% latex bibtex latex latex
+% to resolve all references.
+
+\pagebreak
+\end{document}
