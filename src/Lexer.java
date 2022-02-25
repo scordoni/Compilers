@@ -51,9 +51,14 @@ public class Lexer {
 
     static int falseFlag = 0;
 
-    
+    //Just to keep this accessable at the top
+	public static Integer ErrorFlag(Integer ErrorFlagInput){
+        int ErrorFlag = 0;
 
-    
+        ErrorFlag = ErrorFlagInput;
+
+        return ErrorFlag;
+    }//error flag
 
     //This method pushes each letter of the array into the stack
 	public static ArrayList<Token> Lex(String program, int lineNumber){
@@ -482,29 +487,8 @@ public class Lexer {
 
                     case '!':
 
-                        //if the symbol is in a comment then we ignore
-                        if(commentFlag == 1){
-
-                            break fullbreak;
-
-                        }//if
-
-                        //if our symbol is in a string then we create a char character
-                        else if(stringFlag == 1){
-
-                            Token.setKind("CHAR");
-                            Token.setSymbol("!");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
-
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
-
-                        }//else if
-
                         //else we check to see if we have a != sign and if so we create the token
-                        else if(Character.compare(program.charAt(i + 1), '=')  == 0){
+                        if(Character.compare(program.charAt(i + 1), '=')  == 0){
 
                             Token.setKind("NON_EQUALITY");
                             Token.setSymbol("!=");
@@ -515,7 +499,19 @@ public class Lexer {
                             
                             System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
 
-                        }//else if
+                        }//if
+
+                        else{
+
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
+
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
+                        }
+
 
                         break;
 
@@ -588,14 +584,13 @@ public class Lexer {
                         //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("0");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -626,14 +621,13 @@ public class Lexer {
                         //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("1");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -664,14 +658,13 @@ public class Lexer {
                         //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("2");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -702,14 +695,13 @@ public class Lexer {
                         //else if the symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("3");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -740,14 +732,13 @@ public class Lexer {
                         //else if our symbol is in a string then we creat a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("4");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -778,14 +769,13 @@ public class Lexer {
                         //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("5");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -816,14 +806,13 @@ public class Lexer {
                         //else if our symbol is in a string then we create a char token
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("6");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -854,14 +843,13 @@ public class Lexer {
                         //if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("7");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                           //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -892,14 +880,13 @@ public class Lexer {
                         //else if the symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("8");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -930,14 +917,13 @@ public class Lexer {
                         //else if our symbol is in a string then we create a char character
                         else if(stringFlag == 1){
 
-                            Token.setKind("CHAR");
-                            Token.setSymbol("9");
-                            Token.setLineNumber(lineNumber);
-                            Token.setPosition(position);
+                            //set the error flag if the symbol is unrecognized
+                            ErrorFlag = 1;
 
-                            tokenOutput.add(Token);
-                        
-                            System.out.println("DEBUG Lexer - " + Token.getKind() + " [ " + Token.getSymbol() + " ] found at " + "(" + lineNumber + ":" + position + ")");
+                            //increment number of errors for output later
+                            numberOfErrors++;
+
+                            System.out.println("ERROR Lexer - Error:4:40 Unrecognized Token: " + program.charAt(i));
 
                         }//else if
 
@@ -1417,7 +1403,7 @@ public class Lexer {
                         }//else if
 
                         //else if our symbol starts the work "int" then we create the int token
-                        else if(Character.compare(program.charAt(i + 1), 'n')  == 0){
+                        else if((stringFlag == 0)&&(Character.compare(program.charAt(i + 1), 'n')  == 0)){
 
                             if(Character.compare(program.charAt(i + 2), 't')  == 0){
 
@@ -1953,7 +1939,7 @@ public class Lexer {
                         }//else if
 
                         //if our symbol starts the spelling of "string" then we create a string token
-                        else if(Character.compare(program.charAt(i + 1), 't')  == 0){
+                        else if((stringFlag == 0)&&(Character.compare(program.charAt(i + 1), 't')  == 0)){
 
                             if(Character.compare(program.charAt(i + 2), 'r')  == 0){
 
@@ -2390,9 +2376,12 @@ public class Lexer {
                 
 		}//for
 
+        //set error flag
+        ErrorFlag(ErrorFlag);
+
         //return the arraylist of tokens
         return tokenOutput;
-			
+	
 	}//Lex
 
 }//Lexer

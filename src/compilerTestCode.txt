@@ -74,3 +74,23 @@ $
 
 /* Looks as though we can only show one error at a time since they're all at the end of the program */ 
 {("/* hello $
+
+{ 
+    /* what about comments */
+    a = "string"
+}$
+
+{ 
+    /* what about comments */
+    a = "int"
+}$
+
+{ 
+    /* what about comments */
+    a = "007"
+}$
+
+{ 
+    /* what about comments */
+    a = "unterminated string
+}$

@@ -33,9 +33,9 @@ public class Compiler{
 		
         String line;
 
-        
-
         ArrayList < Token > tokens = new ArrayList < Token >();
+
+        ArrayList < String > CST = new ArrayList < String >();
         
         int lineNumber = 1;
 
@@ -86,7 +86,7 @@ public class Compiler{
                         tokens = Lexer.Lex(sourceCode, lineNumber);
 
                         //here we pass the code to the parser for project 2
-                        //CST = parse(tokens)      // project 2
+                        CST = Parser.Parse(tokens);   // project 2
         
                         //now we set the new sourcecode to be equal to the rest of the file
                         //that came after the last end program character
