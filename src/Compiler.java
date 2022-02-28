@@ -36,8 +36,12 @@ public class Compiler{
         ArrayList < Token > tokens = new ArrayList < Token >();
 
         ArrayList < String > CST = new ArrayList < String >();
+
+        ArrayList < String > AST = new ArrayList < String >();
         
         int lineNumber = 1;
+
+        int ErrorFlag = 0;
 
         //ask the user for the path and name to the file
         System.out.println("Welcome to the Compiler");
@@ -85,8 +89,14 @@ public class Compiler{
                         //we then pass the code to the lexer
                         tokens = Lexer.Lex(sourceCode, lineNumber);
 
+                        ErrorFlag = Lexer.ErrorFlag(Lexer.ErrorFlag);
+
+                        System.out.println("Error Flag: " + ErrorFlag);
+
                         //here we pass the code to the parser for project 2
                         CST = Parser.Parse(tokens); 
+
+                        AST = CSTClass.CST(CST);
                         
         
                         //now we set the new sourcecode to be equal to the rest of the file

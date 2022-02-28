@@ -18,6 +18,8 @@ public class Parser {
 
     static ArrayList <String> CST = new ArrayList <String>();
 
+    static ArrayList <Token> globalTokens= new ArrayList <Token>();
+
     static int position = 0;
 
     static int programNumber = 1;
@@ -52,6 +54,10 @@ public class Parser {
 
     static int falseFlag = 0;
 
+    static int j = 0;
+
+    
+
 
     //This method pushes each letter of the array into the stack
     public static ArrayList<String> Parse(ArrayList<Token> tokenInput){
@@ -61,6 +67,21 @@ public class Parser {
 
         System.out.println("Parsing Program: " + programNumber);
 
+        System.out.println("PARSER: parse()");
+
+        for(int i = 0; i < tokenInput.size(); i++){
+            
+            globalTokens.add(tokenInput.get(i));
+
+        }//for
+
+
+        theToken = globalTokens.get(j);
+
+        parseProgram();
+
+        System.out.println("PARSER: Parse completed successfully");
+
         programNumber++;
 
         return CST;
@@ -69,48 +90,66 @@ public class Parser {
 
     public static void parseProgram(){
 
+        System.out.println("PARSER: parseProgram()");
+
         //From the tree class
         //addNode(root,Program);
 
         parseBlock();
 
-        //match(EOP);
+        match("EOP");
 
     }//parseProgram
 
     public static void parseBlock(){
 
-        //match(openBrace);
+        System.out.println("PARSER: parseBlock()");
+
+        match("L_BRACE");
+
         parseStatementList();
-        //match(closeBrace);
+
+        match("R_BRACE");
 
     }//parseBlock
 
     public static void parseStatementList(){
 
-        //if(tokenInput[i].getKind().com)
-        parseStatement();
+        System.out.println("PARSER: parseStatementList()");
 
-        parseStatementList();
+        if(theToken.getKind().compareToIgnoreCase("h") == 0){
 
-        //Empty string
+            parseStatement();
 
+        }//if
+
+        else if (theToken.getKind().compareToIgnoreCase("h") == 0){
+
+            parseStatementList();
+
+        }//else if
+
+        else{
+
+            //left blank Empty string
+
+        }//else
 
     }//parseStatementList
 
     public static void parseStatement(){
 
-        parsePrintStatement();
+        //parsePrintStatement();
 
-        parseAssignmentStatement();
+        //parseAssignmentStatement();
 
-        parseVarDecl();
+        //parseVarDecl();
 
-        parseWhileStatement();
+        //parseWhileStatement();
 
-        parseIfStatement();
+        //parseIfStatement();
 
-        parseBlock();
+        //parseBlock();
 
         
 
@@ -152,7 +191,7 @@ public class Parser {
 
         parseBooleanExpr();
 
-        parseBlock();
+        //parseBlock();
 
         
 
@@ -164,7 +203,7 @@ public class Parser {
 
         parseBooleanExpr();
 
-        parseBlock();
+        //parseBlock();
 
     }//parseIfStatement
 
@@ -301,26 +340,32 @@ public class Parser {
     }//parseintop
 
     public static void match(String matchchar){
+        
+        if (theToken.getKind().compareToIgnoreCase(matchchar) == 0){
 
-        /*
-        if (tokenInput(i).getKind == matchchar){
+            //consume token
+            
 
-            consume token
-            increment token pointer
+            if ( j != globalTokens.size() - 1){
+
+                j = j + 1;
+                theToken = globalTokens.get(j);
+
+            }//if
+
+            else{
+
+
+            }//else
 
         }//if
 
         else{
 
-            error: expected token but found current token
-
+            System.out.println("Error: unexpected token. Expected " + matchchar + " but found " + theToken.getKind());
 
         }//else
 
-        
-        */
-        
     }//match
-
 
 }//Parser

@@ -160,6 +160,8 @@ public class Lexer {
 
                             commentFlag = 0;
 
+                            ErrorFlag = 1;
+
                             
 
                         }//if
@@ -179,7 +181,7 @@ public class Lexer {
 
                             braceFlag = 0;
 
-                            
+                            ErrorFlag = 1;
 
                         }//else if
 
@@ -198,7 +200,7 @@ public class Lexer {
 
                             parenFlag = 0;
 
-                            
+                            ErrorFlag = 1;
 
                         }//else if
 
@@ -217,7 +219,7 @@ public class Lexer {
 
                             stringFlag = 0;
 
-                            
+                            ErrorFlag = 1;
 
                         }//else if
 
