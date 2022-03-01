@@ -7,6 +7,7 @@
 */
 
 
+import java.security.MessageDigest;
 import java.util.*; 
 
 public class Parser {
@@ -80,9 +81,21 @@ public class Parser {
 
         parseProgram();
 
-        System.out.println("PARSER: Parse completed successfully");
+        if (ErrorFlag == 0){
+
+            System.out.println("PARSER: Parse completed successfully");
+
+        }//if
+
+        else{
+
+            System.out.println("ERROR IN PARSER: Parse Failed");
+
+        }//else
 
         programNumber++;
+
+        ErrorFlag = 0;
 
         return CST;
 
@@ -131,13 +144,9 @@ public class Parser {
 
             parseStatement();
 
-        }//if
-
-        else if (theToken.getKind().compareToIgnoreCase("h") == 0){
-
             parseStatementList();
 
-        }//else if
+        }//if
 
         else{
 
@@ -186,7 +195,7 @@ public class Parser {
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("{") == 0){
         
             parseBlock();
         
@@ -294,7 +303,7 @@ public class Parser {
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("\"") == 0){
         
             parseStringExpr();
         
@@ -306,7 +315,7 @@ public class Parser {
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
         
             parseId();
         
@@ -323,6 +332,7 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "IntExpr");
 
+        //"DIGIT" "INTOP"
         if(theToken.getKind().compareToIgnoreCase(" ") == 0){
         
             parsedigit();
@@ -333,7 +343,7 @@ public class Parser {
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
         
             parsedigit();
         
@@ -367,7 +377,7 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "BooleanExpr");
 
-        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        if(theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0){
         
             match("OPEN_PAREN");
 
@@ -381,7 +391,7 @@ public class Parser {
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if((theToken.getKind().compareToIgnoreCase("TRUE") == 0) || (theToken.getKind().compareToIgnoreCase("FALSE") == 0) ){
         
             parseboolval();
         
@@ -411,7 +421,7 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "CharList");
 
-        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
            
             parsechar();
 
@@ -579,6 +589,8 @@ public class Parser {
 
             System.out.println("Error: unexpected token. Expected " + matchchar + " but found " + theToken.getKind());
 
+            ErrorFlag = 1;
+                        
         }//else
 
     }//match
