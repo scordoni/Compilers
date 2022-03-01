@@ -93,11 +93,13 @@ public class Parser {
         System.out.println("PARSER: parseProgram()");
 
         //From the tree class
-        //addNode(root,Program);
+        CSTClass.addNode("root", "Program");
 
         parseBlock();
 
         match("EOP");
+
+        CSTClass.moveUp();
 
     }//parseProgram
 
@@ -105,17 +107,25 @@ public class Parser {
 
         System.out.println("PARSER: parseBlock()");
 
+        //From the tree class
+        CSTClass.addNode("branch", "Block");
+
         match("L_BRACE");
 
         parseStatementList();
 
         match("R_BRACE");
 
+        CSTClass.moveUp();
+
     }//parseBlock
 
     public static void parseStatementList(){
 
         System.out.println("PARSER: parseStatementList()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "StatementList");
 
         if(theToken.getKind().compareToIgnoreCase("h") == 0){
 
@@ -135,170 +145,324 @@ public class Parser {
 
         }//else
 
+        CSTClass.moveUp();
+
     }//parseStatementList
 
     public static void parseStatement(){
 
-        //parsePrintStatement();
+        System.out.println("PARSER: parseStatement()");
 
-        //parseAssignmentStatement();
+        //From the tree class
+        CSTClass.addNode("branch", "Statement");
 
-        //parseVarDecl();
-
-        //parseWhileStatement();
-
-        //parseIfStatement();
-
-        //parseBlock();
-
+        if(theToken.getKind().compareToIgnoreCase("PRINT") == 0){
         
+            parsePrintStatement();
+        
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseAssignmentStatement();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseVarDecl();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase("WHILE") == 0){
+        
+            parseWhileStatement();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase("IF") == 0){
+        
+            parseIfStatement();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseBlock();
+        
+        }//else if
+
+        CSTClass.moveUp();
 
     }//parseStatement
 
     public static void parsePrintStatement(){
 
-        //match(keyword print);
-        //match(open paren);
+        System.out.println("PARSER: parsePrintStatement()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "PrintStatement");
+
+        match("PRINT");
+
+        match("OPEN_PAREN");
+
         parseExpr();
-        //match(close paren);
+
+        match("CLOSE_PAREN");
+
+        CSTClass.moveUp();
 
     }//parsePrintStatement
 
     public static void parseAssignmentStatement(){
 
+        System.out.println("PARSER: parseAssignmentStatement()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "AssignmentStatement");
+
         parseId();
 
-        //match(assignment)
+        match("ASSIGNMENT");
 
         parseExpr();
 
-        
+        CSTClass.moveUp();
 
     }//parseAssignmentStatement
 
     public static void parseVarDecl(){
 
-        parsetype();
+        System.out.println("PARSER: parseVarDecl()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "VarDecl");
+
+        parseType();
 
         parseId();
         
+        CSTClass.moveUp();
 
     }//parseVarDecl
 
     public static void parseWhileStatement(){
 
-        //match(while);
+        System.out.println("PARSER: parseWhileStatement()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "WhileStatement");
+
+        match("WHILE");
 
         parseBooleanExpr();
 
-        //parseBlock();
+        parseBlock();
 
-        
+        CSTClass.moveUp();
 
     }//parseWhileStatement
 
     public static void parseIfStatement(){
 
-        //match(if);
+        System.out.println("PARSER: parseIfStatement()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "IfStatement");
+
+        match("IF");
 
         parseBooleanExpr();
 
-        //parseBlock();
+        parseBlock();
+
+        CSTClass.moveUp();
 
     }//parseIfStatement
 
     public static void parseExpr(){
 
-        parseIntExpr();
+        System.out.println("PARSER: parseExpr()");
 
-        parseStringExpr();
+        //From the tree class
+        CSTClass.addNode("branch", "Expr");
 
-        parseBooleanExpr();
-
-        parseId();
+        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
         
+            parseIntExpr();
+        
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseStringExpr();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseBooleanExpr();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseId();
+        
+        }//else if
+
+        CSTClass.moveUp();
 
     }//parseExpr
 
     public static void parseIntExpr(){
 
-        parsedigit();
+        System.out.println("PARSER: parseIntExpr()");
 
-        parseintop();
+        //From the tree class
+        CSTClass.addNode("branch", "IntExpr");
 
-        parseExpr();
-
-        //or
-
-        parsedigit();
+        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
         
+            parsedigit();
+
+            parseintop();
+    
+            parseExpr();
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parsedigit();
+        
+        }//else if
+
+        CSTClass.moveUp();
 
     }//parseIntExpr
 
     public static void parseStringExpr(){
 
-        //match(open quote)
+        System.out.println("PARSER: parseStringExpr()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "StringExpr");
+
+        match("OPEN_QUOTE");
 
         parseCharList();
 
-        //match(close quote)
+        match("CLOSE_QUOTE");
         
+        CSTClass.moveUp();
 
     }//parseStringExpr
 
     public static void parseBooleanExpr(){
 
-        //match(open paren)
+        System.out.println("PARSER: parseBooleanExpr()");
 
-        parseExpr();
+        //From the tree class
+        CSTClass.addNode("branch", "BooleanExpr");
 
-        parseboolop();
-
-        parseExpr();
-
-        //match(close paren)
-
-        //or
-
-        parseboolval();
-
+        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
         
+            match("OPEN_PAREN");
+
+            parseExpr();
+
+            parseboolop();
+
+            parseExpr();
+
+            match("CLOSE_PAREN");
+        
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        
+            parseboolval();
+        
+        }//else if
+
+        CSTClass.moveUp();
 
     }//parseBooleanExpr
 
     public static void parseId(){
 
+        System.out.println("PARSER: parseId()");
+
+        //From the tree class
+        CSTClass.addNode("branch", "Id");
+
         parsechar();
 
+        CSTClass.moveUp();
         
     }//parseId
 
     public static void parseCharList(){
 
-        parsechar();
+        System.out.println("PARSER: parseCharList()");
 
-        parseCharList();
+        //From the tree class
+        CSTClass.addNode("branch", "CharList");
 
-        //or
+        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+           
+            parsechar();
 
-        parsespace();
+            parseCharList();
+        
+        }//if
 
-        parseCharList();
+        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
 
-        //or
+            parsespace();
 
-        //empty string
+            parseCharList();
+
+        }//else if
+
+        else{
+
+            //leave blank for empty string
+
+        }//else
+
+        CSTClass.moveUp();
 
     }//parseCharList
 
-    public static void parsetype(){
+    public static void parseType(){
 
-        //int
+        System.out.println("PARSER: parseType()");
 
-        //string 
+        //From the tree class
+        CSTClass.addNode("branch", "Type");
 
-        //boolean
+        if(theToken.getKind().compareToIgnoreCase("INT") == 0){
+ 
+            match("INT");
         
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase("STRING") == 0){
+ 
+            match("STRING"); 
+        
+        }//else if
+
+        else if(theToken.getKind().compareToIgnoreCase("BOOLEAN") == 0){
+ 
+            match("BOOLEAN");
+        
+        }//else if
+
+        CSTClass.moveUp();
 
     }//parsetype
 
@@ -306,12 +470,23 @@ public class Parser {
 
         //a - z
 
+        if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
+ 
+            match("CHAR");
+        
+        }//if
+
 
     }//parsechar
 
     public static void parsespace(){
 
         //space character
+        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+ 
+            match(" ");
+        
+        }//if
 
     }//parsespace
 
@@ -319,11 +494,29 @@ public class Parser {
 
         // 0 - 9
 
+        if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
+ 
+            match("DIGIT");
+        
+        }//if
+
     }//parsedigit
 
     public static void parseboolop(){
 
         //== or !=
+
+        if(theToken.getKind().compareToIgnoreCase("==") == 0){
+ 
+            match("==");
+        
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase("!=") == 0){
+ 
+            match("!=");
+        
+        }//else if
 
     }//parseboolop
 
@@ -331,11 +524,29 @@ public class Parser {
 
         //true or flase
 
+        if(theToken.getKind().compareToIgnoreCase("TRUE") == 0){
+ 
+            match("TRUE");
+        
+        }//if
+
+        else if(theToken.getKind().compareToIgnoreCase("FALSE") == 0){
+ 
+            match("FALSE");
+        
+        }//else if
+
     }//parseboolval
 
     public static void parseintop(){
 
         //+
+
+        if(theToken.getKind().compareToIgnoreCase("+") == 0){
+ 
+            match("+");
+        
+        }//if
 
     }//parseintop
 
@@ -343,13 +554,17 @@ public class Parser {
         
         if (theToken.getKind().compareToIgnoreCase(matchchar) == 0){
 
-            //consume token
+            //consume token with the cst thing
             
 
             if ( j != globalTokens.size() - 1){
 
                 j = j + 1;
+
                 theToken = globalTokens.get(j);
+
+                //From the tree class
+                CSTClass.addNode("leaf", theToken.getKind());
 
             }//if
 

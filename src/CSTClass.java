@@ -21,6 +21,10 @@ public class CSTClass {
 
     static int programNumber = 1;
 
+    static CSTNode root = new CSTNode();
+
+    static CSTNode current = new CSTNode();
+
 
     //This method pushes each letter of the array into the stack
     public static ArrayList<String> CST(ArrayList<String> parseInput){
@@ -37,6 +41,46 @@ public class CSTClass {
 
 
     }//CST
+
+    //This method creates the CST tree
+    public static void addNode(String kind, String label){
+
+        CSTNode newNode = new CSTNode();
+
+        newNode.setName(label);
+
+        if(root == null){
+
+            root  = newNode;
+
+            newNode.setParent(null);
+
+        }//if
+
+        else{
+
+            newNode.setParent(current);
+
+            newNode.getParent().children.add(newNode);
+
+        }//else
+
+        if ( kind.compareToIgnoreCase("leaf") != 0){
+
+            current = newNode;
+
+        }//if
+
+    }//add node
+
+
+    //This method moves up the pointer
+    public static void moveUp(){
+
+        current = current.getParent();
+
+    }//move up
+
 
 
 
