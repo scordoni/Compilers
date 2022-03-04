@@ -62,6 +62,9 @@ public class Parser {
     //This method pushes each letter of the array into the stack
     public static ArrayList<String> Parse(ArrayList<Token> tokenInput){
 
+        //reset error flag
+        ErrorFlag = 0;
+
         //print out space for formating
         System.out.println(" ");
 
@@ -97,9 +100,6 @@ public class Parser {
 
         //increment program number
         programNumber++;
-
-        //reset error flag
-        ErrorFlag = 0;
 
         //clear input so that the arrays do not get added together
         globalTokens.clear();

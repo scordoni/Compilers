@@ -86,17 +86,36 @@ public class Compiler{
                         //we then pass the code to the lexer
                         tokens = Lexer.Lex(sourceCode, lineNumber);
 
-                        ErrorFlag = Lexer.ErrorFlag(Lexer.ErrorFlag);
+                        //System.out.println("Error Flag: " + Lexer.ErrorFlag);
 
-                        System.out.println("Error Flag: " + ErrorFlag);
+                        if (Lexer.ErrorFlag == 1){
+                            
+                            System.out.println(" ");
+                            System.out.println("Due to Lex Error: Parse Failed");
+                            System.out.println("Due to Lex Error: CST Failed");
 
-                        //here we pass the code to the parser for project 2
-                        CST = Parser.Parse(tokens); 
+                        }//if
 
-                       
+                        else{
 
-                        AST = CSTClass.CST(CST);
-                        
+                            //here we pass the code to the parser for project 2
+                            CST = Parser.Parse(tokens); 
+
+                            //System.out.println("Error Flag: " + Parser.ErrorFlag);
+
+                            if (Parser.ErrorFlag == 1){
+                            
+                                System.out.println(" ");
+                                System.out.println("Due to Parse Error: CST Failed");
+    
+                            }//if
+
+                            else{
+
+                                AST = CSTClass.CST(CST);
+                            }//else
+
+                        }//else         
         
                         //now we set the new sourcecode to be equal to the rest of the file
                         //that came after the last end program character

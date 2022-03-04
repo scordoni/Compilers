@@ -39,9 +39,9 @@ public class CSTClass {
 
         programNumber++;
 
+        
+
         return AST;
-
-
 
     }//CST
 
@@ -74,6 +74,17 @@ public class CSTClass {
 
         }//if
 
+        System.out.println(" ");
+        System.out.println(newNode.getName());
+        System.out.println(newNode.getParent());
+
+        for(int i = 0; i < newNode.children.size(); i++){
+
+            System.out.println(newNode.children.get(i));
+
+        }//for
+
+        System.out.println(" ");
     }//add node
 
 
@@ -119,8 +130,6 @@ public class CSTClass {
 
         }//else
         
-        // Make the initial call to expand from the root.
-        expand(root, 0);
 
         // Return the result.
         return traversalResult;

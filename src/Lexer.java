@@ -29,7 +29,7 @@ public class Lexer {
 
     static int stringWordFlag = 0;
 
-    static int ErrorFlag = 0;
+    static int ErrorFlag;
 
     static int numberOfErrors = 0;
 
@@ -53,7 +53,7 @@ public class Lexer {
 
     //Just to keep this accessable at the top
 	public static Integer ErrorFlag(Integer ErrorFlagInput){
-        int ErrorFlag = 0;
+        
 
         ErrorFlag = ErrorFlagInput;
 
@@ -63,7 +63,21 @@ public class Lexer {
     //This method pushes each letter of the array into the stack
 	public static ArrayList<Token> Lex(String program, int lineNumber){
 
+        //reset for program
+        numberOfErrors = 0;
+        commentFlag = 0;
+        braceFlag = 0;
+        parenFlag = 0;
+        stringFlag = 0;
+        ErrorFlag = 0;
+
         //print out space for formating
+        System.out.println(" ");
+
+        System.out.println(" ");
+
+        System.out.println(" ");
+
         System.out.println(" ");
 
         System.out.println("Lexing Program: " + programNumber);
@@ -240,7 +254,7 @@ public class Lexer {
                             if (ErrorFlag == 1){
                                 System.out.println("ERROR Lexer - Lex failed with " + numberOfErrors + " error(s)");
 
-                                ErrorFlag = 0;
+                                
                             }//if
 
                             //else we had a successful program and we print that
@@ -259,12 +273,6 @@ public class Lexer {
                             
                         }//else
 
-                        numberOfErrors = 0;
-                        commentFlag = 0;
-                        braceFlag = 0;
-                        parenFlag = 0;
-                        stringFlag = 0;
-                        ErrorFlag = 0;
                         
                         break;
 
