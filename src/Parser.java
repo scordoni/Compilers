@@ -7,7 +7,6 @@
 */
 
 
-import java.security.MessageDigest;
 import java.util.*; 
 
 public class Parser {
@@ -76,8 +75,11 @@ public class Parser {
 
         }//for
 
+        j = 0;
 
         theToken = globalTokens.get(j);
+
+        //System.out.println(globalTokens.size());
 
         parseProgram();
 
@@ -93,10 +95,19 @@ public class Parser {
 
         }//else
 
+        //increment program number
         programNumber++;
 
+        //reset error flag
         ErrorFlag = 0;
 
+        //clear input so that the arrays do not get added together
+        globalTokens.clear();
+
+        tokenInput.clear();
+
+       
+        //return cst
         return CST;
 
     }//parse
@@ -104,6 +115,8 @@ public class Parser {
     public static void parseProgram(){
 
         System.out.println("PARSER: parseProgram()");
+
+        //System.out.println(theToken.getKind());
 
         //From the tree class
         CSTClass.addNode("root", "Program");
@@ -119,13 +132,19 @@ public class Parser {
     public static void parseBlock(){
 
         System.out.println("PARSER: parseBlock()");
+        
+        //System.out.println("Block " + theToken.getKind());
 
         //From the tree class
         CSTClass.addNode("branch", "Block");
 
         match("L_BRACE");
 
+        //System.out.println("Block " + theToken.getKind());
+
         parseStatementList();
+
+        //System.out.println("Block " +  theToken.getKind());
 
         match("R_BRACE");
 
@@ -137,10 +156,15 @@ public class Parser {
 
         System.out.println("PARSER: parseStatementList()");
 
+        //System.out.println("StatementList " +  theToken.getKind());
+
         //From the tree class
         CSTClass.addNode("branch", "StatementList");
 
-        if(theToken.getKind().compareToIgnoreCase("h") == 0){
+        if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("CHAR") == 0)
+            || (theToken.getKind().compareToIgnoreCase("INT") == 0) || (theToken.getKind().compareToIgnoreCase("STRING") == 0)
+            || (theToken.getKind().compareToIgnoreCase("BOOLEAN") == 0) || (theToken.getKind().compareToIgnoreCase("WHILE") == 0)
+            || (theToken.getKind().compareToIgnoreCase("IF") == 0) || (theToken.getKind().compareToIgnoreCase("L_BRACE") == 0) ){
 
             parseStatement();
 
@@ -162,6 +186,8 @@ public class Parser {
 
         System.out.println("PARSER: parseStatement()");
 
+        //System.out.println("Statement " +  theToken.getKind());
+
         //From the tree class
         CSTClass.addNode("branch", "Statement");
 
@@ -171,13 +197,13 @@ public class Parser {
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
         
             parseAssignmentStatement();
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if((theToken.getKind().compareToIgnoreCase("INT") == 0) || (theToken.getKind().compareToIgnoreCase("STRING") == 0) || (theToken.getKind().compareToIgnoreCase("BOOLEAN") == 0)){
         
             parseVarDecl();
         
@@ -195,7 +221,7 @@ public class Parser {
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase("{") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("L_BRACE") == 0){
         
             parseBlock();
         
@@ -561,11 +587,12 @@ public class Parser {
     }//parseintop
 
     public static void match(String matchchar){
+
+        //System.out.println("Match in" +  theToken.getKind());
+
+        //System.out.println("j in " + j);
         
         if (theToken.getKind().compareToIgnoreCase(matchchar) == 0){
-
-            //consume token with the cst thing
-            
 
             if ( j != globalTokens.size() - 1){
 
@@ -573,15 +600,15 @@ public class Parser {
 
                 theToken = globalTokens.get(j);
 
+                //System.out.println("match out" +  theToken.getKind());
+
+                //System.out.println("j out " + j);
+
                 //From the tree class
                 CSTClass.addNode("leaf", theToken.getKind());
 
             }//if
 
-            else{
-
-
-            }//else
 
         }//if
 

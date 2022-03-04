@@ -5,11 +5,8 @@
  * Here we will read our text file and pass each program to the lexer, parser and so on
  */
 
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -95,6 +92,8 @@ public class Compiler{
 
                         //here we pass the code to the parser for project 2
                         CST = Parser.Parse(tokens); 
+
+                       
 
                         AST = CSTClass.CST(CST);
                         

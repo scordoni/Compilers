@@ -155,7 +155,7 @@ public class Lexer {
 
                             System.out.println(" ");
 
-                            System.out.println(" ");
+                            
 
 
                             commentFlag = 0;
@@ -176,7 +176,7 @@ public class Lexer {
 
                             System.out.println(" ");
 
-                            System.out.println(" ");
+                            
 
 
                             braceFlag = 0;
@@ -195,7 +195,7 @@ public class Lexer {
 
                             System.out.println(" ");
 
-                            System.out.println(" ");
+                            
 
 
                             parenFlag = 0;
@@ -214,7 +214,7 @@ public class Lexer {
 
                             System.out.println(" ");
 
-                            System.out.println(" ");
+                            
 
 
                             stringFlag = 0;
@@ -255,9 +255,6 @@ public class Lexer {
 
                             System.out.println(" ");
 
-                            System.out.println(" ");
-
-                            System.out.println(" ");
 
                             
                         }//else
