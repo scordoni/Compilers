@@ -21,9 +21,9 @@ public class CSTClass {
 
     static int programNumber = 1;
 
-    static CSTNode root = new CSTNode();
+    static CSTNode root = null;
 
-    static CSTNode current = new CSTNode();
+    static CSTNode current = null;
 
     // Initialize the result string.
     static String traversalResult = "";
@@ -40,6 +40,8 @@ public class CSTClass {
         programNumber++;
 
         
+
+        System.out.println(expand(root, 0));
 
         return AST;
 
@@ -74,9 +76,9 @@ public class CSTClass {
 
         }//if
 
-        System.out.println(" ");
-        System.out.println(newNode.getName());
-        System.out.println(newNode.getParent());
+        //System.out.println(" ");
+        //System.out.println(newNode.getName());
+        //System.out.println(newNode.getParent().getName());
 
         for(int i = 0; i < newNode.children.size(); i++){
 
@@ -84,7 +86,7 @@ public class CSTClass {
 
         }//for
 
-        System.out.println(" ");
+        
     }//add node
 
 
@@ -102,7 +104,7 @@ public class CSTClass {
             
         // Space out based on the current depth so
         // this looks at least a little tree-like.
-        for (int i = 0; i < depth; i++){
+        for (int i = 0; i <= depth; i++){
             
             traversalResult += "-";
 

@@ -1,8 +1,1 @@
 {}$
-{{{{{{}}}}}}$
-{{{{{{}}} /* comments are ignored */ }}}}$ 
-
-
-
-{ "abcdefghijklmnopqr $
-
