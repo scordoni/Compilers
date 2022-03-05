@@ -596,6 +596,9 @@ public class Parser {
 
             if ( j != globalTokens.size() - 1){
 
+                //From the tree class
+                CSTClass.addNode("leaf", theToken.getKind());
+
                 j = j + 1;
 
                 theToken = globalTokens.get(j);
@@ -604,11 +607,12 @@ public class Parser {
 
                 //System.out.println("j out " + j);
 
-                //From the tree class
-                CSTClass.addNode("leaf", theToken.getKind());
-
             }//if
 
+            else{
+                //From the tree class
+                CSTClass.addNode("leaf", theToken.getKind());
+            }//else
 
         }//if
 

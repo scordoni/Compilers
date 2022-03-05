@@ -104,14 +104,14 @@ public class CSTClass {
             
         // Space out based on the current depth so
         // this looks at least a little tree-like.
-        for (int i = 0; i <= depth; i++){
+        for (int i = 0; i < depth; i++){
             
             traversalResult += "-";
 
         }//for
 
         // If there are no children (i.e., leaf nodes)...
-        if ((node.children.size()==0)){
+        if ((node.children.size()==0) || (node.children == null)){
                 
             // ... note the leaf node.
             traversalResult += "[" + node.getName() + "]";
@@ -124,8 +124,11 @@ public class CSTClass {
             traversalResult += "<" + node.getName() + "> \n";
 
             // .. recursively expand them.
+
+
             for (int i = 0; i < node.children.size(); i++){
 
+                
                 expand(node.children.get(i), depth + 1);
                 
             }//for
