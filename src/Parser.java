@@ -65,10 +65,15 @@ public class Parser {
         //reset error flag
         ErrorFlag = 0;
 
-        //print out space for formating
-        System.out.println(" ");
+        //reset tree nodes
+        CSTClass.root = null;
+        CSTClass.current = null;
+        CSTClass.traversalResult = "";
 
-        System.out.println("Parsing Program: " + programNumber);
+        //print out space for formating
+        //System.out.println(" ");
+
+        //System.out.println("Parsing Program: " + programNumber);
 
         System.out.println("PARSER: parse()");
 

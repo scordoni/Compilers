@@ -33,9 +33,9 @@ public class CSTClass {
     public static ArrayList<String> CST(ArrayList<String> parseInput){
 
         //print out space for formating
-        System.out.println(" ");
+        //System.out.println(" ");
 
-        System.out.println("CST For Program: " + programNumber);
+        //System.out.println("CST For Program: " + programNumber);
 
         programNumber++;
 
@@ -59,6 +59,8 @@ public class CSTClass {
             root  = newNode;
 
             newNode.setParent(null);
+
+            current = root;
 
         }//if
 

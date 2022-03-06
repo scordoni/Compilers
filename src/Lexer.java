@@ -71,16 +71,7 @@ public class Lexer {
         stringFlag = 0;
         ErrorFlag = 0;
 
-        //print out space for formating
-        System.out.println(" ");
-
-        System.out.println(" ");
-
-        System.out.println(" ");
-
-        System.out.println(" ");
-
-        System.out.println("Lexing Program: " + programNumber);
+        
 
         programNumber++;
 
