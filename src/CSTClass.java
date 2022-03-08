@@ -30,20 +30,14 @@ public class CSTClass {
 
 
     //This method pushes each letter of the array into the stack
-    public static ArrayList<String> CST(ArrayList<String> parseInput){
+    public static void CST(ArrayList<String> parseInput){
 
         //print out space for formating
         //System.out.println(" ");
 
         //System.out.println("CST For Program: " + programNumber);
 
-        programNumber++;
-
-        
-
         System.out.println(expand(root, 0));
-
-        return AST;
 
     }//CST
 
@@ -85,7 +79,7 @@ public class CSTClass {
 
         for(int i = 0; i < newNode.children.size(); i++){
 
-            System.out.println(newNode.children.get(i));
+            //System.out.println(newNode.children.get(i));
 
         }//for
 

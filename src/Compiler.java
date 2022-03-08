@@ -113,7 +113,7 @@ public class Compiler{
                             //here we pass the code to the parser for project 2
                             System.out.println(" ");
                             System.out.println("Parsing Program: " + programNumber);
-                            CST = Parser.Parse(tokens); 
+                            Parser.Parse(tokens); 
 
                             //System.out.println("Error Flag: " + Parser.ErrorFlag);
 
@@ -128,7 +128,7 @@ public class Compiler{
                                 System.out.println(" ");
                                 System.out.println(" ");
                                 System.out.println("CST for Program: " + programNumber);
-                                AST = CSTClass.CST(CST);
+                                CSTClass.CST(CST);
                             }//else
 
                         }//else         
@@ -142,6 +142,9 @@ public class Compiler{
 
                         //increment the program number to keep track
                         programNumber++;
+
+                        //reset token stream for each program
+                        tokens.clear();
 
                     }//if
 

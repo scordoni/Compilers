@@ -60,7 +60,7 @@ public class Parser {
 
 
     //This method pushes each letter of the array into the stack
-    public static ArrayList<String> Parse(ArrayList<Token> tokenInput){
+    public static void Parse(ArrayList<Token> tokenInput){
 
         //reset error flag
         ErrorFlag = 0;
@@ -80,6 +80,7 @@ public class Parser {
         for(int i = 0; i < tokenInput.size(); i++){
             
             globalTokens.add(tokenInput.get(i));
+            //System.out.println(globalTokens.get(i).getKind());
 
         }//for
 
@@ -110,10 +111,6 @@ public class Parser {
         globalTokens.clear();
 
         tokenInput.clear();
-
-       
-        //return cst
-        return CST;
 
     }//parse
 
@@ -166,12 +163,15 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "StatementList");
 
-        if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("CHAR") == 0)
+        if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("ID") == 0)
             || (theToken.getKind().compareToIgnoreCase("INT") == 0) || (theToken.getKind().compareToIgnoreCase("STRING") == 0)
             || (theToken.getKind().compareToIgnoreCase("BOOLEAN") == 0) || (theToken.getKind().compareToIgnoreCase("WHILE") == 0)
             || (theToken.getKind().compareToIgnoreCase("IF") == 0) || (theToken.getKind().compareToIgnoreCase("L_BRACE") == 0) ){
 
             parseStatement();
+
+            //System.out.println("here");
+            //System.out.println("StatementList " +  theToken.getKind());
 
             parseStatementList();
 
@@ -202,7 +202,7 @@ public class Parser {
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("ID") == 0){
         
             parseAssignmentStatement();
         
@@ -283,6 +283,7 @@ public class Parser {
 
         parseId();
         
+
         CSTClass.moveUp();
 
     }//parseVarDecl
@@ -328,25 +329,25 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "Expr");
 
-        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
         
             parseIntExpr();
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase("\"") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("OPEN_QUOTE") == 0){
         
             parseStringExpr();
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0){
         
             parseBooleanExpr();
         
         }//else if
 
-        else if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("ID") == 0){
         
             parseId();
         
@@ -364,11 +365,11 @@ public class Parser {
         CSTClass.addNode("branch", "IntExpr");
 
         //"DIGIT" "INTOP"
-        if(theToken.getKind().compareToIgnoreCase(" ") == 0){
+        if((globalTokens.get(j + 1).getKind().compareToIgnoreCase("ADDITION")) == 0){
         
-            parsedigit();
+            parseDigit();
 
-            parseintop();
+            parseIntop();
     
             parseExpr();
         
@@ -376,7 +377,7 @@ public class Parser {
 
         else if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
         
-            parsedigit();
+            parseDigit();
         
         }//else if
 
@@ -414,7 +415,7 @@ public class Parser {
 
             parseExpr();
 
-            parseboolop();
+            parseBoolop();
 
             parseExpr();
 
@@ -424,7 +425,7 @@ public class Parser {
 
         else if((theToken.getKind().compareToIgnoreCase("TRUE") == 0) || (theToken.getKind().compareToIgnoreCase("FALSE") == 0) ){
         
-            parseboolval();
+            parseBoolval();
         
         }//else if
 
@@ -439,7 +440,7 @@ public class Parser {
         //From the tree class
         CSTClass.addNode("branch", "Id");
 
-        parsechar();
+        match("ID");
 
         CSTClass.moveUp();
         
@@ -454,7 +455,7 @@ public class Parser {
 
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
            
-            parsechar();
+            parseChar();
 
             parseCharList();
         
@@ -462,7 +463,7 @@ public class Parser {
 
         else if(theToken.getKind().compareToIgnoreCase(" ") == 0){
 
-            parsespace();
+            parseSpace();
 
             parseCharList();
 
@@ -507,9 +508,11 @@ public class Parser {
 
     }//parsetype
 
-    public static void parsechar(){
+    public static void parseChar(){
 
         //a - z
+
+        System.out.println("PARSER: parseChar()");
 
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
  
@@ -520,7 +523,9 @@ public class Parser {
 
     }//parsechar
 
-    public static void parsespace(){
+    public static void parseSpace(){
+
+        System.out.println("PARSER: parseSpace()");
 
         //space character
         if(theToken.getKind().compareToIgnoreCase(" ") == 0){
@@ -531,9 +536,11 @@ public class Parser {
 
     }//parsespace
 
-    public static void parsedigit(){
+    public static void parseDigit(){
 
         // 0 - 9
+
+        System.out.println("PARSER: parseDigit()");
 
         if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
  
@@ -543,25 +550,29 @@ public class Parser {
 
     }//parsedigit
 
-    public static void parseboolop(){
+    public static void parseBoolop(){
 
         //== or !=
 
-        if(theToken.getKind().compareToIgnoreCase("==") == 0){
+        System.out.println("PARSER: parseBoolop()");
+
+        if(theToken.getKind().compareToIgnoreCase("EQUALITY") == 0){
  
-            match("==");
+            match("EQUALITY");
         
         }//if
 
-        else if(theToken.getKind().compareToIgnoreCase("!=") == 0){
+        else if(theToken.getKind().compareToIgnoreCase("NON_EQUALITY") == 0){
  
-            match("!=");
+            match("NON_EQUALITY");
         
         }//else if
 
     }//parseboolop
 
-    public static void parseboolval(){
+    public static void parseBoolval(){
+
+        System.out.println("PARSER: parseBoolval()");
 
         //true or flase
 
@@ -579,13 +590,15 @@ public class Parser {
 
     }//parseboolval
 
-    public static void parseintop(){
+    public static void parseIntop(){
+
+        System.out.println("PARSER: parseIntop()");
 
         //+
 
-        if(theToken.getKind().compareToIgnoreCase("+") == 0){
+        if(theToken.getKind().compareToIgnoreCase("ADDITION") == 0){
  
-            match("+");
+            match("ADDITION");
         
         }//if
 
