@@ -48,6 +48,7 @@ public class CSTClass {
     }//CST
 
     //This method creates the CST tree
+    //taken from class power point
     public static void addNode(String kind, String label){
 
         CSTNode newNode = new CSTNode();
@@ -102,6 +103,7 @@ public class CSTClass {
 
     
     // Recursive function to handle the expansion of the nodes.
+    //Code given during class presentation
     public static String expand(CSTNode node, int depth){
             
         // Space out based on the current depth so

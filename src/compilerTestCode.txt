@@ -36,10 +36,10 @@ a=b
 $
 
 
-{ /* abcdefghijklmnopqrstuvwxyz123456789 */ }$
+{ ( /* abcdefghijklmnopqrstuvwxyz */ }$
 
 
-{ "abcdefghijklmnopqrstuvwxyz123456789" }$
+{ "abcdefghijklmnopqrstuvwxyz" }$
 
 
 { "abcdefghijklmnopqr $

@@ -140,6 +140,7 @@ public class Compiler{
                         //increment the line number to keep track
                         lineNumber++;
 
+                        //increment the program number to keep track
                         programNumber++;
 
                     }//if
@@ -147,6 +148,8 @@ public class Compiler{
                     //we check to see if the last program in the file ends with the end program character
                     else if( (!(line .contains(EOP))) && (input.hasNext() == false)){
 
+                        System.out.println(" ");
+                        System.out.println(" ");
                         System.out.println("The last program does not have a \"$\" to end the program, therefore it cannot be processed.");
 
                     }//else ig
@@ -158,7 +161,7 @@ public class Compiler{
 
                         //increment line number to keep track
                         
-                            lineNumber++;
+                        lineNumber++;
                         
                         
 
