@@ -36,7 +36,7 @@ a=b
 $
 
 
-{ ( /* abcdefghijklmnopqrstuvwxyz */ }$
+{  /* abcdefghijklmnopqrstuvwxyz */ }$
 
 
 { "abcdefghijklmnopqrstuvwxyz" }$
@@ -94,3 +94,19 @@ $
     /* what about comments */
     a = "unterminated string
 }$
+
+
+{
+    int a = 10
+
+    while ( a != 1 {
+
+        a = a + 1
+    }
+
+}$
+
+
+{print(007)}$
+
+{a=12}$

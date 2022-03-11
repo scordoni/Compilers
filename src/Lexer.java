@@ -150,6 +150,7 @@ public class Lexer {
 
                     case '$':
 
+                        /*
                         //if the symbol is in a comment then we have an unclosed comment and an error
                         if(commentFlag == 1){
 
@@ -228,8 +229,10 @@ public class Lexer {
 
                         }//else if
 
+                        */
+
                         //else we create the token 
-                        else{
+                        
 
                             Token.setKind("EOP");
                             Token.setSymbol("$");
@@ -261,9 +264,10 @@ public class Lexer {
                             System.out.println(" ");
 
 
-                            
-                        }//else
-
+                            commentFlag = 0;
+                            braceFlag = 0;
+                            parenFlag = 0;
+                            stringFlag = 0;
                         
                         break;
 
