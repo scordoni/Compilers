@@ -360,7 +360,7 @@ public class Parser {
     public static void parseExpr(){
 
         System.out.println("PARSER: parseExpr()");
-
+ 
         //From the tree class
         CSTClass.addNode("branch", "Expr");
 
@@ -381,7 +381,7 @@ public class Parser {
         }//else if
 
         //if our token matches Open Paren then we call parseBoolean Expr
-        else if(theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0){
+        else if( (theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0) || (theToken.getKind().compareToIgnoreCase("TRUE") == 0) || (theToken.getKind().compareToIgnoreCase("FALSE") == 0)){
         
             //call parseBooleanExpr
             parseBooleanExpr();

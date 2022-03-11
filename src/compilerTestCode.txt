@@ -39,7 +39,9 @@ $
 {  /* abcdefghijklmnopqrstuvwxyz */ }$
 
 
-{ "abcdefghijklmnopqrstuvwxyz" }$
+{ string a 
+
+  a = "abcdefghijklmnopqrstuvwxyz" }$
 
 
 { "abcdefghijklmnopqr $
@@ -97,12 +99,13 @@ $
 
 
 {
-    int a = 10
+    int a 
+    
+    a = 0
 
-    while ( a != 1 {
-
-        a = a + 1
-    }
+    while (a != 9) {
+        a = 1 + a
+    
 
 }$
 
@@ -110,3 +113,20 @@ $
 {print(007)}$
 
 {a=12}$
+
+
+
+{
+
+    boolean a 
+    a = false
+    int b
+    a = true
+    b = 7
+    int c
+    c = 2
+
+    c = 2 + b
+ 
+}
+$
