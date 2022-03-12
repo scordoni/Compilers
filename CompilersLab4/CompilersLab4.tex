@@ -1,0 +1,186 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CMPT 432
+% Spring 2022
+% Lab Four
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from: http://www.LaTeXTemplates.com
+% Original author: % Frits Wenneker (http://www.howtotex.com)
+% License: CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Modified by Alan G. Labouseur  - alan@labouseur.com
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[letterpaper, 10pt,DIV=13]{scrartcl} 
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyph
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm,xfrac} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\usepackage{graphicx}
+\usepackage[lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{lastpage}
+\usepackage{tikz}
+
+\allsectionsfont{\normalfont\scshape} % Make all section titles in default font and small caps.
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{page \thepage\ of \pageref{LastPage}} % Page numbering for right footer
+
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs.
+
+\binoppenalty=3000
+\relpenalty=3000
+
+
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 432 - Spring 2022 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Lab Four  \\     	    % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+
+\author{Shannon Cordoni \\ \normalsize Shannon.Cordoni@Marist.edu}
+
+\date{\normalsize\today} 	% Today's date.
+
+\begin{document}
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%   start PROBLEM ONE
+%----------------------------------------------------------------------------------------
+\section{Problem One: Crafting a Compiler 4.9}
+
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{First and Follow Sets} \\
+ \hline
+ & First Set & Follow Set \\
+ \hline
+ S  &  \{a, e, b\}   & \{ e \} \\
+ B  &  \{b, e, c\}   & \{ e \} \\
+ C  &  \{c, e, d\}   & \{ e \} \\
+ \hline
+\end{tabular}
+
+\newpage
+\section{Problem Two: Crafting a Compiler 5.10}
+
+\paragraph{} Statement: if expr then if expr then other else other
+
+\paragraph{} Parse Tree 1
+
+\begin{tikzpicture}
+    
+    \node {S} [sibling distance = 2.5cm]
+    child {node {Stmt} 
+            child {node {if} } 
+            child {node {expr} }
+            child {node {then} }
+            child {node {Stmt} 
+                child {node {if} }
+                child {node {expr} }
+                child {node {then} }
+                child {node {Stmt} 
+                    child {node {other} }}}
+            child {node {else} }
+            child {node {Stmt} 
+                child {node {other} }}} 
+    child {node {\$} };
+
+    
+\end{tikzpicture}
+
+For this parse tree it seems that the first Statement becomes an if-else statement. Meaning if an expression is true then we follow the second Statement to the 3rd level down on the tree and follow that code with its own if-else statement. Otherwise we follow the third Statement on the second level of the tree to other part of the code.
+
+\paragraph{} Parse Tree 2
+
+\begin{tikzpicture}
+    
+    \node {S} [sibling distance = 2.5cm]
+    child {node {Stmt} 
+            child {node {if} } 
+            child {node {expr} }
+            child {node {then} }
+            child {node {Stmt}
+                child {node {if}}
+                child {node {expr}} 
+                child {node {then}} 
+                child {node {Stmt} 
+                    child {node {other}}} 
+                child {node {else}} 
+                child {node {Stmt} 
+                    child {node {other}}} } } 
+    child {node {\$} };
+
+    
+\end{tikzpicture}
+
+For this parse tree it seems that the first Statement becomes an if statement. Meaning if an expression is true then we follow the second Statement to the 3rd level down on the tree. This Statement becomes its own if-else statement and if the second expression is true then we follow the third Statement and if it is falst then we follow the fourth Statement. 
+\\
+\\
+Essentially these trees take alternate paths but seem to follow the same if-else structure.
+
+\newpage
+\section{Problem Three: Dragon 4.4.3}
+
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{3}{|c|}{First and Follow Sets} \\
+ \hline
+ & First Set & Follow Set \\
+ \hline
+ S  &  \{a, +, *\}   & \{ S, a, +, *\} \\
+ 
+ \hline
+\end{tabular}
+
+
+%----------------------------------------------------------------------------------------
+%   REFERENCES
+%----------------------------------------------------------------------------------------
+% The following two commands are all you need in the initial runs of your .Tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+\bibliography{lab01} 
+% You must have a proper ".bib" file and remember to run:
+% latex bibtex latex latex
+% to resolve all references.
+
+\pagebreak
+\end{document}
