@@ -1,19 +1,17 @@
 /*
 * 
-* This is the CST component of the compiler
-* Here we take in the token stream and go through each token to create the CST
+* This is the AST component of the compiler
+* Here we take in the token stream and go through each token to create the AST
 * 
 */
 
 
 import java.util.*; 
 
-public class CSTClass {
+public class ASTClass {
 
     //Declare Variables
     static Token theToken = new Token();
-
-    static ArrayList <String> AST = new ArrayList <String>();
 
     static char character;
 
@@ -21,21 +19,21 @@ public class CSTClass {
 
     static int programNumber = 1;
 
-    static CSTNode root = null;
+    static ASTNode root = null;
 
-    static CSTNode current = null;
+    static ASTNode current = null;
 
     // Initialize the result string.
     static String traversalResult = "";
 
 
     //This method pushes each letter of the array into the stack
-    public static void CST(ArrayList<String> parseInput){
+    public static void AST(ArrayList<String> parseInput){
 
         //print out space for formating
         //System.out.println(" ");
 
-        //System.out.println("CST For Program: " + programNumber);
+        //System.out.println("AST For Program: " + programNumber);
 
         System.out.println(expand(root, 0));
 
@@ -45,7 +43,7 @@ public class CSTClass {
     //taken from class power point
     public static void addNode(String kind, String label, String symbol){
 
-        CSTNode newNode = new CSTNode();
+        ASTNode newNode = new ASTNode();
 
         newNode.setName(label);
 
@@ -100,7 +98,7 @@ public class CSTClass {
     
     // Recursive function to handle the expansion of the nodes.
     //Code given during class presentation
-    public static String expand(CSTNode node, int depth){
+    public static String expand(ASTNode node, int depth){
             
         // Space out based on the current depth so
         // this looks at least a little tree-like.
@@ -142,4 +140,4 @@ public class CSTClass {
     }//expand
 
 
-}//CST
+}//AST

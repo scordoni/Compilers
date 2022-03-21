@@ -96,6 +96,7 @@ public class Compiler{
                         System.out.println(" ");
 
                         System.out.println("Lexing Program: " + programNumber);
+
                         tokens = Lexer.Lex(sourceCode, lineNumber);
 
                         //System.out.println("Error Flag: " + Lexer.ErrorFlag);
@@ -113,6 +114,8 @@ public class Compiler{
                             //here we pass the code to the parser for project 2
                             System.out.println(" ");
                             System.out.println("Parsing Program: " + programNumber);
+
+                            //call parse
                             Parser.Parse(tokens); 
 
                             //System.out.println("Error Flag: " + Parser.ErrorFlag);
@@ -128,7 +131,20 @@ public class Compiler{
                                 System.out.println(" ");
                                 System.out.println(" ");
                                 System.out.println("CST for Program: " + programNumber);
+
+                                //call CST
                                 CSTClass.CST(CST);
+
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                System.out.println("AST for Program: " + programNumber);
+
+                                //call AST
+                                ASTClass.AST(CST);
+
+                                //call Semantic Analysis
+
+
                             }//else
 
                         }//else         

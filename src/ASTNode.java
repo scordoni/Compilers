@@ -2,24 +2,24 @@ import java.util.ArrayList;
 
 /*
  * 
- * This creates the CST nodes for the CST
+ * This creates the AST nodes for the AST
  * 
  */
 
-public class CSTNode
+public class ASTNode
 {
    /**
     * Instance Variable for word data and node 
     */
    public String myName;
    public String mySymbol;
-   public CSTNode myParent;
-   public  ArrayList <CSTNode> children = new ArrayList <CSTNode>();
+   public ASTNode myParent;
+   public  ArrayList <ASTNode> children = new ArrayList <ASTNode>();
    
    /**
-    * The default Constructor for NodeCordoni
+    * The default Constructor for ASTNode
     */
-   public CSTNode()
+   public ASTNode()
     {
        myName = new String();
        mySymbol = new String();
@@ -30,7 +30,7 @@ public class CSTNode
     * The full constructor for NodeCordoni
     * @param newName the incoming data of the item
     */
-   public CSTNode(String newName, String newSymbol)
+   public ASTNode(String newName, String newSymbol)
    {
         myName = newName;
         mySymbol = newSymbol;
@@ -71,15 +71,15 @@ public class CSTNode
     * The setter for the node
     * @param NewNext the incoming node data
     */
-   public void setParent(CSTNode newParent)
+   public void setParent(ASTNode newParent)
        {myParent = newParent;}//set Node
    
    /**
     * the getter for the node
     * @return the incoming node data
     */
-   public CSTNode getParent()
+   public ASTNode getParent()
        { return myParent;}//get node
 
 
-}//Node Cordoni
+}//ASTNode

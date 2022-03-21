@@ -44,6 +44,11 @@ public class Parser {
         CSTClass.current = null;
         CSTClass.traversalResult = "";
 
+        //reset tree nodes
+        ASTClass.root = null;
+        ASTClass.current = null;
+        ASTClass.traversalResult = "";
+
         //print out space for formating
         //System.out.println(" ");
 
@@ -100,7 +105,9 @@ public class Parser {
         //System.out.println(theToken.getKind());
 
         //From the tree class
-        CSTClass.addNode("root", "Program");
+        CSTClass.addNode("root", "Program", theToken.getSymbol());
+
+        ASTClass.addNode("root", "Program", theToken.getSymbol());
 
         //call parse block
         parseBlock();
@@ -122,7 +129,9 @@ public class Parser {
         //System.out.println("Block " + theToken.getKind());
 
         //From the tree class
-        CSTClass.addNode("branch", "Block");
+        CSTClass.addNode("branch", "Block", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "Block", theToken.getSymbol());
 
         //match the L_Brace token
         match("L_BRACE");
@@ -147,7 +156,7 @@ public class Parser {
         //System.out.println("StatementList " +  theToken.getKind());
 
         //From the tree class
-        CSTClass.addNode("branch", "StatementList");
+        CSTClass.addNode("branch", "StatementList", theToken.getSymbol());
 
         //if we have a next token that matches one of these tokens then we call parse statement and parse statement list
         if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("ID") == 0)
@@ -185,7 +194,7 @@ public class Parser {
         //System.out.println("Statement " +  theToken.getKind());
 
         //From the tree class
-        CSTClass.addNode("branch", "Statement");
+        CSTClass.addNode("branch", "Statement", theToken.getSymbol());
 
         //if our token matches print then we call parse print statement
         if(theToken.getKind().compareToIgnoreCase("PRINT") == 0){
@@ -247,7 +256,9 @@ public class Parser {
         System.out.println("PARSER: parsePrintStatement()");
 
         //From the tree class
-        CSTClass.addNode("branch", "PrintStatement");
+        CSTClass.addNode("branch", "PrintStatement", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "PrintStatement", theToken.getSymbol());
 
         //match the print token
         match("PRINT");
@@ -273,7 +284,9 @@ public class Parser {
         System.out.println("PARSER: parseAssignmentStatement()");
 
         //From the tree class
-        CSTClass.addNode("branch", "AssignmentStatement");
+        CSTClass.addNode("branch", "AssignmentStatement", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "AssignmentStatement", theToken.getSymbol());
 
         //call parseID
         parseId();
@@ -296,7 +309,9 @@ public class Parser {
         System.out.println("PARSER: parseVarDecl()");
 
         //From the tree class
-        CSTClass.addNode("branch", "VarDecl");
+        CSTClass.addNode("branch", "VarDecl", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "VarDecl", theToken.getSymbol());
 
         //call parseType
         parseType();
@@ -316,7 +331,9 @@ public class Parser {
         System.out.println("PARSER: parseWhileStatement()");
 
         //From the tree class
-        CSTClass.addNode("branch", "WhileStatement");
+        CSTClass.addNode("branch", "WhileStatement", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "WhileStatement", theToken.getSymbol());
 
         //match the while token
         match("WHILE");
@@ -339,7 +356,9 @@ public class Parser {
         System.out.println("PARSER: parseIfStatement()");
 
         //From the tree class
-        CSTClass.addNode("branch", "IfStatement");
+        CSTClass.addNode("branch", "IfStatement", theToken.getSymbol());
+
+        ASTClass.addNode("branch", "IfStatement", theToken.getSymbol());
 
         //match the if token
         match("IF");
@@ -362,7 +381,7 @@ public class Parser {
         System.out.println("PARSER: parseExpr()");
  
         //From the tree class
-        CSTClass.addNode("branch", "Expr");
+        CSTClass.addNode("branch", "Expr", theToken.getSymbol());
 
         //if our token matches DIGIT then we call parseIntExpr
         if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
@@ -408,7 +427,7 @@ public class Parser {
         System.out.println("PARSER: parseIntExpr()");
 
         //From the tree class
-        CSTClass.addNode("branch", "IntExpr");
+        CSTClass.addNode("branch", "IntExpr", theToken.getSymbol());
 
         //if the next token matches ADDITION then we call parseDigit, parseIntop, and parseExpr
         if((globalTokens.get(j + 1).getKind().compareToIgnoreCase("ADDITION")) == 0){
@@ -444,7 +463,7 @@ public class Parser {
         System.out.println("PARSER: parseStringExpr()");
 
         //From the tree class
-        CSTClass.addNode("branch", "StringExpr");
+        CSTClass.addNode("branch", "StringExpr", theToken.getSymbol());
 
         //match the open quote token
         match("OPEN_QUOTE");
@@ -466,7 +485,7 @@ public class Parser {
         System.out.println("PARSER: parseBooleanExpr()");
 
         //From the tree class
-        CSTClass.addNode("branch", "BooleanExpr");
+        CSTClass.addNode("branch", "BooleanExpr", theToken.getSymbol());
 
         //if the token matches open paren then we call parseExpr, parseBoolop, and parseExpr
         if(theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0){
@@ -508,7 +527,7 @@ public class Parser {
         System.out.println("PARSER: parseId()");
 
         //From the tree class
-        CSTClass.addNode("branch", "Id");
+        CSTClass.addNode("branch", "Id", theToken.getSymbol());
 
         //match the ID token
         match("ID");
@@ -525,7 +544,7 @@ public class Parser {
         System.out.println("PARSER: parseCharList()");
 
         //From the tree class
-        CSTClass.addNode("branch", "CharList");
+        CSTClass.addNode("branch", "CharList" , theToken.getSymbol());
 
         //if the token matches char then we call parseChar, and parseCharlist recursivly
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
@@ -564,7 +583,7 @@ public class Parser {
         System.out.println("PARSER: parseType()");
 
         //From the tree class
-        CSTClass.addNode("branch", "Type");
+        CSTClass.addNode("branch", "Type", theToken.getSymbol());
 
         //if the token matches INT then we match the INT token
         if(theToken.getKind().compareToIgnoreCase("INT") == 0){
@@ -711,7 +730,9 @@ public class Parser {
             if ( j != globalTokens.size() - 1){
 
                 //From the tree class
-                CSTClass.addNode("leaf", theToken.getKind());
+                CSTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
+
+                ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
 
                 j = j + 1;
 
@@ -726,7 +747,9 @@ public class Parser {
             //else we just add a node to the CST tree
             else{
                 //From the tree class
-                CSTClass.addNode("leaf", theToken.getKind());
+                CSTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
+
+                ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
             }//else
 
         }//if

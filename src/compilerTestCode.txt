@@ -114,19 +114,18 @@ $
 
 {a=12}$
 
-
+{print(a)}$
 
 {
-
-    boolean a 
-    a = false
-    int b
-    a = true
-    b = 7
-    int c
-    c = 2
-
-    c = 2 + b
- 
-}
-$
+    int a
+    boolean b 
+    {
+    string c
+    a=5
+    b = true /* no comment */ 
+    c = "inta"
+    print(c)
+    } 
+    print(b) 
+    print(a)
+}$
