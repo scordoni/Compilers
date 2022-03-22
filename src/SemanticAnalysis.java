@@ -31,11 +31,13 @@ public class SemanticAnalysis {
 
     
     //This method is the main Semantic Analysis method
-    public static void SemanticAnalysis( ){
+    public static void SAnalysis(){
+
+        System.out.println("Symbol Table for Program: " + programNumber);
 
     }//Semantic Analysis
 
 
 
-    
+
 }//Semantic Analysis Class

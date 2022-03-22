@@ -34,11 +34,10 @@ public class Compiler{
 
         ArrayList < String > CST = new ArrayList < String >();
 
-        ArrayList < String > AST = new ArrayList < String >();
         
         int lineNumber = 1;
 
-        int ErrorFlag = 0;
+       
 
         int programNumber = 1;
 
@@ -143,6 +142,11 @@ public class Compiler{
                                 ASTClass.AST(CST);
 
                                 //call Semantic Analysis
+                                System.out.println(" ");
+                                System.out.println(" ");
+                                System.out.println("Semantic Analysis for Program: " + programNumber);
+                                System.out.println("Symbol Table for Program: " + programNumber);
+                                SemanticAnalysis.SAnalysis();
 
 
                             }//else
