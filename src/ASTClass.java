@@ -116,6 +116,7 @@ public class ASTClass {
                 (node.getSymbol().compareToIgnoreCase("print") == 0) || (node.getSymbol().compareToIgnoreCase("=") == 0)|| 
                 (node.getSymbol().compareToIgnoreCase("\"") == 0) ){
 
+                traversalResult += "\n";
 
             }//if
 
