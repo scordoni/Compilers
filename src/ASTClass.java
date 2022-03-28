@@ -111,9 +111,20 @@ public class ASTClass {
         // If there are no children (i.e., leaf nodes)...
         if ((node.children.size() == 0) || (node.children == null)){
                 
+            if( (node.getSymbol().compareToIgnoreCase("{") == 0) || (node.getSymbol().compareToIgnoreCase("}") == 0) || 
+                (node.getSymbol().compareToIgnoreCase("(") == 0) || (node.getSymbol().compareToIgnoreCase(")") == 0) || 
+                (node.getSymbol().compareToIgnoreCase("print") == 0) || (node.getSymbol().compareToIgnoreCase("=") == 0)|| 
+                (node.getSymbol().compareToIgnoreCase("\"") == 0) ){
+
+
+            }//if
+
+            else{
             // ... note the leaf node.
-            traversalResult += "[" + node.getName() +  ", " + node.getSymbol() + "]";
+            traversalResult += "[" + node.getSymbol() + "]";
             traversalResult += "\n";
+            }//else
+
         }//if
 
         else{

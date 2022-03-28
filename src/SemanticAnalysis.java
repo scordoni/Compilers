@@ -33,7 +33,9 @@ public class SemanticAnalysis {
     //This method is the main Semantic Analysis method
     public static void SAnalysis(){
 
-        System.out.println("Symbol Table for Program: " + programNumber);
+        System.out.println("------------------------------------");
+        System.out.println("    Name    Type    Scope   Line    ");
+        System.out.println("------------------------------------");
 
     }//Semantic Analysis
 

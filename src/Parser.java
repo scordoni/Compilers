@@ -718,15 +718,11 @@ public class Parser {
 
     //match takes in a string to be matched to the token from the token stream output from lex
     public static void match(String matchchar){
-
-        //System.out.println("Match in" +  theToken.getKind());
-
-        //System.out.println("j in " + j);
         
         //if the token is matched then we add a node to the CST and increment the token pointer to look at the next token
         if (theToken.getKind().compareToIgnoreCase(matchchar) == 0){
 
-            //if we havent reached the sixe of global tokens then we add a leaf node and increment the token pointer
+            //if we havent reached the size of global tokens then we add a leaf node and increment the token pointer
             if ( j != globalTokens.size() - 1){
 
                 //From the tree class
@@ -737,10 +733,6 @@ public class Parser {
                 j = j + 1;
 
                 theToken = globalTokens.get(j);
-
-                //System.out.println("match out" +  theToken.getKind());
-
-                //System.out.println("j out " + j);
 
             }//if
 

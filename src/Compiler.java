@@ -145,6 +145,7 @@ public class Compiler{
                                 System.out.println(" ");
                                 System.out.println(" ");
                                 System.out.println("Semantic Analysis for Program: " + programNumber);
+                                System.out.println(" ");
                                 System.out.println("Symbol Table for Program: " + programNumber);
                                 SemanticAnalysis.SAnalysis();
 
