@@ -23,12 +23,14 @@ public class ASTClass {
 
     static ASTNode current = null;
 
+    static String tempString = "";
+
     // Initialize the result string.
     static String traversalResult = "";
 
 
     //This method pushes each letter of the array into the stack
-    public static void AST(ArrayList<String> parseInput){
+    public static void AST(){
 
         //print out space for formating
         //System.out.println(" ");
@@ -111,20 +113,13 @@ public class ASTClass {
         // If there are no children (i.e., leaf nodes)...
         if ((node.children.size() == 0) || (node.children == null)){
                 
-            if( (node.getSymbol().compareToIgnoreCase("{") == 0) || (node.getSymbol().compareToIgnoreCase("}") == 0) || 
-                (node.getSymbol().compareToIgnoreCase("(") == 0) || (node.getSymbol().compareToIgnoreCase(")") == 0) || 
-                (node.getSymbol().compareToIgnoreCase("print") == 0) || (node.getSymbol().compareToIgnoreCase("=") == 0)|| 
-                (node.getSymbol().compareToIgnoreCase("\"") == 0) ){
+            
 
-                traversalResult += "\n";
-
-            }//if
-
-            else{
+           
             // ... note the leaf node.
             traversalResult += "[" + node.getSymbol() + "]";
             traversalResult += "\n";
-            }//else
+            
 
         }//if
 

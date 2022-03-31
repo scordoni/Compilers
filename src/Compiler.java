@@ -32,6 +32,10 @@ public class Compiler{
 
         ArrayList < Token > tokens = new ArrayList < Token >();
 
+        ArrayList < Token > ASTtokens = new ArrayList < Token >();
+
+        ArrayList < Token > SAtokens = new ArrayList < Token >();
+
         ArrayList < String > CST = new ArrayList < String >();
 
         
@@ -98,6 +102,15 @@ public class Compiler{
 
                         tokens = Lexer.Lex(sourceCode, lineNumber);
 
+                        //Clone token array for later use in AST and Semantic Analysis
+                        for(int i = 0; i < tokens.size(); i++){
+
+                            ASTtokens.add(tokens.get(i));
+
+                            SAtokens.add(tokens.get(i));
+
+                        }//for
+
                         //System.out.println("Error Flag: " + Lexer.ErrorFlag);
 
                         if (Lexer.ErrorFlag == 1){
@@ -139,15 +152,14 @@ public class Compiler{
                                 System.out.println("AST for Program: " + programNumber);
 
                                 //call AST
-                                ASTClass.AST(CST);
+                                ASTParser.ASTParse(ASTtokens);
+                                ASTClass.AST();
 
                                 //call Semantic Analysis
                                 System.out.println(" ");
                                 System.out.println(" ");
                                 System.out.println("Semantic Analysis for Program: " + programNumber);
-                                System.out.println(" ");
-                                System.out.println("Symbol Table for Program: " + programNumber);
-                                SemanticAnalysis.SAnalysis();
+                                SemanticAnalysis.SAnalysis(ASTClass.root);
 
 
                             }//else

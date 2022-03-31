@@ -1,15 +1,14 @@
 /*
 * 
-* This is the Parser component of the compiler
-* Here we take in the token stream and go through each token to parse
-* and create the CST
+* This is the AST Parser component of the compiler
+* Here we take in the token stream and go through each token to create the AST
 * 
 */
 
 
 import java.util.*; 
 
-public class Parser {
+public class ASTParser {
 
     //Declare Variables
     static Token theToken = new Token();
@@ -34,27 +33,15 @@ public class Parser {
 
     
     //This method is the main parse method that calls parseProgram()
-    public static void Parse(ArrayList<Token> tokenInput){
+    public static void ASTParse(ArrayList<Token> tokenInput){
 
         //reset error flag
         ErrorFlag = 0;
 
         //reset tree nodes
-        CSTClass.root = null;
-        CSTClass.current = null;
-        CSTClass.traversalResult = "";
-
-        //reset tree nodes
-        //ASTClass.root = null;
-        //ASTClass.current = null;
-        //ASTClass.traversalResult = "";
-
-        //print out space for formating
-        //System.out.println(" ");
-
-        //System.out.println("Parsing Program: " + programNumber);
-
-        System.out.println("PARSER: parse()");
+        ASTClass.root = null;
+        ASTClass.current = null;
+        ASTClass.traversalResult = "";
 
         //puts the tokens into a gloablly accessable arraylist
         for(int i = 0; i < tokenInput.size(); i++){
@@ -68,24 +55,8 @@ public class Parser {
 
         theToken = globalTokens.get(j);
 
-        //System.out.println(globalTokens.size());
-
         //call parse program to call the parse sequence
         parseProgram();
-
-        //if we have no errors then we have a completed parse
-        if (ErrorFlag == 0){
-
-            System.out.println("PARSER: Parse completed successfully");
-
-        }//if
-
-        //otherwise we have a parse error
-        else{
-
-            System.out.println("ERROR IN PARSER: Parse Failed");
-
-        }//else
 
         //increment program number
         programNumber++;
@@ -100,14 +71,9 @@ public class Parser {
     //parse program that calls parse block
     public static void parseProgram(){
 
-        System.out.println("PARSER: parseProgram()");
-
-        //System.out.println(theToken.getKind());
-
         //From the tree class
-        CSTClass.addNode("root", "Program", theToken.getSymbol());
 
-        //ASTClass.addNode("root", "Program", theToken.getSymbol());
+        ASTClass.addNode("root", "Program", theToken.getSymbol());
 
         //call parse block
         parseBlock();
@@ -115,8 +81,8 @@ public class Parser {
         //match EOP token
         match("EOP");
 
-        //move back up the CST tree
-        CSTClass.moveUp();
+        //move back up the AST tree
+        ASTClass.moveUp();
 
     }//parseProgram
 
@@ -124,14 +90,8 @@ public class Parser {
     //creates a block in the program
     public static void parseBlock(){
 
-        System.out.println("PARSER: parseBlock()");
-        
-        //System.out.println("Block " + theToken.getKind());
-
         //From the tree class
-        CSTClass.addNode("branch", "Block", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "Block", theToken.getSymbol());
+        ASTClass.addNode("branch", "Block", theToken.getSymbol());
 
         //match the L_Brace token
         match("L_BRACE");
@@ -143,20 +103,13 @@ public class Parser {
         match("R_BRACE");
 
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseBlock
 
     //parse Statementlist that recursively calls itself or the empty string
     //creates a statement list in the program
     public static void parseStatementList(){
-
-        System.out.println("PARSER: parseStatementList()");
-
-        //System.out.println("StatementList " +  theToken.getKind());
-
-        //From the tree class
-        CSTClass.addNode("branch", "StatementList", theToken.getSymbol());
 
         //if we have a next token that matches one of these tokens then we call parse statement and parse statement list
         if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("ID") == 0)
@@ -180,21 +133,11 @@ public class Parser {
 
         }//else
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseStatementList
 
     //parse statement that calls different parse methods depending on the token
     //creates a statement in a program
     public static void parseStatement(){
-
-        System.out.println("PARSER: parseStatement()");
-
-        //System.out.println("Statement " +  theToken.getKind());
-
-        //From the tree class
-        CSTClass.addNode("branch", "Statement", theToken.getSymbol());
 
         //if our token matches print then we call parse print statement
         if(theToken.getKind().compareToIgnoreCase("PRINT") == 0){
@@ -244,21 +187,14 @@ public class Parser {
         
         }//else if
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseStatement
 
     //parsePrintStatement calls ParseExpr
     //creates a print statement in the program
     public static void parsePrintStatement(){
 
-        System.out.println("PARSER: parsePrintStatement()");
-
         //From the tree class
-        CSTClass.addNode("branch", "PrintStatement", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "PrintStatement", theToken.getSymbol());
+        ASTClass.addNode("branch", "PrintStatement", theToken.getSymbol());
 
         //match the print token
         match("PRINT");
@@ -273,7 +209,7 @@ public class Parser {
         match("CLOSE_PAREN");
 
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parsePrintStatement
 
@@ -281,12 +217,8 @@ public class Parser {
     //creates an assignment statement in the program
     public static void parseAssignmentStatement(){
 
-        System.out.println("PARSER: parseAssignmentStatement()");
-
         //From the tree class
-        CSTClass.addNode("branch", "AssignmentStatement", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "AssignmentStatement", theToken.getSymbol());
+        ASTClass.addNode("branch", "AssignmentStatement", theToken.getSymbol());
 
         //call parseID
         parseId();
@@ -298,7 +230,7 @@ public class Parser {
         parseExpr();
 
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseAssignmentStatement
 
@@ -306,12 +238,8 @@ public class Parser {
     //creates a variable declaration in the program
     public static void parseVarDecl(){
 
-        System.out.println("PARSER: parseVarDecl()");
-
         //From the tree class
-        CSTClass.addNode("branch", "VarDecl", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "VarDecl", theToken.getSymbol());
+        ASTClass.addNode("branch", "VarDecl", theToken.getSymbol());
 
         //call parseType
         parseType();
@@ -320,7 +248,7 @@ public class Parser {
         parseId();
         
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseVarDecl
 
@@ -328,12 +256,8 @@ public class Parser {
     //creates a while statement in the program
     public static void parseWhileStatement(){
 
-        System.out.println("PARSER: parseWhileStatement()");
-
         //From the tree class
-        CSTClass.addNode("branch", "WhileStatement", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "WhileStatement", theToken.getSymbol());
+        ASTClass.addNode("branch", "WhileStatement", theToken.getSymbol());
 
         //match the while token
         match("WHILE");
@@ -345,7 +269,7 @@ public class Parser {
         parseBlock();
 
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseWhileStatement
 
@@ -353,12 +277,8 @@ public class Parser {
     //creates an if statement in the program
     public static void parseIfStatement(){
 
-        System.out.println("PARSER: parseIfStatement()");
-
         //From the tree class
-        CSTClass.addNode("branch", "IfStatement", theToken.getSymbol());
-
-        //ASTClass.addNode("branch", "IfStatement", theToken.getSymbol());
+        ASTClass.addNode("branch", "IfStatement", theToken.getSymbol());
 
         //match the if token
         match("IF");
@@ -370,18 +290,13 @@ public class Parser {
         parseBlock();
 
         //move back up the CST tree
-        CSTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseIfStatement
 
     //parseExpr calls different parse statements depending on the token
     //creates an expression statment in the program
     public static void parseExpr(){
-
-        System.out.println("PARSER: parseExpr()");
- 
-        //From the tree class
-        CSTClass.addNode("branch", "Expr", theToken.getSymbol());
 
         //if our token matches DIGIT then we call parseIntExpr
         if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
@@ -415,19 +330,11 @@ public class Parser {
         
         }//else if
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseExpr
 
     //parseIntExpr calls different parse methods depending on the token
     //creates an integer expression in the program
     public static void parseIntExpr(){
-
-        System.out.println("PARSER: parseIntExpr()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "IntExpr", theToken.getSymbol());
 
         //if the next token matches ADDITION then we call parseDigit, parseIntop, and parseExpr
         if((globalTokens.get(j + 1).getKind().compareToIgnoreCase("ADDITION")) == 0){
@@ -451,19 +358,11 @@ public class Parser {
         
         }//else if
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseIntExpr
 
     //parseStringExpr calls parseCharlist
     //creates a string expression for the program
     public static void parseStringExpr(){
-
-        System.out.println("PARSER: parseStringExpr()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "StringExpr", theToken.getSymbol());
 
         //match the open quote token
         match("OPEN_QUOTE");
@@ -474,18 +373,10 @@ public class Parser {
         //match the close quote token
         match("CLOSE_QUOTE");
         
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseStringExpr
 
     //parseBooleanExpr calls different parse methods depending on the token
     public static void parseBooleanExpr(){
-
-        System.out.println("PARSER: parseBooleanExpr()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "BooleanExpr", theToken.getSymbol());
 
         //if the token matches open paren then we call parseExpr, parseBoolop, and parseExpr
         if(theToken.getKind().compareToIgnoreCase("OPEN_PAREN") == 0){
@@ -515,36 +406,20 @@ public class Parser {
         
         }//else if
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseBooleanExpr
 
     //ParseId calls match to match an id
     //creates an ID
     public static void parseId(){
 
-        System.out.println("PARSER: parseId()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "Id", theToken.getSymbol());
-
         //match the ID token
         match("ID");
-
-        //move back up the CST tree
-        CSTClass.moveUp();
         
     }//parseId
 
     //parseCharlist calls different methods depending on the tokens
     //creates a charlist for the program
     public static void parseCharList(){
-
-        System.out.println("PARSER: parseCharList()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "CharList" , theToken.getSymbol());
 
         //if the token matches char then we call parseChar, and parseCharlist recursivly
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
@@ -571,19 +446,11 @@ public class Parser {
 
         }//else
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parseCharList
 
     //parseType calls different things depending on the tokens
     //creates a type for an ID in a program
     public static void parseType(){
-
-        System.out.println("PARSER: parseType()");
-
-        //From the tree class
-        CSTClass.addNode("branch", "Type", theToken.getSymbol());
 
         //if the token matches INT then we match the INT token
         if(theToken.getKind().compareToIgnoreCase("INT") == 0){
@@ -609,17 +476,12 @@ public class Parser {
         
         }//else if
 
-        //move back up the CST tree
-        CSTClass.moveUp();
-
     }//parsetype
 
     //parseChar matches the char token
     public static void parseChar(){
 
         //a - z
-
-        System.out.println("PARSER: parseChar()");
 
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
  
@@ -632,8 +494,6 @@ public class Parser {
 
     //parse space matches the space token
     public static void parseSpace(){
-
-        System.out.println("PARSER: parseSpace()");
 
         //space character
         if(theToken.getKind().compareToIgnoreCase(" ") == 0){
@@ -649,8 +509,6 @@ public class Parser {
 
         // 0 - 9
 
-        System.out.println("PARSER: parseDigit()");
-
         if(theToken.getKind().compareToIgnoreCase("DIGIT") == 0){
  
             match("DIGIT");
@@ -663,8 +521,6 @@ public class Parser {
     public static void parseBoolop(){
 
         //== or !=
-
-        System.out.println("PARSER: parseBoolop()");
 
         if(theToken.getKind().compareToIgnoreCase("EQUALITY") == 0){
  
@@ -682,8 +538,6 @@ public class Parser {
 
     //parseBoolval matches the Boolval token for either True or False
     public static void parseBoolval(){
-
-        System.out.println("PARSER: parseBoolval()");
 
         //true or flase
 
@@ -704,8 +558,6 @@ public class Parser {
     //parseIntop matches the Intop token for ADDITION
     public static void parseIntop(){
 
-        System.out.println("PARSER: parseIntop()");
-
         //+
 
         if(theToken.getKind().compareToIgnoreCase("ADDITION") == 0){
@@ -725,9 +577,6 @@ public class Parser {
             //if we havent reached the size of global tokens then we add a leaf node and increment the token pointer
             if ( j != globalTokens.size() - 1){
 
-                //From the tree class
-                CSTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
-
                 if( (theToken.getSymbol().compareToIgnoreCase("{") == 0) || (theToken.getSymbol().compareToIgnoreCase("}") == 0) || 
                 (theToken.getSymbol().compareToIgnoreCase("(") == 0) || (theToken.getSymbol().compareToIgnoreCase(")") == 0) || 
                 (theToken.getSymbol().compareToIgnoreCase("print") == 0) || (theToken.getSymbol().compareToIgnoreCase("=") == 0)|| 
@@ -738,22 +587,22 @@ public class Parser {
 
                 else{
 
-                //ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
+                ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
 
                 }//else
-
+                
                 j = j + 1;
 
                 theToken = globalTokens.get(j);
 
             }//if
 
-            //else we just add a node to the CST tree
+            //else we just add a node to the AST tree
             else{
-                //From the tree class
-                CSTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
 
-                //ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
+                //From the tree class
+                ASTClass.addNode("leaf", theToken.getKind(), theToken.getSymbol());
+
             }//else
 
         }//if
@@ -761,7 +610,7 @@ public class Parser {
         //else we have an error and create a parse error
         else{
 
-            System.out.println("Error: unexpected token. Expected " + matchchar + " but found " + theToken.getKind());
+            //System.out.println("Error: unexpected token. Expected " + matchchar + " but found " + theToken.getKind());
 
             ErrorFlag = 1;
                         
@@ -769,4 +618,4 @@ public class Parser {
 
     }//match
 
-}//Parser
+}//ASTParser
