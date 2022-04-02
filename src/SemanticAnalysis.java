@@ -34,6 +34,10 @@ public class SemanticAnalysis {
 
     static int currentScope = 0;
 
+    static SemanticAnalysisNode currentSemanticAnalysisNode;
+
+    static ASTNode currentAstNode;
+
     static int rootScope = 0;
 
     // Initialize the result string.
@@ -43,25 +47,31 @@ public class SemanticAnalysis {
     //This method is the main Semantic Analysis method
     public static void SAnalysis(ASTNode root){
 
-        //create a hashtable to keep track of scope
+        int i = 0;
 
         currentScope = 0;
 
-        SemanticAnalysisNode SANode = new SemanticAnalysisNode();
+        currentAstNode = root;
+
+        //block
+        System.out.println(currentAstNode.getName());
+        System.out.println(currentAstNode.getSymbol());
+
+        System.out.println(currentAstNode.children.size());
 
 
+        for(int j = 0; j < currentAstNode.children.size(); j++){
 
-        //grab symbol
+            System.out.println(currentAstNode.children.get(j).getName());
+
+        }
+
+
         
+        traverse(currentAstNode);
 
 
-
-        System.out.println(" ");
-        System.out.println("Symbol Table for Program: " + programNumber);
-        System.out.println("------------------------------------");
-        System.out.println("    Name    Type    Scope   Line    ");
-        System.out.println("------------------------------------");
-
+        printSymbolTable();
 
         programNumber++;
 
@@ -70,53 +80,48 @@ public class SemanticAnalysis {
 
     //Recursive function to handle the traversal through the tree
     //similar to expand but not printing anything
-    public static String traverse(ASTNode node, int depth){
+    public static void traverse(ASTNode currentAstNode){
             
-        // Space out based on the current depth so
-        // this looks at least a little tree-like.
-        for (int i = 0; i < depth; i++){
-            
-            traversalResult += "-";
-
-        }//for
-
         // If there are no children (i.e., leaf nodes)...
-        if ((node.children.size() == 0) || (node.children == null)){
-                
-            
+        if ((currentAstNode.children.size() == 0) || (currentAstNode.children == null)){
+                        
+            //SemanticAnalysisNode SANode = new SemanticAnalysisNode();
 
-           
-            // ... note the leaf node.
-            traversalResult += "[" + node.getSymbol() + "]";
-            traversalResult += "\n";
+            //add to hashtable
+
+            //if collison in hashtable then we have a re-definition
             
+            //if not initialized then error
 
         }//if
 
         else{
                 
-            // There are children, so note these interior/branch nodes and ...
-            traversalResult += "<" + node.getName() + "> \n";
+            //traverse through the AST
+            for (int i = 0; i < currentAstNode.children.size(); i++){
 
-            // .. recursively expand them.
-
-
-            for (int i = 0; i < node.children.size(); i++){
-
-                
-                traverse(node.children.get(i), depth + 1);
+                traverse(currentAstNode.children.get(i));
                 
             }//for
 
         }//else
-        
-
-        // Return the result.
-        return traversalResult;
-
-    }//expand
+       
+    }//traverse
 
 
+    //print symbol table
+    public static void printSymbolTable(){
+            
+
+        System.out.println(" ");
+        System.out.println("Symbol Table for Program: " + programNumber);
+        System.out.println("------------------------------------");
+        System.out.println("    Name    Type    Scope   Line    ");
+        System.out.println("------------------------------------");
+        //System.out.println(SemanticAnalysisNode.getName());
+
+
+    }//print symbol table
 
 
 }//Semantic Analysis Class

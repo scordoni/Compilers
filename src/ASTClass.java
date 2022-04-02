@@ -113,9 +113,7 @@ public class ASTClass {
         // If there are no children (i.e., leaf nodes)...
         if ((node.children.size() == 0) || (node.children == null)){
                 
-            
 
-           
             // ... note the leaf node.
             traversalResult += "[" + node.getSymbol() + "]";
             traversalResult += "\n";

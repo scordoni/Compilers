@@ -73,7 +73,7 @@ public class ASTParser {
 
         //From the tree class
 
-        ASTClass.addNode("root", "Program", theToken.getSymbol());
+        //ASTClass.addNode("root", "Program", theToken.getSymbol());
 
         //call parse block
         parseBlock();
@@ -82,7 +82,7 @@ public class ASTParser {
         match("EOP");
 
         //move back up the AST tree
-        ASTClass.moveUp();
+        //ASTClass.moveUp();
 
     }//parseProgram
 
@@ -91,7 +91,7 @@ public class ASTParser {
     public static void parseBlock(){
 
         //From the tree class
-        ASTClass.addNode("branch", "Block", theToken.getSymbol());
+        ASTClass.addNode("root", "Block", theToken.getSymbol());
 
         //match the L_Brace token
         match("L_BRACE");
@@ -103,7 +103,7 @@ public class ASTParser {
         match("R_BRACE");
 
         //move back up the CST tree
-        ASTClass.moveUp();
+        //ASTClass.moveUp();
 
     }//parseBlock
 
@@ -289,7 +289,7 @@ public class ASTParser {
         //call parseBlock
         parseBlock();
 
-        //move back up the CST tree
+        //move back up the AST tree
         ASTClass.moveUp();
 
     }//parseIfStatement
@@ -568,6 +568,10 @@ public class ASTParser {
 
     }//parseintop
 
+    //Instead of placeing an "add ast node" statement throughout the parser I realized I followed the CST
+    //class with the match statement and upon calling match we add the necessary nodes for the AST
+
+    
     //match takes in a string to be matched to the token from the token stream output from lex
     public static void match(String matchchar){
         
