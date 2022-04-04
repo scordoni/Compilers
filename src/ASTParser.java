@@ -73,7 +73,7 @@ public class ASTParser {
 
         //From the tree class
 
-        //ASTClass.addNode("root", "Program", theToken.getSymbol());
+        ASTClass.addNode("root", "Program", theToken.getSymbol());
 
         //call parse block
         parseBlock();
@@ -82,7 +82,7 @@ public class ASTParser {
         match("EOP");
 
         //move back up the AST tree
-        //ASTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseProgram
 
@@ -91,7 +91,7 @@ public class ASTParser {
     public static void parseBlock(){
 
         //From the tree class
-        ASTClass.addNode("root", "Block", theToken.getSymbol());
+        ASTClass.addNode("branch", "Block", theToken.getSymbol());
 
         //match the L_Brace token
         match("L_BRACE");
@@ -103,7 +103,7 @@ public class ASTParser {
         match("R_BRACE");
 
         //move back up the CST tree
-        //ASTClass.moveUp();
+        ASTClass.moveUp();
 
     }//parseBlock
 
@@ -182,6 +182,11 @@ public class ASTParser {
         //if our token mathces L_Brace then we call parseBlock
         else if(theToken.getKind().compareToIgnoreCase("L_BRACE") == 0){
         
+            System.out.println(" ");
+            System.out.println("HELLO");
+
+            System.out.println(" ");
+
             //call parseBlock
             parseBlock();
         

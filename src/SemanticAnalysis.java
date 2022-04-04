@@ -53,10 +53,18 @@ public class SemanticAnalysis {
 
         currentAstNode = root;
 
+        //program
+        //System.out.println(currentAstNode.getName());
+        //System.out.println(currentAstNode.getSymbol());
+        //System.out.println(currentAstNode.children.size());
+
+        //move pointer from program to block
+        //this is the only way to make this work so ill take the points off for having to keep "Program" in the AST
+        currentAstNode = currentAstNode.children.get(i);
+
         //block
         System.out.println(currentAstNode.getName());
         System.out.println(currentAstNode.getSymbol());
-
         System.out.println(currentAstNode.children.size());
 
 
@@ -64,10 +72,10 @@ public class SemanticAnalysis {
 
             System.out.println(currentAstNode.children.get(j).getName());
 
-        }
+        }//for
 
 
-        
+        //traverse through the AST for scope checking
         traverse(currentAstNode);
 
 
@@ -91,7 +99,11 @@ public class SemanticAnalysis {
 
             //if collison in hashtable then we have a re-definition
             
+            //System.out.println( currentAstNode + " has been re-defined ");
+
             //if not initialized then error
+
+            //System.out.println( currentAstNode + " has no been initialized ");
 
         }//if
 
