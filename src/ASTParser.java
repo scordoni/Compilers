@@ -182,11 +182,6 @@ public class ASTParser {
         //if our token mathces L_Brace then we call parseBlock
         else if(theToken.getKind().compareToIgnoreCase("L_BRACE") == 0){
         
-            System.out.println(" ");
-            System.out.println("HELLO");
-
-            System.out.println(" ");
-
             //call parseBlock
             parseBlock();
         

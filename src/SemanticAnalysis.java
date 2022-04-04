@@ -18,8 +18,6 @@ public class SemanticAnalysis {
 
     static ArrayList <Token> globalTokens= new ArrayList <Token>();
 
-    static Hashtable< String, SemanticAnalysisNode > sTable = new Hashtable <>();
-
     static int position = 0;
 
     static int programNumber = 1;
@@ -40,6 +38,8 @@ public class SemanticAnalysis {
 
     static int rootScope = 0;
 
+    static Hashtable < String, SemanticAnalysisNode > currentTable;
+
     // Initialize the result string.
     static String traversalResult = "";
 
@@ -47,40 +47,29 @@ public class SemanticAnalysis {
     //This method is the main Semantic Analysis method
     public static void SAnalysis(ASTNode root){
 
+        //initialize
         int i = 0;
 
         currentScope = 0;
 
         currentAstNode = root;
 
-        //program
-        //System.out.println(currentAstNode.getName());
-        //System.out.println(currentAstNode.getSymbol());
-        //System.out.println(currentAstNode.children.size());
+        //create hastable for scope 0
+        Hashtable< String, SemanticAnalysisNode > ScopeTable = new Hashtable <>();
+
+        currentTable = ScopeTable;
 
         //move pointer from program to block
         //this is the only way to make this work so ill take the points off for having to keep "Program" in the AST
         currentAstNode = currentAstNode.children.get(i);
 
-        //block
-        System.out.println(currentAstNode.getName());
-        System.out.println(currentAstNode.getSymbol());
-        System.out.println(currentAstNode.children.size());
-
-
-        for(int j = 0; j < currentAstNode.children.size(); j++){
-
-            System.out.println(currentAstNode.children.get(j).getName());
-
-        }//for
-
-
         //traverse through the AST for scope checking
         traverse(currentAstNode);
 
-
+        //print the symbol table
         printSymbolTable();
 
+        //increment program number
         programNumber++;
 
     }//Semantic Analysis
@@ -89,23 +78,53 @@ public class SemanticAnalysis {
     //Recursive function to handle the traversal through the tree
     //similar to expand but not printing anything
     public static void traverse(ASTNode currentAstNode){
-            
-        // If there are no children (i.e., leaf nodes)...
-        if ((currentAstNode.children.size() == 0) || (currentAstNode.children == null)){
-                        
-            //SemanticAnalysisNode SANode = new SemanticAnalysisNode();
 
-            //add to hashtable
+        //create and set node for hashtable
+        SemanticAnalysisNode SANode = new SemanticAnalysisNode();
+            
+        System.out.println(currentAstNode.getName());
+
+        
+
+        if(currentAstNode.getName().compareToIgnoreCase("VarDecl") == 0){
+
+            SANode.setType(currentAstNode.children.get(0).getSymbol());
+
+            SANode.setName(currentAstNode.children.get(1).getSymbol());
+
+            SANode.setScope(currentScope);
+
+            SANode.setIsInitilaized(false);
+
+            SANode.setIsUsed(false);
+
 
             //if collison in hashtable then we have a re-definition
-            
-            //System.out.println( currentAstNode + " has been re-defined ");
+            if( currentTable.containsKey(currentAstNode.getSymbol())){
 
-            //if not initialized then error
+                System.out.println( currentAstNode.getSymbol() + " has been re-defined ");
 
-            //System.out.println( currentAstNode + " has no been initialized ");
+            }//if
+
+            //add to hashtable
+            currentTable.put(currentAstNode.getSymbol(), SANode );
 
         }//if
+
+        if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
+
+            //if it is in the hashtable then it exsists 
+            if( currentTable.containsKey(currentAstNode.getSymbol())){
+
+                SANode.setIsUsed(true);
+
+            }//if
+            
+
+        }//if
+
+
+       
 
         else{
                 
@@ -127,10 +146,29 @@ public class SemanticAnalysis {
 
         System.out.println(" ");
         System.out.println("Symbol Table for Program: " + programNumber);
-        System.out.println("------------------------------------");
-        System.out.println("    Name    Type    Scope   Line    ");
-        System.out.println("------------------------------------");
-        //System.out.println(SemanticAnalysisNode.getName());
+        System.out.println("------------------------------------------------------------");
+        System.out.println("    Name    Type    Scope   IsUsed  IsInitialized   Line    ");
+        System.out.println("------------------------------------------------------------");
+
+        
+        //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
+        Iterator<SemanticAnalysisNode> itr = currentTable.values().iterator();
+ 
+        while(itr.hasNext()){
+
+            SemanticAnalysisNode temp = itr.next();
+
+            System.out.print("    " + temp.myName);
+            System.out.print("       " + temp.myType);
+            System.out.print("      " + temp.myScope);
+            System.out.print("       " + temp.myIsUsed);
+            System.out.print("       " + temp.myIsInitilaized);
+            System.out.print("         " +temp.myLine);
+
+            System.out.println("    ");
+        }//while
+        
+        
 
 
     }//print symbol table
