@@ -43,12 +43,12 @@ public class SemanticAnalysis {
     // Initialize the result string.
     static String traversalResult = "";
 
+    static int i = 0;
     
     //This method is the main Semantic Analysis method
     public static void SAnalysis(ASTNode root){
 
-        //initialize
-        int i = 0;
+
 
         currentScope = 0;
 
@@ -79,10 +79,12 @@ public class SemanticAnalysis {
     //similar to expand but not printing anything
     public static void traverse(ASTNode currentAstNode){
 
+        
+
         //create and set node for hashtable
         SemanticAnalysisNode SANode = new SemanticAnalysisNode();
             
-        System.out.println(currentAstNode.getName());
+        //System.out.println(currentAstNode.getName());
 
         
 
@@ -98,25 +100,25 @@ public class SemanticAnalysis {
 
             SANode.setIsUsed(false);
 
-
             //if collison in hashtable then we have a re-definition
-            if( currentTable.containsKey(currentAstNode.getSymbol())){
+            if( currentTable.containsKey(currentAstNode.children.get(1).getSymbol())){
 
-                System.out.println( currentAstNode.getSymbol() + " has been re-defined ");
+                System.out.println( currentAstNode.children.get(1).getSymbol() + " has been re-defined ");
 
             }//if
 
             //add to hashtable
-            currentTable.put(currentAstNode.getSymbol(), SANode );
+            currentTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
 
         }//if
 
         if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
 
             //if it is in the hashtable then it exsists 
-            if( currentTable.containsKey(currentAstNode.getSymbol())){
+            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol())){
 
-                SANode.setIsUsed(true);
+                System.out.println(SANode.getName());
+                SANode.setIsInitilaized(true);
 
             }//if
             
@@ -124,12 +126,20 @@ public class SemanticAnalysis {
         }//if
 
 
-       
+
 
         else{
                 
             //traverse through the AST
             for (int i = 0; i < currentAstNode.children.size(); i++){
+
+                if(currentAstNode.children.get(i).getName().compareToIgnoreCase("Block") == 0){
+
+                    currentScope++;
+
+                    
+
+                }//if
 
                 traverse(currentAstNode.children.get(i));
                 
