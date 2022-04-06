@@ -13,7 +13,7 @@ public class SymbolTableNode {
     */
     public Hashtable< String, SemanticAnalysisNode > mySTable = new Hashtable <String, SemanticAnalysisNode>();
 
-    public Hashtable< String, SemanticAnalysisNode > myNext;
+    public SymbolTableNode myNext;
     
     /**
     * The default Constructor for SemanticAnalysisNode
@@ -41,14 +41,14 @@ public class SymbolTableNode {
     * The setter for the node
     * @param NewNext the incoming node data
     */
-    public void setNext(Hashtable<String, SemanticAnalysisNode>  newNext)
-        {myNext = newNext;}//set Node
+    public void setNext(SymbolTableNode  nextTable)
+        {myNext = nextTable;}//set Node
 
     /**
     * the getter for the node
     * @return the incoming node data
     */
-    public Hashtable<String, SemanticAnalysisNode>  getNext()
+    public SymbolTableNode  getNext()
         {return myNext;}//get node
         
 

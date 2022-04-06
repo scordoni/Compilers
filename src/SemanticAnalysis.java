@@ -26,6 +26,8 @@ public class SemanticAnalysis {
 
     static int ErrorFlag;
 
+    static int WarningFlag;
+
     static int numberOfErrors = 0;
 
     static int j = 0;
@@ -37,6 +39,10 @@ public class SemanticAnalysis {
     static ASTNode currentAstNode;
 
     static int rootScope = 0;
+
+    //create hastable for scope 0
+    //create hastable for scope 0
+    
 
     static Hashtable < String, SemanticAnalysisNode > currentTable;
 
@@ -53,28 +59,25 @@ public class SemanticAnalysis {
 
         //reset variables
         ErrorFlag = 0;
+        
+        SymbolTableNode symbolTable = new SymbolTableNode();
 
         currentScope = 0;
 
         currentAstNode = root;
-
-        //create hastable for scope 0
-        Hashtable< String, SemanticAnalysisNode > ScopeTable = new Hashtable <>();
-
-        currentTable = ScopeTable;
 
         //move pointer from program to block
         //this is the only way to make this work so ill take the points off for having to keep "Program" in the AST
         currentAstNode = currentAstNode.children.get(i);
 
         //traverse through the AST for scope checking
-        traverse(currentAstNode);
+        traverse(currentAstNode, symbolTable);
 
         //print any possible warnings
-        printWarnings();
+        printWarnings(symbolTable);
 
         //print the symbol table
-        printSymbolTable();
+        printSymbolTable(symbolTable);
 
         //increment program number
         programNumber++;
@@ -84,12 +87,24 @@ public class SemanticAnalysis {
 
     //Recursive function to handle the traversal through the tree
     //similar to expand but not printing anything
-    public static void traverse(ASTNode currentAstNode){
+    public static void traverse(ASTNode currentAstNode, SymbolTableNode symbolTable){
 
         //create and set node for hashtable
         SemanticAnalysisNode SANode = new SemanticAnalysisNode();
             
         //System.out.println(currentAstNode.getName());
+
+        //if we have block stmt then we need a new table and to up the scope
+        if(currentAstNode.getName().compareToIgnoreCase("Block") == 0){
+
+            currentScope++;
+
+            SymbolTableNode nextTable = new SymbolTableNode();
+
+            symbolTable.setNext(nextTable);
+
+        }//if
+
 
         //if we have a variable declaration then we create a new node for the symbol table
         if(currentAstNode.getName().compareToIgnoreCase("VarDecl") == 0){
@@ -105,7 +120,7 @@ public class SemanticAnalysis {
             SANode.setIsUsed(false);
 
             //if collison in hashtable then we have a re-definition
-            if( currentTable.containsKey(currentAstNode.children.get(1).getSymbol())){
+            if( symbolTable.mySTable.containsKey(currentAstNode.children.get(1).getSymbol())){
 
                 System.out.println("Error: " + currentAstNode.children.get(1).getSymbol() + " has been re-defined ");
 
@@ -114,7 +129,7 @@ public class SemanticAnalysis {
             }//if
 
             //add to hashtable
-            currentTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
+            symbolTable.mySTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
 
         }//if
 
@@ -122,10 +137,10 @@ public class SemanticAnalysis {
         if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
 
             //if it is in the hashtable then it exsists 
-            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+            if( symbolTable.mySTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
 
                 //if the symbol is an integer then we have to make sure we assign an integer
-                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("int") == 0){
+                if(symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("int") == 0){
 
                     //if we assign an int to the variable then it is initialized
                     if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
@@ -133,7 +148,7 @@ public class SemanticAnalysis {
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
 
-                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                            symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
                     }//if
 
@@ -149,7 +164,7 @@ public class SemanticAnalysis {
                 };
 
                 //if the symbol is an string then we have to make sure we assign a string
-                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("string") == 0){
+                if(symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("string") == 0){
 
                     //to save room if we assign it an integer or a boolean it is a type mismatch
                     if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
@@ -166,19 +181,19 @@ public class SemanticAnalysis {
                     //otherwise the string is initalized
                     else{
 
-                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                        symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
                     }//else
 
                 };
 
                 //if the symbol is an string then we have to make sure we assign a string
-                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
+                if(symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
 
                     //if we assign a boolean value to the variable then it is initialized.
                     if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
-                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                        symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
                     }//if
 
@@ -213,9 +228,9 @@ public class SemanticAnalysis {
         if(currentAstNode.getName().compareToIgnoreCase("PrintStatement") == 0){
 
             //if it is in the hashtable then it exsists 
-            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+            if( symbolTable.mySTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
 
-                currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                 
             }//if
             
@@ -233,9 +248,9 @@ public class SemanticAnalysis {
         if(currentAstNode.getName().compareToIgnoreCase("IfStatement") == 0){
 
             //if it is in the hashtable then it exsists 
-            if( currentTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
+            if( symbolTable.mySTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
 
-                currentTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
+                symbolTable.mySTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                 
             }//if
 
@@ -251,21 +266,14 @@ public class SemanticAnalysis {
 
         }//if
 
-        
+    
+
         else{
                 
             //traverse through the AST
             for (int i = 0; i < currentAstNode.children.size(); i++){
 
-                if(currentAstNode.children.get(i).getName().compareToIgnoreCase("Block") == 0){
-
-                    currentScope++;
-
-                    
-
-                }//if
-
-                traverse(currentAstNode.children.get(i));
+                traverse(currentAstNode.children.get(i), symbolTable);
                 
             }//for
 
@@ -275,7 +283,7 @@ public class SemanticAnalysis {
 
 
     //print symbol table
-    public static void printWarnings(){
+    public static void printWarnings(SymbolTableNode symbolTable){
             
 
         System.out.println(" ");
@@ -283,7 +291,7 @@ public class SemanticAnalysis {
         System.out.println("Warnings for program: " + programNumber);
         
         //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
-        Iterator<SemanticAnalysisNode> itr = currentTable.values().iterator();
+        Iterator<SemanticAnalysisNode> itr = symbolTable.mySTable.values().iterator();
  
         while(itr.hasNext()){
 
@@ -308,7 +316,7 @@ public class SemanticAnalysis {
     }//print warnings
 
     //print symbol table
-    public static void printSymbolTable(){
+    public static void printSymbolTable(SymbolTableNode symbolTable){
             
         System.out.println(" ");
         System.out.println(" ");
@@ -318,8 +326,9 @@ public class SemanticAnalysis {
         System.out.println("------------------------------------------------------------");
 
         
+        
         //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
-        Iterator<SemanticAnalysisNode> itr = currentTable.values().iterator();
+        Iterator<SemanticAnalysisNode> itr = symbolTable.mySTable.values().iterator();
  
         while(itr.hasNext()){
 
