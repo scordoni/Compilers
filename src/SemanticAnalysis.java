@@ -24,7 +24,7 @@ public class SemanticAnalysis {
 
     static int lineNumber = 0;
 
-    static int ErrorFlag = 0;
+    static int ErrorFlag;
 
     static int numberOfErrors = 0;
 
@@ -48,7 +48,11 @@ public class SemanticAnalysis {
     //This method is the main Semantic Analysis method
     public static void SAnalysis(ASTNode root){
 
+        System.out.println(" ");
+        System.out.println(" ");
 
+        //reset variables
+        ErrorFlag = 0;
 
         currentScope = 0;
 
@@ -66,6 +70,9 @@ public class SemanticAnalysis {
         //traverse through the AST for scope checking
         traverse(currentAstNode);
 
+        //print any possible warnings
+        printWarnings();
+
         //print the symbol table
         printSymbolTable();
 
@@ -79,15 +86,12 @@ public class SemanticAnalysis {
     //similar to expand but not printing anything
     public static void traverse(ASTNode currentAstNode){
 
-        
-
         //create and set node for hashtable
         SemanticAnalysisNode SANode = new SemanticAnalysisNode();
             
         //System.out.println(currentAstNode.getName());
 
-        
-
+        //if we have a variable declaration then we create a new node for the symbol table
         if(currentAstNode.getName().compareToIgnoreCase("VarDecl") == 0){
 
             SANode.setType(currentAstNode.children.get(0).getSymbol());
@@ -103,7 +107,9 @@ public class SemanticAnalysis {
             //if collison in hashtable then we have a re-definition
             if( currentTable.containsKey(currentAstNode.children.get(1).getSymbol())){
 
-                System.out.println( currentAstNode.children.get(1).getSymbol() + " has been re-defined ");
+                System.out.println("Error: " + currentAstNode.children.get(1).getSymbol() + " has been re-defined ");
+
+                ErrorFlag = 1;
 
             }//if
 
@@ -112,22 +118,140 @@ public class SemanticAnalysis {
 
         }//if
 
+        //if we have an assignment stmt then we must check for type matching
         if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
 
             //if it is in the hashtable then it exsists 
-            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol())){
+            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
 
-                System.out.println(SANode.getName());
-                SANode.setIsInitilaized(true);
+                //if the symbol is an integer then we have to make sure we assign an integer
+                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("int") == 0){
 
+                    //if we assign an int to the variable then it is initialized
+                    if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
+
+                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                    }//if
+
+                    //otherwise we have a type mismatch
+                    else{
+
+                        System.out.println("Error: Type mismatch error for variable assignment ");
+
+                        ErrorFlag = 1;
+
+                    }//else
+
+                };
+
+                //if the symbol is an string then we have to make sure we assign a string
+                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("string") == 0){
+
+                    //to save room if we assign it an integer or a boolean it is a type mismatch
+                    if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
+                        || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
+
+                        System.out.println("Error: Type mismatch error for variable assignment ");
+
+                        ErrorFlag = 1;
+
+                    }//if
+
+                    //otherwise the string is initalized
+                    else{
+
+                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                    }//else
+
+                };
+
+                //if the symbol is an string then we have to make sure we assign a string
+                if(currentTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
+
+                    //if we assign a boolean value to the variable then it is initialized.
+                    if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
+
+                        currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                    }//if
+
+                    //otherwise it is a type mismatch error
+                    else{
+
+                        System.out.println("Error: Type mismatch error for variable assignment ");
+
+                        ErrorFlag = 1;
+
+                    }//else
+
+                };
+                
+                
             }//if
+
+            //if it is not then it doesn't exist.
+            else{
+
+                System.out.println("Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+
+                ErrorFlag = 1;
+
+            }//else
             
 
         }//if
 
+        //if we have a print statment then we can check to see whether or not the symbol exsists
+        //if it does exsist then we set the is used parameter to true
+        if(currentAstNode.getName().compareToIgnoreCase("PrintStatement") == 0){
 
+            //if it is in the hashtable then it exsists 
+            if( currentTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
 
+                currentTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                
+            }//if
+            
+            //if it is not then it doesn't exist.
+            else{
 
+                System.out.println("Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+
+                ErrorFlag = 1;
+
+            }//else
+
+        }//if
+
+        if(currentAstNode.getName().compareToIgnoreCase("IfStatement") == 0){
+
+            //if it is in the hashtable then it exsists 
+            if( currentTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
+
+                currentTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
+                
+            }//if
+
+            //if it is not then it doesn't exist.
+            else{
+
+                System.out.println("Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+
+                ErrorFlag = 1;
+
+            }//else
+            
+
+        }//if
+
+        
         else{
                 
             //traverse through the AST
@@ -151,9 +275,42 @@ public class SemanticAnalysis {
 
 
     //print symbol table
-    public static void printSymbolTable(){
+    public static void printWarnings(){
             
 
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println("Warnings for program: " + programNumber);
+        
+        //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
+        Iterator<SemanticAnalysisNode> itr = currentTable.values().iterator();
+ 
+        while(itr.hasNext()){
+
+            SemanticAnalysisNode temp = itr.next();
+
+            if ( temp.myIsUsed == false){
+
+                System.out.println(temp.myName + " has not been used");
+
+            }//if
+
+            if ( temp.myIsInitilaized == false){
+
+                System.out.println(temp.myName + " has not been initialized");
+
+            }//if
+        }//while
+        
+        
+
+
+    }//print warnings
+
+    //print symbol table
+    public static void printSymbolTable(){
+            
+        System.out.println(" ");
         System.out.println(" ");
         System.out.println("Symbol Table for Program: " + programNumber);
         System.out.println("------------------------------------------------------------");
