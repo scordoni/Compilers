@@ -119,6 +119,10 @@ public class SemanticAnalysis {
 
             SANode.setIsUsed(false);
 
+            SANode.setLine(lineNumber);
+
+            lineNumber++;
+
             //if collison in hashtable then we have a re-definition
             if( symbolTable.mySTable.containsKey(currentAstNode.children.get(1).getSymbol())){
 
@@ -148,7 +152,7 @@ public class SemanticAnalysis {
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
 
-                            symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                        symbolTable.mySTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
                     }//if
 
@@ -247,6 +251,30 @@ public class SemanticAnalysis {
 
         if(currentAstNode.getName().compareToIgnoreCase("IfStatement") == 0){
 
+            
+
+            //if it is in the hashtable then it exsists 
+            if( symbolTable.mySTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
+
+                symbolTable.mySTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
+                
+            }//if
+
+            //if it is not then it doesn't exist.
+            else{
+
+                System.out.println("Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+
+                ErrorFlag = 1;
+
+            }//else
+            
+
+        }//if
+
+        if(currentAstNode.getName().compareToIgnoreCase("WhileStatement") == 0){
+
+            
             //if it is in the hashtable then it exsists 
             if( symbolTable.mySTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
 
