@@ -11,9 +11,13 @@ public class SymbolTableNode {
     /**
     * Instance Variable for word data and node 
     */
-    public Hashtable< String, SemanticAnalysisNode > mySTable = new Hashtable <String, SemanticAnalysisNode>();
+    public Hashtable< String, SemanticAnalysisNode > mySymbolTable = new Hashtable <String, SemanticAnalysisNode>();
 
     public SymbolTableNode myNext;
+
+    public SymbolTableNode myRoot;
+
+    public SymbolTableNode myParent;
     
     /**
     * The default Constructor for SemanticAnalysisNode
@@ -21,7 +25,7 @@ public class SymbolTableNode {
     public SymbolTableNode()
         {
 
-        mySTable = new Hashtable <String, SemanticAnalysisNode> ();
+        mySymbolTable = new Hashtable <String, SemanticAnalysisNode> ();
         myNext = null;
 
         }//SymbolTableNode
@@ -32,7 +36,7 @@ public class SymbolTableNode {
     */
     public SymbolTableNode (Hashtable<String, SemanticAnalysisNode> newSTable)
     {
-            mySTable = newSTable;
+            mySymbolTable = newSTable;
             myNext = null;
     }//SemanticAnalysisNode
 
@@ -41,8 +45,8 @@ public class SymbolTableNode {
     * The setter for the node
     * @param NewNext the incoming node data
     */
-    public void setNext(SymbolTableNode  nextTable)
-        {myNext = nextTable;}//set Node
+    public void setNext(SymbolTableNode  newTable)
+        {myNext = newTable;}//set Node
 
     /**
     * the getter for the node
@@ -51,5 +55,33 @@ public class SymbolTableNode {
     public SymbolTableNode  getNext()
         {return myNext;}//get node
         
+    /**
+    * The setter for the node
+    * @param NewRoot the incoming node data
+    */
+    public void setRoot(SymbolTableNode  newRoot)
+        {myRoot = newRoot;}//set Node
+
+    /**
+    * the getter for the node
+    * @return the incoming node data
+    */
+    public SymbolTableNode  getRoot()
+        {return myRoot;}//get node
+
+
+     /**
+    * The setter for the node
+    * @param NewParent the incoming node data
+    */
+    public void setParent(SymbolTableNode  newParent)
+        {myParent = newParent;}//set Node
+
+    /**
+    * the getter for the node
+    * @return the incoming node data
+    */
+    public SymbolTableNode  getParent()
+        {return myParent;}//get node
 
 }//symbol table node
