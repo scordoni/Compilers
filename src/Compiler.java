@@ -118,6 +118,7 @@ public class Compiler{
                             System.out.println(" ");
                             System.out.println("Due to Lex Error: Parse Failed");
                             System.out.println("Due to Lex Error: CST Failed");
+                            System.out.println("Program Compilation Halted");
 
                         }//if
 
@@ -136,6 +137,7 @@ public class Compiler{
                             
                                 System.out.println(" ");
                                 System.out.println("Due to Parse Error: CST Failed");
+                                System.out.println("Program Compilation Halted");
     
                             }//if
 

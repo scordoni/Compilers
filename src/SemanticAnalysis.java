@@ -281,6 +281,8 @@ public class SemanticAnalysis {
 
                 currentSymbolTableNodeParent = currentSymbolTableNode;
 
+                
+
                 while(currentSymbolTableNodeParent.getParent() != null){
 
                     
@@ -300,7 +302,7 @@ public class SemanticAnalysis {
                                 || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
 
                                     currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
-
+                                    break;
                             }//if
 
                             //otherwise we have a type mismatch
@@ -336,7 +338,9 @@ public class SemanticAnalysis {
                             //otherwise the string is initalized
                             else{
 
+                                
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                                break;
 
                             }//else
 
@@ -348,8 +352,9 @@ public class SemanticAnalysis {
                             //if we assign a boolean value to the variable then it is initialized.
                             if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
+                                
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
-
+                                break;
                             }//if
 
                             //otherwise it is a type mismatch error
@@ -368,6 +373,9 @@ public class SemanticAnalysis {
                     }//if
 
                 }//while
+
+                //System.out.println(currentSymbolTableNodeParent.mySymbolTable.keySet());
+                //System.out.println(currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()));
 
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
@@ -408,8 +416,6 @@ public class SemanticAnalysis {
                 currentSymbolTableNodeParent = currentSymbolTableNode;
 
                 while(currentSymbolTableNodeParent.getParent() != null){
-
-                    
 
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
@@ -602,7 +608,7 @@ public class SemanticAnalysis {
             
         System.out.println(" ");
         System.out.println(" ");
-        System.out.println("Symbol Table for Program: " + programNumber);
+        System.out.println("Symbol Table: ");
         System.out.println("------------------------------------------------------------");
         System.out.println("    Name    Type    Scope   IsUsed  IsInitialized   Line    ");
         System.out.println("------------------------------------------------------------");

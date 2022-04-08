@@ -31,6 +31,8 @@ public class ASTParser {
 
     static int j = 0;
 
+    static String tempString;
+
     
     //This method is the main parse method that calls parseProgram()
     public static void ASTParse(ArrayList<Token> tokenInput){
@@ -42,6 +44,8 @@ public class ASTParser {
         ASTClass.root = null;
         ASTClass.current = null;
         ASTClass.traversalResult = "";
+
+        tempString = "";
 
         //puts the tokens into a gloablly accessable arraylist
         for(int i = 0; i < tokenInput.size(); i++){
@@ -57,6 +61,8 @@ public class ASTParser {
 
         //call parse program to call the parse sequence
         parseProgram();
+
+        //System.out.println(tempString);
 
         //increment program number
         programNumber++;
@@ -372,6 +378,8 @@ public class ASTParser {
 
         //match the close quote token
         match("CLOSE_QUOTE");
+
+
         
     }//parseStringExpr
 
@@ -485,7 +493,12 @@ public class ASTParser {
 
         if(theToken.getKind().compareToIgnoreCase("CHAR") == 0){
  
+
+            tempString = tempString + theToken.getSymbol();
+
             match("CHAR");
+
+
         
         }//if
 

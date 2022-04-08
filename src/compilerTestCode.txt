@@ -1,52 +1,42 @@
 {}$
-
-
+{{{{{{}}}}}}$
+{{{{{{}}} /* comments are ignored */ }}}}$ 
+{ /* comments are still ignored */ int @}$
 
 {
-  int a
-  {
-    boolean b
-    {
-      string c
-      {
-        a = 5
-        b = false
-        c = "inta"
-      }
-      print(c)
-    }
-    print(b)
-  }
-  print(a)
+int a 
+a=a 
+string b 
+a=b
 }$
 
 
+/*Long Test Case - Everything Except Boolean Declaration */ 
 {
+    /* Int Declaration */ 
     int a
-    boolean b 
-    {
-        string c
-        a=5
-        b = true /* no comment */ 
-        c = "inta"
-        print(c)
+    int b
+    a = 0
+    b=0
+    /* While Loop */
+    while (a != 3) {
+        print(a) 
+        while(b!=3){
+            print(b) 
+            b=1+b
+            if (b == 2) {
+                /* Print Statement */
+                print("there is no spoon" /* This will do nothing */ )
+            }
+        }
+        b=0
+        a=1+a
     } 
-    print(b) 
-    print(a)
-}$
+}
+$
 
 
-{
-    int a
-    a=1 
-    {
-       string a
-       a = "a"
-       print(a)
-    }
-    string b
-    b = "b"
-    if (a == 1) {
-        print(b) 
-    }
-}$
+
+
+
+
