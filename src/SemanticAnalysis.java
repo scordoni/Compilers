@@ -118,18 +118,18 @@ public class SemanticAnalysis {
 
         //System.out.println(currentAstNode.getName());
 
-        System.out.println(currentScope);
+        //System.out.println(currentScope);
 
         //if we have block stmt then we need a new table and to up the scope
         if(currentAstNode.getName().compareToIgnoreCase("Block") == 0){
 
             if(currentScope == -1){
-                System.out.println("hlfeg");
+                
                 currentScope++;
             }//if
 
             else{
-                System.out.println("aaaaa");
+                
                 currentScope++;
             
                 SymbolTableNode nextTable = new SymbolTableNode();
@@ -179,8 +179,8 @@ public class SemanticAnalysis {
 
                 lineNumber++;
 
-                System.out.println(SANode.getName());
-                System.out.println(SANode.getType());
+                //System.out.println(SANode.getName());
+                //System.out.println(SANode.getType());
 
                 //add to hashtable
                 currentSymbolTableNode.mySymbolTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
@@ -213,7 +213,7 @@ public class SemanticAnalysis {
                     else{
 
                         System.out.println(" ");
-                        System.out.println("Error: Type mismatch error for variable assignment ");
+                        System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
                         System.out.println(" ");
 
                         ErrorFlag = 1;
@@ -232,7 +232,7 @@ public class SemanticAnalysis {
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
                         System.out.println(" ");
-                        System.out.println("Error: Type mismatch error for variable assignment ");
+                        System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
                         System.out.println(" ");
 
                         ErrorFlag = 1;
@@ -277,11 +277,112 @@ public class SemanticAnalysis {
             //if it is not then it doesn't exist.
             else{
 
-                System.out.println(" ");
-                System.out.println("Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
-                System.out.println(" ");
+                tempNode = currentSymbolTableNode;
 
-                ErrorFlag = 1;
+                currentSymbolTableNodeParent = currentSymbolTableNode;
+
+                while(currentSymbolTableNodeParent.getParent() != null){
+
+                    
+
+                    currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
+
+                    //if it is in the hashtable then it exsists 
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+
+                        //if the symbol is an integer then we have to make sure we assign an integer
+                        if(currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("int") == 0){
+
+                            //if we assign an int to the variable then it is initialized
+                            if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
+
+                                    currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                            }//if
+
+                            //otherwise we have a type mismatch
+                            else{
+
+                                System.out.println(" ");
+                                System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                                System.out.println(" ");
+
+                                ErrorFlag = 1;
+
+                            }//else
+
+                        };
+
+                        //if the symbol is an string then we have to make sure we assign a string
+                        if(currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("string") == 0){
+
+                            //to save room if we assign it an integer or a boolean it is a type mismatch
+                            if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("0")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("1")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("2")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
+                                || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
+
+                                System.out.println(" ");
+                                System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                                System.out.println(" ");
+
+                                ErrorFlag = 1;
+
+                            }//if
+
+                            //otherwise the string is initalized
+                            else{
+
+                                currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                            }//else
+
+                        };
+
+                        //if the symbol is an string then we have to make sure we assign a string
+                        if(currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
+
+                            //if we assign a boolean value to the variable then it is initialized.
+                            if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
+
+                                currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                            }//if
+
+                            //otherwise it is a type mismatch error
+                            else{
+
+                                System.out.println(" ");
+                                System.out.println("Assignment Error: Type mismatch error for variable assignment ");
+                                System.out.println(" ");
+
+                                ErrorFlag = 1;
+
+                            }//else
+
+                        };
+                        
+                    }//if
+
+                }//while
+
+                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+
+                    System.out.println(" ");
+                    System.out.println("Assignment Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+                    System.out.println(" ");
+
+                    ErrorFlag = 1;
+
+                }//if
+
+
+                currentSymbolTableNode = tempNode;
+
+                
 
             }//else
             
@@ -353,11 +454,39 @@ public class SemanticAnalysis {
             //if it is not then it doesn't exist.
             else{
 
-                System.out.println(" ");
-                System.out.println("If Statement Error: " + currentAstNode.children.get(1).getSymbol() + " does not exsist ");
-                System.out.println(" ");
+                tempNode = currentSymbolTableNode;
 
-                ErrorFlag = 1;
+                currentSymbolTableNodeParent = currentSymbolTableNode;
+
+                while(currentSymbolTableNodeParent.getParent() != null){
+
+                    
+
+                    currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
+
+                    //if it is in the hashtable then it exsists 
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+
+                        currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                        
+                    }//if
+
+                }//while
+
+                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+
+                    System.out.println(" ");
+                    System.out.println("If Statement Error: " + currentAstNode.children.get(1).getSymbol() + " does not exsist ");
+                    System.out.println(" ");
+
+                    ErrorFlag = 1;
+
+                }//if
+
+
+                currentSymbolTableNode = tempNode;
+
+                
 
             }//else
             
@@ -377,11 +506,39 @@ public class SemanticAnalysis {
             //if it is not then it doesn't exist.
             else{
 
-                System.out.println(" ");
-                System.out.println("While Statement Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
-                System.out.println(" ");
+                tempNode = currentSymbolTableNode;
 
-                ErrorFlag = 1;
+                currentSymbolTableNodeParent = currentSymbolTableNode;
+
+                while(currentSymbolTableNodeParent.getParent() != null){
+
+                    
+
+                    currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
+
+                    //if it is in the hashtable then it exsists 
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+
+                        currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                        
+                    }//if
+
+                }//while
+
+                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+
+                    System.out.println(" ");
+                    System.out.println("While Statement Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+                    System.out.println(" ");
+
+                    ErrorFlag = 1;
+
+                }//if
+
+
+                currentSymbolTableNode = tempNode;
+
+                
 
             }//else
             
