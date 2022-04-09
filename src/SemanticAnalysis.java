@@ -50,6 +50,7 @@ public class SemanticAnalysis {
 
         //reset variables
         ErrorFlag = 0;
+        lineNumber = 0;
         
         ArrayList <SymbolTableNode> symbolTableList= new ArrayList <SymbolTableNode>();
 

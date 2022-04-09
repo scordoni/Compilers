@@ -50,7 +50,7 @@ public class ASTParser {
         //puts the tokens into a gloablly accessable arraylist
         for(int i = 0; i < tokenInput.size(); i++){
             
-
+            //reset incase of two programs getting stuck together due to usage of resetted token stream
             if((tokenInput.get(i).getKind().compareToIgnoreCase("EOP") == 0) && (i + 1 < tokenInput.size())){
                 
                 globalTokens.clear();

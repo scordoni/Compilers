@@ -111,26 +111,9 @@ public class ASTClass {
         // If there are no children (i.e., leaf nodes)...
         if ((node.children.size() == 0) || (node.children == null)){
                 
-            //System.out.println("lllll " + node.getParent().getName());
-
-            if((node.getParent().getName().compareToIgnoreCase("AssigmentStatement") == 0)){
-
-                System.out.println("lllll " + node.getSymbol());
-                // ... note the leaf node.
-                traversalResult += "[" + node.getSymbol() + "]";
-                traversalResult += "\n";
-
-            }//if
-
-            else{
-
-                // ... note the leaf node.
-                traversalResult += "[" + node.getSymbol() + "]";
-                traversalResult += "\n";
-
-            }//else
-            
-            
+            // ... note the leaf node.
+            traversalResult += "[" + node.getSymbol() + "]";
+            traversalResult += "\n";            
 
         }//if
 
