@@ -50,6 +50,18 @@ public class ASTParser {
         //puts the tokens into a gloablly accessable arraylist
         for(int i = 0; i < tokenInput.size(); i++){
             
+
+            if((tokenInput.get(i).getKind().compareToIgnoreCase("EOP") == 0) && (i + 1 < tokenInput.size())){
+                
+                globalTokens.clear();
+                i = i + 1;
+
+            }//if
+
+            //System.out.println(i);
+            //System.out.println(globalTokens.size());
+            //System.out.println(tokenInput.size());
+
             globalTokens.add(tokenInput.get(i));
             //System.out.println(globalTokens.get(i).getKind());
 
@@ -99,6 +111,8 @@ public class ASTParser {
         //From the tree class
         ASTClass.addNode("branch", "Block", theToken.getSymbol());
 
+        //System.out.println(theToken.getKind());
+
         //match the L_Brace token
         match("L_BRACE");
 
@@ -116,6 +130,8 @@ public class ASTParser {
     //parse Statementlist that recursively calls itself or the empty string
     //creates a statement list in the program
     public static void parseStatementList(){
+
+        //System.out.println(theToken.getKind());
 
         //if we have a next token that matches one of these tokens then we call parse statement and parse statement list
         if((theToken.getKind().compareToIgnoreCase("PRINT") == 0) || (theToken.getKind().compareToIgnoreCase("ID") == 0)

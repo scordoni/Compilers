@@ -36,7 +36,191 @@ a=b
 $
 
 
+{  /* abcdefghijklmnopqrstuvwxyz */ }$
+
+
+{ string a 
+
+  a = "abcdefghijklmnopqrstuvwxyz" }$
+
+
+{ "abcdefghijklmnopqr $
+
+
+{ " THIS is wrong " }$
+
+
+/* Long Test Case */ 
+{
+    /* Int Declaration */ 
+    boolean a = false
+    int b
+    a = true
+    b=7
+    /* While Loop */
+    while (a != 3) {
+        print(a) 
+        while(b!=3){
+            print(b) 
+            b=1+b
+            if (b == 2) {
+                /* Print Statement */
+                print("compilers are GREAT ! " )
+            }
+        }
+        b=0
+        a=1+a
+    } 
+}
+$
+
+/* Looks as though we can only show one error at a time since they're all at the end of the program */ 
+{("/* hello $
+
+{ 
+    /* what about comments */
+    a = "string"
+}$
+
+{ 
+    /* what about comments */
+    a = "int"
+}$
+
+{ 
+    /* what about comments */
+    a = "007"
+}$
+
+{ 
+    /* what about comments */
+    a = "unterminated string
+}$
+
+
+{
+    int a 
+    
+    a = 0
+
+    while (a != 9) {
+        a = 1 + a
+    }
+
+}$
+
+{
+    int a 
+    
+    a = 0
+
+    while (b != 9) {
+        a = 1 + a
+    }
+
+}$
+
+
+{print(007)}$
+
+{a=12}$
+
+{print(a)}$
+
+
+{
+  int a
+  {
+    boolean b
+    {
+      string c
+      {
+        a = 5
+        b = false
+        c = "inta"
+      }
+      print(c)
+    }
+    print(b)
+  }
+  print(a)
+}$
+
+
+{
+    int a
+    boolean b 
+    {
+        string c
+        a=5
+        b = true /* no comment */ 
+        c = "inta"
+        print(c)
+    } 
+    print(b) 
+    print(a)
+}$
+
+
+{
+    int a
+    a=1 
+    {
+       string a
+       a = "a"
+       print(a)
+    }
+    string b
+    b = "b"
+    if (a == 1) {
+        print(b) 
+    }
+}$
+
+
+{
+    
+    a=1 
+    {
+       string a
+       a = "a"
+       print(a)
+    }
+    string b
+    b = "b"
+    if (a == 1) {
+        print(b) 
+    }
+}$
+
+{
+    int a
+    a=1 
+    {
+       string a
+       a = "a"
+       print(a)
+    }
+    string a
+    a = "b"
+    if (a == 1) {
+        print(a) 
+    }
+}$
 
 
 
-
+{
+    int a
+    a= "a"
+    {
+       string a
+       a = "a"
+       print(a)
+    }
+    string b
+    b = "b"
+    if (a == 1) {
+        print(b) 
+    }
+}$

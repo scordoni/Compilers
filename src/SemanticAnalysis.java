@@ -155,7 +155,7 @@ public class SemanticAnalysis {
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol())){
 
                 System.out.println(" ");
-                System.out.println("Variable Declaration Error: " + currentAstNode.children.get(1).getSymbol() + " has been re-defined ");
+                System.out.println("Error: Variable Declaration Error: variable  \"" + currentAstNode.children.get(1).getSymbol() + "\" has been re-defined ");
                 System.out.println(" ");
 
                 ErrorFlag = 1;
@@ -213,7 +213,7 @@ public class SemanticAnalysis {
                     else{
 
                         System.out.println(" ");
-                        System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
                         System.out.println(" ");
 
                         ErrorFlag = 1;
@@ -232,7 +232,7 @@ public class SemanticAnalysis {
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
                         System.out.println(" ");
-                        System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
                         System.out.println(" ");
 
                         ErrorFlag = 1;
@@ -262,7 +262,7 @@ public class SemanticAnalysis {
                     else{
 
                         System.out.println(" ");
-                        System.out.println("Assignment Error: Type mismatch error for variable assignment ");
+                        System.out.println("Error: Assignment Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\"  assignment ");
                         System.out.println(" ");
 
                         ErrorFlag = 1;
@@ -309,7 +309,7 @@ public class SemanticAnalysis {
                             else{
 
                                 System.out.println(" ");
-                                System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                                System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
                                 System.out.println(" ");
 
                                 ErrorFlag = 1;
@@ -328,7 +328,7 @@ public class SemanticAnalysis {
                                 || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
                                 System.out.println(" ");
-                                System.out.println("Error: Type mismatch error for " + currentAstNode.children.get(0).getSymbol() + " variable assignment ");
+                                System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
                                 System.out.println(" ");
 
                                 ErrorFlag = 1;
@@ -361,7 +361,7 @@ public class SemanticAnalysis {
                             else{
 
                                 System.out.println(" ");
-                                System.out.println("Assignment Error: Type mismatch error for variable assignment ");
+                                System.out.println("Error: Assignment Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
                                 System.out.println(" ");
 
                                 ErrorFlag = 1;
@@ -380,7 +380,7 @@ public class SemanticAnalysis {
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
                     System.out.println(" ");
-                    System.out.println("Assignment Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+                    System.out.println("Error: Assignment Error: \"" + currentAstNode.children.get(0).getSymbol() + "\" does not exsist ");
                     System.out.println(" ");
 
                     ErrorFlag = 1;
@@ -431,7 +431,7 @@ public class SemanticAnalysis {
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
                     System.out.println(" ");
-                    System.out.println("Print Statement Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+                    System.out.println("Error: Print Statement Error: \"" + currentAstNode.children.get(0).getSymbol() + "\" does not exsist ");
                     System.out.println(" ");
 
                     ErrorFlag = 1;
@@ -482,7 +482,7 @@ public class SemanticAnalysis {
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
                     System.out.println(" ");
-                    System.out.println("If Statement Error: " + currentAstNode.children.get(1).getSymbol() + " does not exsist ");
+                    System.out.println("Error: If Statement Error: \"" + currentAstNode.children.get(1).getSymbol() + "\" does not exsist ");
                     System.out.println(" ");
 
                     ErrorFlag = 1;
@@ -523,18 +523,18 @@ public class SemanticAnalysis {
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
                     //if it is in the hashtable then it exsists 
-                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
 
-                        currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                        currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                         
                     }//if
 
                 }//while
 
-                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol()) == false){
 
                     System.out.println(" ");
-                    System.out.println("While Statement Error: " + currentAstNode.children.get(0).getSymbol() + " does not exsist ");
+                    System.out.println("Error: While Statement Error: \"" + currentAstNode.children.get(1).getSymbol() + "\" does not exsist on line " + lineNumber);
                     System.out.println(" ");
 
                     ErrorFlag = 1;
@@ -586,13 +586,13 @@ public class SemanticAnalysis {
 
                 if ( temp.myIsUsed == false){
 
-                    System.out.println(temp.myName + " has not been used");
+                    System.out.println("\"" + temp.myName + "\" has not been used on line " + temp.myLine);
     
                 }//if
     
                 if ( temp.myIsInitilaized == false){
     
-                    System.out.println(temp.myName + " has not been initialized");
+                    System.out.println("\"" + temp.myName + "\" has not been initialized on line " + temp.myLine);
     
                 }//if
 

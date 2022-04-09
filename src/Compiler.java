@@ -133,6 +133,7 @@ public class Compiler{
 
                             //System.out.println("Error Flag: " + Parser.ErrorFlag);
 
+                            
                             if (Parser.ErrorFlag == 1){
                             
                                 System.out.println(" ");
