@@ -129,6 +129,7 @@ public class SemanticAnalysis {
                 currentScope++;
             }//if
 
+            //else we create a new hashtable and up the scope for the new block of code
             else{
                 
                 currentScope++;
@@ -275,18 +276,17 @@ public class SemanticAnalysis {
                 
             }//if
 
-            //if it is not then it doesn't exist.
+            //we loop through the previous hashtables or scope to see if the variable was defined before we
+            //entered the current scope, if the variable is not defined in any scope then the variable is 
+            //not defined at all and an error thrown.
             else{
 
                 tempNode = currentSymbolTableNode;
 
                 currentSymbolTableNodeParent = currentSymbolTableNode;
 
-                
 
                 while(currentSymbolTableNodeParent.getParent() != null){
-
-                    
 
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
@@ -388,14 +388,10 @@ public class SemanticAnalysis {
 
                 }//if
 
-
                 currentSymbolTableNode = tempNode;
-
-                
 
             }//else
             
-
         }//if
 
         //if we have a print statment then we can check to see whether or not the symbol exsists
@@ -409,7 +405,9 @@ public class SemanticAnalysis {
                 
             }//if
             
-            //if it is not then it doesn't exist.
+            //we loop through the previous hashtables or scope to see if the variable was defined before we
+            //entered the current scope, if the variable is not defined in any scope then the variable is 
+            //not defined at all and an error thrown.
             else{
 
                 tempNode = currentSymbolTableNode;
@@ -458,7 +456,9 @@ public class SemanticAnalysis {
                 
             }//if
 
-            //if it is not then it doesn't exist.
+            //we loop through the previous hashtables or scope to see if the variable was defined before we
+            //entered the current scope, if the variable is not defined in any scope then the variable is 
+            //not defined at all and an error thrown.
             else{
 
                 tempNode = currentSymbolTableNode;
@@ -510,7 +510,9 @@ public class SemanticAnalysis {
                 
             }//if
 
-            //if it is not then it doesn't exist.
+            //we loop through the previous hashtables or scope to see if the variable was defined before we
+            //entered the current scope, if the variable is not defined in any scope then the variable is 
+            //not defined at all and an error thrown.
             else{
 
                 tempNode = currentSymbolTableNode;
@@ -542,17 +544,11 @@ public class SemanticAnalysis {
 
                 }//if
 
-
                 currentSymbolTableNode = tempNode;
-
                 
-
             }//else
             
-
         }//if
-
-    
 
         else{
                 
@@ -568,7 +564,7 @@ public class SemanticAnalysis {
     }//traverse
 
 
-    //print symbol table
+    //print any warning from the program
     public static void printWarnings(ArrayList<SymbolTableNode>  symbolTableList){
             
 
@@ -585,12 +581,14 @@ public class SemanticAnalysis {
 
                 SemanticAnalysisNode temp = itr.next();
 
+                //if the variable was initialized but not used then we throw a warning
                 if ( temp.myIsUsed == false){
 
                     System.out.println("\"" + temp.myName + "\" has not been used on line " + temp.myLine);
     
                 }//if
     
+                //if the variable was not initialized then we throw a warning.
                 if ( temp.myIsInitilaized == false){
     
                     System.out.println("\"" + temp.myName + "\" has not been initialized on line " + temp.myLine);
