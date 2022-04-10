@@ -69,6 +69,8 @@ public class SemanticAnalysis {
 
         currentSymbolTableNode = initSymbolTableNode;
 
+        System.out.println("SEMANTIC ANALYSIS: START");
+
         //traverse through the AST for scope checking
         traverse(currentAstNode, currentSymbolTableNode, symbolTableList);
 
@@ -91,13 +93,16 @@ public class SemanticAnalysis {
 
         if(ErrorFlag == 1){
 
+            System.out.println(" ");
             System.out.println("Due to Semantic Analysis Error the Symbol Table was not produced.");
+            System.out.println("Program Compilation Halted");
         
         }//if
 
         else{
 
-            System.out.println("Semantic Analysis Successful");
+            System.out.println(" ");
+            System.out.println("SEMANTIC ANALYSIS SUCCESSFUL");
 
             //print the symbol table
             printSymbolTable(symbolTableList);
@@ -123,6 +128,8 @@ public class SemanticAnalysis {
 
         //if we have block stmt then we need a new table and to up the scope
         if(currentAstNode.getName().compareToIgnoreCase("Block") == 0){
+
+            System.out.println("SEMANTIC ANALYSIS: Block");
 
             if(currentScope == -1){
                 
@@ -152,6 +159,8 @@ public class SemanticAnalysis {
 
         //if we have a variable declaration then we create a new node for the symbol table
         if(currentAstNode.getName().compareToIgnoreCase("VarDecl") == 0){
+
+            System.out.println("SEMANTIC ANALYSIS: Variable Declaration");
 
             //if collison in hashtable then we have a re-definition
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol())){
@@ -184,6 +193,10 @@ public class SemanticAnalysis {
                 //System.out.println(SANode.getName());
                 //System.out.println(SANode.getType());
 
+                System.out.println("SEMANTIC ANALYSIS: Variable Declaration of type " + SANode.getType());
+                System.out.println("SEMANTIC ANALYSIS: Variable Declaration with name \"" + SANode.getName() + "\"");
+                System.out.println("SEMANTIC ANALYSIS: Variable Declaration of scope " + SANode.getScope());
+
                 //add to hashtable
                 currentSymbolTableNode.mySymbolTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
 
@@ -194,6 +207,8 @@ public class SemanticAnalysis {
 
         //if we have an assignment stmt then we must check for type matching
         if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
+
+            System.out.println("SEMANTIC ANALYSIS: Assignment Statement");
 
             //if it is in the hashtable then it exsists 
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
@@ -208,6 +223,8 @@ public class SemanticAnalysis {
                         || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
 
                             currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+
+                            System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
 
                     }//if
 
@@ -246,6 +263,8 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+
                     }//else
 
                 };
@@ -258,6 +277,7 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
                     }//if
 
                     //otherwise it is a type mismatch error
@@ -303,6 +323,9 @@ public class SemanticAnalysis {
                                 || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
 
                                     currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                                    
+                                    System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+
                                     break;
                             }//if
 
@@ -341,6 +364,9 @@ public class SemanticAnalysis {
 
                                 
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                                
+                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+
                                 break;
 
                             }//else
@@ -353,8 +379,10 @@ public class SemanticAnalysis {
                             //if we assign a boolean value to the variable then it is initialized.
                             if ((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false")==0)){
 
-                                
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
+                                
+                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+
                                 break;
                             }//if
 
@@ -398,11 +426,15 @@ public class SemanticAnalysis {
         //if it does exsist then we set the is used parameter to true
         if(currentAstNode.getName().compareToIgnoreCase("PrintStatement") == 0){
 
+            System.out.println("SEMANTIC ANALYSIS: Print Statement");
+
             //if it is in the hashtable then it exsists 
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                 
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
             }//if
             
             //we loop through the previous hashtables or scope to see if the variable was defined before we
@@ -423,6 +455,8 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                         
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
                     }//if
 
                 }//while
@@ -448,12 +482,15 @@ public class SemanticAnalysis {
 
         if(currentAstNode.getName().compareToIgnoreCase("IfStatement") == 0){
             
+            System.out.println("SEMANTIC ANALYSIS: If Statement");
 
             //if it is in the hashtable then it exsists 
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                 
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
             }//if
 
             //we loop through the previous hashtables or scope to see if the variable was defined before we
@@ -476,6 +513,8 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                         
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
                     }//if
 
                 }//while
@@ -502,12 +541,15 @@ public class SemanticAnalysis {
 
         if(currentAstNode.getName().compareToIgnoreCase("WhileStatement") == 0){
 
+            System.out.println("SEMANTIC ANALYSIS: While Statement");
             
             //if it is in the hashtable then it exsists 
             if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol()) == true){
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                 
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
             }//if
 
             //we loop through the previous hashtables or scope to see if the variable was defined before we
@@ -521,8 +563,6 @@ public class SemanticAnalysis {
 
                 while(currentSymbolTableNodeParent.getParent() != null){
 
-                    
-
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
                     //if it is in the hashtable then it exsists 
@@ -530,6 +570,8 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                         
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+
                     }//if
 
                 }//while
