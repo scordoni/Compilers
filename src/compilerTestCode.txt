@@ -223,3 +223,19 @@ $
     print(b) 
     print(a)
 }$
+
+
+{
+    int a
+    string b 
+    
+    a = 2
+    
+    b = "b"
+    
+    if(a == 2){
+        print(b)
+    }
+       
+    print(a)
+}$

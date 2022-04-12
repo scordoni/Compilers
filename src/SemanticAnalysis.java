@@ -24,6 +24,8 @@ public class SemanticAnalysis {
 
     static int currentScope = -1;
 
+    static int tempScope = -1;
+
     static SemanticAnalysisNode currentSemanticAnalysisNode;
 
     static ArrayList <SymbolTableNode> symbolTableList;
@@ -69,10 +71,27 @@ public class SemanticAnalysis {
 
         currentSymbolTableNode = initSymbolTableNode;
 
-        System.out.println("SEMANTIC ANALYSIS: START");
+        System.out.println("INFO: SEMANTIC ANALYSIS START");
 
         //traverse through the AST for scope checking
         traverse(currentAstNode, currentSymbolTableNode, symbolTableList);
+
+        while(currentScope != 0 ){
+
+            System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+
+            currentScope--;
+
+            System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope);
+
+        }//while
+
+        if(currentScope == 0){
+
+            System.out.println("SEMANTIC ANALYSIS: At scope " + currentScope);
+
+        }//if
+
 
         //if we have warnings then print the warning table else skip
         if(WarningFlag == 1){
@@ -134,12 +153,19 @@ public class SemanticAnalysis {
             if(currentScope == -1){
                 
                 currentScope++;
+
+                System.out.println("SEMANTIC ANALYSIS: Entering scope 0");
+
             }//if
 
             //else we create a new hashtable and up the scope for the new block of code
             else{
                 
+                System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+
                 currentScope++;
+
+                System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope);
             
                 SymbolTableNode nextTable = new SymbolTableNode();
 
@@ -193,10 +219,8 @@ public class SemanticAnalysis {
                 //System.out.println(SANode.getName());
                 //System.out.println(SANode.getType());
 
-                System.out.println("SEMANTIC ANALYSIS: Variable Declaration of type " + SANode.getType());
-                System.out.println("SEMANTIC ANALYSIS: Variable Declaration with name \"" + SANode.getName() + "\"");
-                System.out.println("SEMANTIC ANALYSIS: Variable Declaration of scope " + SANode.getScope());
-
+                System.out.println("SEMANTIC ANALYSIS: Variable Declaration of type " + SANode.getType() + " with name \"" + SANode.getName() + "\" of scope " + SANode.getScope());
+               
                 //add to hashtable
                 currentSymbolTableNode.mySymbolTable.put(currentAstNode.children.get(1).getSymbol(), SANode );
 
@@ -224,7 +248,7 @@ public class SemanticAnalysis {
 
                             currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
-                            System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+                            System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and initialized");
 
                     }//if
 
@@ -263,7 +287,7 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
 
-                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and initialized");
 
                     }//else
 
@@ -303,11 +327,16 @@ public class SemanticAnalysis {
 
                 tempNode = currentSymbolTableNode;
 
+                tempScope = currentScope;
+
                 currentSymbolTableNodeParent = currentSymbolTableNode;
 
 
                 while(currentSymbolTableNodeParent.getParent() != null){
 
+                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+    
+                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
                     //if it is in the hashtable then it exsists 
@@ -324,7 +353,7 @@ public class SemanticAnalysis {
 
                                     currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
                                     
-                                    System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+                                    System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and initialized");
 
                                     break;
                             }//if
@@ -365,7 +394,7 @@ public class SemanticAnalysis {
                                 
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
                                 
-                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and initialized");
 
                                 break;
 
@@ -381,7 +410,7 @@ public class SemanticAnalysis {
 
                                 currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsInitilaized(true);
                                 
-                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been initialized");
+                                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and initialized");
 
                                 break;
                             }//if
@@ -403,9 +432,7 @@ public class SemanticAnalysis {
 
                 }//while
 
-                //System.out.println(currentSymbolTableNodeParent.mySymbolTable.keySet());
-                //System.out.println(currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()));
-
+                //if the variable is not found at all then it does not exsist
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
                     System.out.println(" ");
@@ -416,7 +443,14 @@ public class SemanticAnalysis {
 
                 }//if
 
+
+                //reset variables to where they were before backtrack
+
                 currentSymbolTableNode = tempNode;
+
+                currentScope = tempScope;
+
+                System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
 
             }//else
             
@@ -433,7 +467,7 @@ public class SemanticAnalysis {
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                 
-                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
             }//if
             
@@ -444,9 +478,15 @@ public class SemanticAnalysis {
 
                 tempNode = currentSymbolTableNode;
 
+                tempScope = currentScope;
+
                 currentSymbolTableNodeParent = currentSymbolTableNode;
 
                 while(currentSymbolTableNodeParent.getParent() != null){
+
+                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+    
+                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
 
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
@@ -455,12 +495,13 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                         
-                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
                     }//if
 
                 }//while
 
+                //if the variable is not found at all then it does not exsist
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
 
                     System.out.println(" ");
@@ -471,15 +512,20 @@ public class SemanticAnalysis {
 
                 }//if
 
+                //reset variables to what they were before backtrack
 
                 currentSymbolTableNode = tempNode;
+                
+                currentScope = tempScope;
 
+                System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
                 
 
             }//else
 
         }//if
 
+        //if the node is equal to an if statement
         if(currentAstNode.getName().compareToIgnoreCase("IfStatement") == 0){
             
             System.out.println("SEMANTIC ANALYSIS: If Statement");
@@ -489,7 +535,7 @@ public class SemanticAnalysis {
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                 
-                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
             }//if
 
@@ -504,7 +550,9 @@ public class SemanticAnalysis {
 
                 while(currentSymbolTableNodeParent.getParent() != null){
 
-                    
+                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+
+                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
 
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
@@ -513,7 +561,7 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
                         
-                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
                     }//if
 
@@ -529,16 +577,28 @@ public class SemanticAnalysis {
 
                 }//if
 
+                //reset variables to where they were before backtrack
 
                 currentSymbolTableNode = tempNode;
 
-                
+                currentScope = tempScope;
+
+                System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
 
             }//else
             
-
         }//if
 
+
+
+        //look into whiles other children
+
+        //look at entering and exit output and make sure we are actually entering and exiting
+
+
+
+
+        //if the node is equal to a while statement
         if(currentAstNode.getName().compareToIgnoreCase("WhileStatement") == 0){
 
             System.out.println("SEMANTIC ANALYSIS: While Statement");
@@ -548,7 +608,7 @@ public class SemanticAnalysis {
 
                 currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                 
-                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
             }//if
 
@@ -563,6 +623,10 @@ public class SemanticAnalysis {
 
                 while(currentSymbolTableNodeParent.getParent() != null){
 
+                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+    
+                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
+
                     currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
                     //if it is in the hashtable then it exsists 
@@ -570,28 +634,36 @@ public class SemanticAnalysis {
 
                         currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).setIsUsed(true);
                         
-                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been used");
+                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
                     }//if
 
                 }//while
 
+                //if the variable is not found at all then it does not exsist
                 if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(1).getSymbol()) == false){
 
                     System.out.println(" ");
-                    System.out.println("Error: While Statement Error: \"" + currentAstNode.children.get(1).getSymbol() + "\" does not exsist on line " + lineNumber);
+                    System.out.println("Error: While Statement Error: \"" + currentAstNode.children.get(1).getSymbol() + "\" does not exsist " );
                     System.out.println(" ");
 
                     ErrorFlag = 1;
 
                 }//if
 
+                //reset variables to where they were before backtrack
+
                 currentSymbolTableNode = tempNode;
+
+                currentScope = tempScope;
+
+                System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
                 
             }//else
             
         }//if
 
+        //else we traverse through the ast to the next node
         else{
                 
             //traverse through the AST
@@ -599,6 +671,17 @@ public class SemanticAnalysis {
 
                 traverse(currentAstNode.children.get(i), currentSymbolTableNode, symbolTableList);
                 
+                if(currentAstNode.children.get(i).getName().compareToIgnoreCase("Block")==0){
+
+                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+    
+                    currentScope--;
+
+                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope);
+
+                }//if
+
+
             }//for
 
         }//else
@@ -614,6 +697,7 @@ public class SemanticAnalysis {
         System.out.println(" ");
         System.out.println("Warnings for program: " + programNumber);
         
+        //for each hashtable node in the symbol table we loop through to find un-used to un-initialized variables
         for(int i = 0; i < symbolTableList.size(); i++){
 
             //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
@@ -654,6 +738,7 @@ public class SemanticAnalysis {
         System.out.println("    Name    Type    Scope   IsUsed  IsInitialized   Line    ");
         System.out.println("------------------------------------------------------------");
 
+        //for each hashtable node in the symbol table we loop through to print out its contents
         for(int i = 0; i < symbolTableList.size(); i++){
 
             //print code found online at https://www.javacodeexamples.com/print-hashtable-in-java-example/3154
