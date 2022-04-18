@@ -239,3 +239,32 @@ $
        
     print(a)
 }$
+
+
+{
+  int a
+  boolean b
+  string c
+  a = 5
+  b = true
+  c = "inta"
+  /* is lex still working */
+  print(c)
+  print(b)
+  print(a)
+  print(5+a)
+}$
+
+{
+  int a
+  boolean b
+  string c
+  a = 5
+  b = true
+  c = "inta"
+  /* is lex still working */
+  print(8+c)
+  print(7+b)
+  print(6+a)
+  print(5+a)
+}$

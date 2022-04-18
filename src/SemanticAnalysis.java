@@ -462,64 +462,136 @@ public class SemanticAnalysis {
 
             System.out.println("SEMANTIC ANALYSIS: Print Statement");
 
-            //if it is in the hashtable then it exsists 
-            if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+            if(currentAstNode.children.size() != 1){
+                //System.out.println(currentAstNode.children.get(0).getSymbol());
+                //System.out.println(currentAstNode.children.get(1).getSymbol());
+                //System.out.println(currentAstNode.children.get(2).getSymbol());
 
-                currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                //if it is in the hashtable then it exsists 
+                if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(2).getSymbol()) == true){
+
+                    currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(2).getSymbol()).setIsUsed(true);
+                    
+                    System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(2).getSymbol() + "\" has been retrieved and used");
+
+                }//if
                 
-                System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
+                //we loop through the previous hashtables or scope to see if the variable was defined before we
+                //entered the current scope, if the variable is not defined in any scope then the variable is 
+                //not defined at all and an error thrown.
+                else{
 
-            }//if
-            
-            //we loop through the previous hashtables or scope to see if the variable was defined before we
-            //entered the current scope, if the variable is not defined in any scope then the variable is 
-            //not defined at all and an error thrown.
-            else{
+                    tempNode = currentSymbolTableNode;
 
-                tempNode = currentSymbolTableNode;
+                    tempScope = currentScope;
 
-                tempScope = currentScope;
+                    currentSymbolTableNodeParent = currentSymbolTableNode;
 
-                currentSymbolTableNodeParent = currentSymbolTableNode;
+                    while(currentSymbolTableNodeParent.getParent() != null){
 
-                while(currentSymbolTableNodeParent.getParent() != null){
+                        System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+        
+                        System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
 
-                    System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
-    
-                    System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
+                        currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
 
-                    currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
+                        //if it is in the hashtable then it exsists 
+                        if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(2).getSymbol()) == true){
 
-                    //if it is in the hashtable then it exsists 
-                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+                            currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(2).getSymbol()).setIsUsed(true);
+                            
+                            System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(2).getSymbol() + "\" has been retrieved and used");
 
-                        currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
-                        
-                        System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
+                        }//if
+
+                    }//while
+
+                    //if the variable is not found at all then it does not exsist
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(2).getSymbol()) == false){
+
+                        System.out.println(" ");
+                        System.out.println("Error: Print Statement Error: \"" + currentAstNode.children.get(2).getSymbol() + "\" does not exsist ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
 
                     }//if
 
-                }//while
+                    //reset variables to what they were before backtrack
 
-                //if the variable is not found at all then it does not exsist
-                if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+                    currentSymbolTableNode = tempNode;
+                    
+                    currentScope = tempScope;
 
-                    System.out.println(" ");
-                    System.out.println("Error: Print Statement Error: \"" + currentAstNode.children.get(0).getSymbol() + "\" does not exsist ");
-                    System.out.println(" ");
+                    System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
+                    
 
-                    ErrorFlag = 1;
+                }//else
+
+            }//if
+
+            else{
+
+                //if it is in the hashtable then it exsists 
+                if( currentSymbolTableNode.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+
+                    currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                    
+                    System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
 
                 }//if
-
-                //reset variables to what they were before backtrack
-
-                currentSymbolTableNode = tempNode;
                 
-                currentScope = tempScope;
+                //we loop through the previous hashtables or scope to see if the variable was defined before we
+                //entered the current scope, if the variable is not defined in any scope then the variable is 
+                //not defined at all and an error thrown.
+                else{
 
-                System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
-                
+                    tempNode = currentSymbolTableNode;
+
+                    tempScope = currentScope;
+
+                    currentSymbolTableNodeParent = currentSymbolTableNode;
+
+                    while(currentSymbolTableNodeParent.getParent() != null){
+
+                        System.out.println("SEMANTIC ANALYSIS: Leaving scope " + currentScope);
+    
+                        System.out.println("SEMANTIC ANALYSIS: Entering scope " + currentScope--);
+
+                        currentSymbolTableNodeParent = currentSymbolTableNodeParent.getParent();
+
+                        //if it is in the hashtable then it exsists 
+                        if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == true){
+
+                            currentSymbolTableNodeParent.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).setIsUsed(true);
+                            
+                            System.out.println("SEMANTIC ANALYSIS: Variable \"" + currentAstNode.children.get(0).getSymbol() + "\" has been retrieved and used");
+
+                        }//if
+
+                    }//while
+
+                    //if the variable is not found at all then it does not exsist
+                    if( currentSymbolTableNodeParent.mySymbolTable.containsKey(currentAstNode.children.get(0).getSymbol()) == false){
+
+                        System.out.println(" ");
+                        System.out.println("Error: Print Statement Error: \"" + currentAstNode.children.get(0).getSymbol() + "\" does not exsist ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
+
+                    }//if
+
+                    //reset variables to what they were before backtrack
+
+                    currentSymbolTableNode = tempNode;
+                    
+                    currentScope = tempScope;
+
+                    System.out.println("SEMANTIC ANALYSIS: Back to scope " + currentScope);
+                    
+
+                }//else
 
             }//else
 
