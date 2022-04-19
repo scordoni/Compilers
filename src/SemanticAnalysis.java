@@ -589,15 +589,6 @@ public class SemanticAnalysis {
             
         }//if
 
-
-
-        //look into whiles other children
-
-        //look at entering and exit output and make sure we are actually entering and exiting
-
-
-
-
         //if the node is equal to a while statement
         if(currentAstNode.getName().compareToIgnoreCase("WhileStatement") == 0){
 
