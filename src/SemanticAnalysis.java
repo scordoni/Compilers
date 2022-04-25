@@ -43,6 +43,8 @@ public class SemanticAnalysis {
     static Hashtable < String, SemanticAnalysisNode > currentTable;
 
     static int i = 0;
+
+    static int variableSize;
     
     //This method is the main Semantic Analysis method
     public static void SAnalysis(ASTNode root){
@@ -63,6 +65,8 @@ public class SemanticAnalysis {
         currentScope = -1;
 
         currentAstNode = root;
+
+        variableSize = 0;
 
 
         //move pointer from program to block
@@ -216,6 +220,9 @@ public class SemanticAnalysis {
 
                 lineNumber++;
 
+                variableSize++;
+
+                
                 //System.out.println(SANode.getName());
                 //System.out.println(SANode.getType());
 

@@ -164,6 +164,21 @@ public class Compiler{
                                 System.out.println("Semantic Analysis for Program: " + programNumber);
                                 SemanticAnalysis.SAnalysis(ASTClass.root);
 
+                                if (SemanticAnalysis.ErrorFlag == 1){
+                            
+        
+                                }//if
+
+                                else{
+
+                                    //call Code Generation
+                                    System.out.println(" ");
+                                    System.out.println(" ");
+                                    System.out.println("Code Generation for Program: " + programNumber);
+                                    CodeGeneration.codeGeneration(ASTClass.root);
+
+                                }//else
+
 
                             }//else
 
