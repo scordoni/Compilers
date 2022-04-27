@@ -44,6 +44,7 @@ public class CodeGeneration {
         i = 0;
         t = 0;
 
+        currentAstNode = root;
 
         //move pointer from program to block
         //this is the only way to make this work so ill take the points off for having to keep "Program" in the AST
@@ -68,9 +69,16 @@ public class CodeGeneration {
 
             System.out.println(" ");
             System.out.println("CODE GENERATION SUCCESSFUL");
+            System.out.println(" ");
 
             //print the symbol table
-            System.out.println(executableImage);
+            for(int i = 0; i < executableImage.length; i++){
+
+                System.out.print(executableImage[i]);
+
+            }//for
+
+
 
         }//else
 

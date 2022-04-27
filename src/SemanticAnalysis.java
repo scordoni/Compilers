@@ -16,7 +16,7 @@ public class SemanticAnalysis {
 
     static int lineNumber = 0;
 
-    static int ErrorFlag;
+    public static int ErrorFlag;
 
     static int WarningFlag;
 
@@ -222,7 +222,7 @@ public class SemanticAnalysis {
 
                 variableSize++;
 
-                
+
                 //System.out.println(SANode.getName());
                 //System.out.println(SANode.getType());
 

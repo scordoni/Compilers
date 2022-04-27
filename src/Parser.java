@@ -26,7 +26,7 @@ public class Parser {
 
     static int lineNumber = 0;
 
-    static int ErrorFlag = 0;
+    public static int ErrorFlag = 0;
 
     static int numberOfErrors = 0;
 

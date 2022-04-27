@@ -17,7 +17,7 @@ public class ASTClass {
 
     static int programNumber = 1;
 
-    static ASTNode root = null;
+    public static ASTNode root = null;
 
     static ASTNode current = null;
 

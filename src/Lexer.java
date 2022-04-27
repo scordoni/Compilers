@@ -29,7 +29,7 @@ public class Lexer {
 
     static int stringWordFlag = 0;
 
-    static int ErrorFlag;
+    public static int ErrorFlag;
 
     static int numberOfErrors = 0;
 
