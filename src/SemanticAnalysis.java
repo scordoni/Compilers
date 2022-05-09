@@ -28,7 +28,7 @@ public class SemanticAnalysis {
 
     static SemanticAnalysisNode currentSemanticAnalysisNode;
 
-    static ArrayList <SymbolTableNode> symbolTableList;
+    public static ArrayList <SymbolTableNode> symbolTableList;
 
     static ASTNode currentAstNode;
 

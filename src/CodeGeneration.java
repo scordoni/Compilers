@@ -1,5 +1,6 @@
 import java.lang.reflect.Executable;
 import java.util.Arrays;
+import java.util.Iterator;
 
 /*
 * 
@@ -140,7 +141,7 @@ public class CodeGeneration {
 
         System.out.println("  ");
 
-        
+
 
         //System.out.println("jump " + executableImage.length);
 
@@ -171,7 +172,7 @@ public class CodeGeneration {
 
         System.out.println(jumpNum);
 
-        /*
+        
         for(int x = 0; x <= t; x++){
 
             //System.out.println("T " + x);
@@ -203,7 +204,7 @@ public class CodeGeneration {
             temp = temp + 1;
 
         }//for
-        */
+        
 
         for(int y = 0; y <= j; y++){
 
@@ -618,11 +619,11 @@ public class CodeGeneration {
 
                 for(int r = 0; r < staticData[e].length; r++){
 
-                    //System.out.println(staticData[e][r]);
+                    
 
                     if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 1]) == currentScope)){
 
-                        //System.out.println("hello");
+                        System.out.println("hello1");
 
                         printTemp = staticData[e][r - 1].split("");
 
@@ -637,7 +638,9 @@ public class CodeGeneration {
 
                     else if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 1]) != currentScope)){
 
-                        //System.out.println("hello");
+                        System.out.println(staticData[e][r + 1]);
+                        System.out.println(currentScope);
+                        System.out.println("hello");
 
                         printTemp = staticData[e][r - 1].split("");
 
@@ -654,15 +657,18 @@ public class CodeGeneration {
             }//for
 
 
-
-            
-            
             executableImage[i] = "XX";
             i++;
             executableImage[i] = "A2";
             i++;
+
+
+
             executableImage[i] = "01";
             i++;
+
+            
+
             executableImage[i] = "FF";
             i++;
 
@@ -688,6 +694,20 @@ public class CodeGeneration {
                 i++;
 
             }//if
+
+            else if(currentAstNode.children.get(3).getSymbol().toString().compareToIgnoreCase("true") == 0){
+
+                executableImage[i] = "01";
+                i++;
+
+            }//else
+
+            else if(currentAstNode.children.get(3).getSymbol().toString().compareToIgnoreCase("false") == 0){
+
+                executableImage[i] = "00";
+                i++;
+
+            }//else
 
             else{
 
@@ -744,7 +764,7 @@ public class CodeGeneration {
             
             executableImage[i] = "XX";
             i++;
-            executableImage[i] = "DO";
+            executableImage[i] = "D0";
             i++;
             executableImage[i] = "J"+j;
             i++;
