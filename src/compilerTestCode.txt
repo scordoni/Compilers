@@ -4,16 +4,20 @@
     print(i)
 }$
 
-
-
 {
     int a
     a = 1
     
-    boolean b
-    b = true
+    {
+        int a
+        a = 2
+        print(a)
+    }
+
+    string b
+    b = "alan"
 
     if(a == 1){
-        print(a)
+        print(b)
     }
 }$
