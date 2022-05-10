@@ -5,19 +5,13 @@
 }$
 
 {
-    int a
-    a = 1
-    
-    {
-        int a
-        a = 2
-        print(a)
-    }
+  int a
+  string b
+  b = a
+}$
 
-    string b
-    b = "alan"
-
-    if(a == 1){
-        print(b)
-    }
+{
+  int a
+  int b
+  b = a
 }$

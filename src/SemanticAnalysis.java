@@ -28,7 +28,7 @@ public class SemanticAnalysis {
 
     static SemanticAnalysisNode currentSemanticAnalysisNode;
 
-    public static ArrayList <SymbolTableNode> symbolTableList;
+    static ArrayList <SymbolTableNode> symbolTableList;
 
     static ASTNode currentAstNode;
 
@@ -96,21 +96,9 @@ public class SemanticAnalysis {
 
         }//if
 
-
-        //if we have warnings then print the warning table else skip
-        if(WarningFlag == 1){
-
-            //print any possible warnings
-            printWarnings(symbolTableList);
-        
-        }//if
-
-        else{
-
-            
-
-        }//else
-
+        //print any possible warnings
+        printWarnings(symbolTableList);
+ 
        
         //if we have error then output error message and no table or output symbol table
 
@@ -270,6 +258,7 @@ public class SemanticAnalysis {
 
                     }//else
 
+
                 };
 
                 //if the symbol is an string then we have to make sure we assign a string
@@ -298,7 +287,32 @@ public class SemanticAnalysis {
 
                     }//else
 
-                };
+                    //if the symbol is an integer then we have to make sure we assign an integer
+                    if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).getType().compareToIgnoreCase("int") == 0){
+
+                        
+                        System.out.println(" ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
+
+                    }//if
+
+                    //if the symbol is an integer then we have to make sure we assign an integer
+                    if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
+
+                        
+                        System.out.println(" ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
+
+                    }//if
+                    
+
+                }//if
 
                 //if the symbol is an string then we have to make sure we assign a string
                 if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(0).getSymbol()).getType().compareToIgnoreCase("boolean") == 0){
@@ -321,6 +335,30 @@ public class SemanticAnalysis {
                         ErrorFlag = 1;
 
                     }//else
+
+                    //if the symbol is an integer then we have to make sure we assign an integer
+                    if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).getType().compareToIgnoreCase("int") == 0){
+
+                        
+                        System.out.println(" ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
+
+                    }//if
+
+                    //if the symbol is an integer then we have to make sure we assign an integer
+                    if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).getType().compareToIgnoreCase("string") == 0){
+
+                        
+                        System.out.println(" ");
+                        System.out.println("Error: Type mismatch error for variable \"" + currentAstNode.children.get(0).getSymbol() + "\" assignment ");
+                        System.out.println(" ");
+
+                        ErrorFlag = 1;
+
+                    }//if
 
                 };
                 

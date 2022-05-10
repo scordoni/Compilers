@@ -40,6 +40,8 @@ public class CodeGeneration {
 
     static int m;
 
+    static int ifFlag;
+
     static int offset;
 
     static int jump;
@@ -81,6 +83,8 @@ public class CodeGeneration {
         l = 0;
         m = 0;
 
+        ifFlag = 0;
+
         jump = 0;
         jumpNum = 0;
 
@@ -95,7 +99,7 @@ public class CodeGeneration {
         }//for
 
 
-
+        //set the current AST node as the root
         currentAstNode = root;
 
         //move pointer from program to block
@@ -131,6 +135,7 @@ public class CodeGeneration {
 
         }//for
 
+        //print the arrays to test
         System.out.println("  ");
 
         System.out.println(Arrays.deepToString(staticData));
@@ -145,22 +150,25 @@ public class CodeGeneration {
 
         //System.out.println("jump " + executableImage.length);
 
+        //for the 'If' stmt create and set the jump value
         fullbreak:
         for(int c = 0; c < executableImage.length; c++){
 
-
+            //if we hit 'J0' set the jump flag
             if(executableImage[c].compareToIgnoreCase("J0") == 0){
 
                 jump = 1;
 
             }//if
 
+            //keep going until we hit a break stmt
             else if((jump == 1)&&(executableImage[c].compareToIgnoreCase("00") != 0)){
 
                 jumpNum++;
 
             }//else if
 
+            //reset the jump flag
             else if((jump == 1)&&(executableImage[c].compareToIgnoreCase("00") == 0)){
 
                 jump = 0;
@@ -174,20 +182,20 @@ public class CodeGeneration {
 
         //System.out.println(jumpNum);
 
-        
+        //backpatching the static data table of the T values
+
         for(int x = 0; x <= t; x++){
 
             //System.out.println("T " + x);
 
             for(int r = 0; r < executableImage.length; r++){
 
-
+                //if we hit a T value we replace it with its intended value
                 if((executableImage[r].compareToIgnoreCase("T" + x) == 0) && (executableImage[r+1].compareToIgnoreCase("XX") == 0)){
     
                     tempString = Integer.toString(temp, 16).toUpperCase().toString();
     
-                    
-    
+                    //if it has a length of one then we pad it with a 0
                     if(tempString.length() == 1){
     
                         tempString = "0" + Integer.toString(temp, 16).toUpperCase().toString();
@@ -197,7 +205,6 @@ public class CodeGeneration {
                     executableImage[r] = tempString;
     
                     executableImage[r+1] = "00";
-
 
                     //System.out.println("tempstring length " + tempString.length());
     
@@ -211,13 +218,12 @@ public class CodeGeneration {
 
         }//for
         
-
+        //backpatching the J values for the if stmts
         for(int y = 0; y <= j; y++){
 
             //System.out.println("J" + y);
 
             for(int z = 0; z < executableImage.length; z++){
-
 
                 if((executableImage[z].compareToIgnoreCase("J" + y) == 0)){
     
@@ -233,8 +239,6 @@ public class CodeGeneration {
                     }//if
     
                     executableImage[z] = tempString;
-
-
     
                 }//if
     
@@ -288,7 +292,7 @@ public class CodeGeneration {
         
         //look into length of each instruction and add to the array from there
 
-        //if we have then we skip
+        //if we have a block then we increment the scope
         if(currentAstNode.getName().compareToIgnoreCase("Block") == 0){
 
             System.out.println("CODE GENERATION: Block" );
@@ -322,6 +326,7 @@ public class CodeGeneration {
 
             System.out.println("CODE GENERATION: Variable Declaration" );
 
+            //if we declare an integer
             if(currentAstNode.children.get(0).getSymbol().compareToIgnoreCase("int") == 0 ){
 
                 //add to executable image
@@ -367,9 +372,10 @@ public class CodeGeneration {
                 l = 0;
 
                 
-            
+
             }//if
             
+            //if we declare a string
             else if (currentAstNode.children.get(0).getSymbol().compareToIgnoreCase("string") == 0){
 
                 //add pointer to static image
@@ -401,10 +407,9 @@ public class CodeGeneration {
                 k++;
                 l = 0;
                 
-                
-
             }//else if
 
+            //if we declare a boolean
             else if (currentAstNode.children.get(0).getSymbol().compareToIgnoreCase("boolean") == 0){
 
                 //add to executable image
@@ -448,14 +453,11 @@ public class CodeGeneration {
                 k++;
                 l = 0;
 
-                
-
             }//else if
             
-
         }//if
 
-        //if we have an assignment stmt then we must check for type matching
+        //if we have an assignment stmt 
         if(currentAstNode.getName().compareToIgnoreCase("AssignmentStatement") == 0){
 
             System.out.println("CODE GENERATION: Assignment Statement");
@@ -465,8 +467,6 @@ public class CodeGeneration {
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")==0)
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")==0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")==0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")==0)
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")==0)){
-                
-                //System.out.println("int ");
 
                 //A9 # 8D T# XX
                 executableImage[i] = "A9";
@@ -496,15 +496,11 @@ public class CodeGeneration {
                 executableImage[i] = "XX";
                 i++;
 
-                //System.out.println("t " + t);
-
                 t++;
-
-                //System.out.println("t " + t);
             
             }//if
 
-            //ASsignment of a boolean
+            //Assignment of a boolean
             else if((currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true") == 0 ) ||
                     (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false") == 0)){
                 
@@ -512,6 +508,7 @@ public class CodeGeneration {
                 executableImage[i] = "A9";
                 i++;
 
+                //if we have a true
                 if(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true") == 0 ){
 
                     executableImage[i] = "01";
@@ -519,6 +516,7 @@ public class CodeGeneration {
 
                 }//if
 
+                //else if we have a false
                 else if(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false") == 0 ){
 
                     executableImage[i] = "00";
@@ -533,12 +531,8 @@ public class CodeGeneration {
                 executableImage[i] = "XX";
                 i++;
 
-                //System.out.println("t " + t);
-
                 t++;
             
-                //System.out.println("t " + t);
-
             }//else if
 
             //Assignment of a String we add to the heap
@@ -546,8 +540,6 @@ public class CodeGeneration {
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("3")!=0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("4")!=0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("5")!=0)
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("6")!=0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("7")!=0)||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("8")!=0)
             || (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("9")!=0)|| (currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("true") != 0 )||(currentAstNode.children.get(1).getSymbol().compareToIgnoreCase("false") != 0)){
-                
-                //System.out.println("string ");
 
                 //pass the string to the heap
                 for(int f = 1; f < currentAstNode.children.size(); f++){
@@ -555,13 +547,11 @@ public class CodeGeneration {
                     tempStringLength++;
 
                 }//for
-            
-                //System.out.println("tempStringLength  "  + tempStringLength);
 
+                //increment the length by one to account for a break stmt
                 tempStringLength = tempStringLength + 1;
 
-                //System.out.println("tempStringLength + 1 "  + tempStringLength);
-
+                //set int value to loop through the string chars
                 int d = 1;
 
                 newExecuableImageLength = executableImage.length - tempStringLength;
@@ -581,10 +571,6 @@ public class CodeGeneration {
 
                     d++;
 
-                    //System.out.println("w  " + w );
-
-                    //System.out.println("length " + newExecuableImageLength);
-
                     if(w == executableImage.length - 1){
 
                         executableImage[w] = "00";
@@ -603,19 +589,12 @@ public class CodeGeneration {
                 i++;
                 executableImage[i] = "8D";
                 i++;
-
-                //System.out.println("t " + t );
-                
                 executableImage[i] = "T"+t;
                 i++;
                 executableImage[i] = "XX";
                 i++;
-                
-            
-                //System.out.println("t " + t);
 
                 t++;
-                //System.out.println("t " + t);
 
             }//else if
             
@@ -625,7 +604,12 @@ public class CodeGeneration {
         //if it does exsist then we set the is used parameter to true
         if(currentAstNode.getName().compareToIgnoreCase("PrintStatement") == 0){
 
-            t--;
+            //decrement T so that we are looking at the correct T value.
+
+            if(ifFlag == 1){
+                t--;
+            }//if
+            
 
             System.out.println("CODE GENERATION: Print Statement");
 
@@ -633,17 +617,30 @@ public class CodeGeneration {
             executableImage[i] = "AC";
             i++;
 
+            //loop through the static data to find the correct variable to print
+            int r = 0;
+
             fullbreak:
             
             for(int e = 0; e < staticData.length; e++){
 
-                for(int r = 0; r < staticData[e].length; r++){
+                //for(int r = 0; r < staticData[e].length; r++){
 
-                    if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 1]) == currentScope)){
+                    
+                    System.out.println(staticData[e][r]);
+                    System.out.println("letter " + staticData[e][r + 1]);
+                    System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
+                    System.out.println("scope " + staticData[e][r + 2]);
+                    System.out.println("scope " + currentScope);
 
-                        //System.out.println("hello1");
+                    System.out.println("thing " + staticData[e][r + 4]);
+                    
 
-                        printTemp = staticData[e][r - 1].split("");
+                    if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
+
+                        System.out.println("hello1");
+
+                        printTemp = staticData[e][r].split("");
 
                         executableImage[i] = printTemp[0] + printTemp[1];
                         i++;
@@ -654,13 +651,13 @@ public class CodeGeneration {
 
                     }//if
 
-                    else if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 1]) != currentScope)){
+                    else if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 2]) != currentScope)){
 
                         //System.out.println(staticData[e][r + 1]);
                         //System.out.println(currentScope);
-                        //System.out.println("hello");
+                        System.out.println("hello");
 
-                        printTemp = staticData[e][r - 1].split("");
+                        printTemp = staticData[e][r].split("");
 
                         executableImage[i] = printTemp[0] + printTemp[1];
                         i++;
@@ -671,7 +668,7 @@ public class CodeGeneration {
 
                     }//else
 
-                }//for
+                //}//for
             }//for
 
 
@@ -680,7 +677,9 @@ public class CodeGeneration {
             executableImage[i] = "A2";
             i++;
 
-            int r = 0;
+            r = 0;
+
+            //loop through the static data to detemine if we print a string or a int
 
             fullbreak:
             
@@ -741,6 +740,8 @@ public class CodeGeneration {
             
             t--;
 
+            ifFlag = 1;
+
             System.out.println("CODE GENERATION: If Statement");
 
             //A2 T# XX A2 # FF
@@ -781,7 +782,7 @@ public class CodeGeneration {
             executableImage[i] = "EC";
             i++;
             
-           fullbreak:
+            fullbreak:
 
             for(int e = 0; e < staticData.length; e++){
 
@@ -856,7 +857,227 @@ public class CodeGeneration {
 
             System.out.println("CODE GENERATION: While Statement");
 
+            //AD T# XX A2 # FF
+        
+            //while()
+            executableImage[i] = "AD";
+            i++;
+
+            //grab variable to compare
+            fullbreak:
+
+            for(int e = 0; e < staticData.length; e++){
+
+                for(int r = 0; r < staticData[e].length; r++){
+
+                    //System.out.println(staticData[e][r]);
+
+                    if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(1).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 1]) == currentScope)){
+
+                        //System.out.println("hello");
+
+                        printTemp = staticData[e][r - 1].split("");
+
+                        executableImage[i] = printTemp[0] + printTemp[1];
+                        i++;
+
+                        Arrays.fill(printTemp, null);
+
+                        break fullbreak;
+
+                    }//if
+
+                    else if((staticData[e][r] != null )&&(staticData[e][r].compareToIgnoreCase(currentAstNode.children.get(1).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 1]) != currentScope)){
+
+                        //System.out.println("hello");
+
+                        printTemp = staticData[e][r - 1].split("");
+
+                        executableImage[i] = printTemp[0] + printTemp[1];
+                        i++;
+
+                        Arrays.fill(printTemp, null);
+
+                        break fullbreak;
+
+                    }//else
+
+                }//for
+            }//for
             
+            executableImage[i] = "XX";
+            i++;
+
+            //increment T to get back to next t vlaue
+            t++;
+
+            //copy value
+            executableImage[i] = "8D";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+
+            executableImage[i] = "A9";
+            i++;
+                
+            if(currentAstNode.children.get(3).getSymbol().toString().length() == 1){
+    
+                executableImage[i]  = "0" + Integer.parseInt(currentAstNode.children.get(3).getSymbol().toString(), 16);
+                i++;
+
+            }//if
+
+            else if(currentAstNode.children.get(3).getSymbol().toString().compareToIgnoreCase("true") == 0){
+
+                executableImage[i] = "01";
+                i++;
+
+            }//else
+
+            else if(currentAstNode.children.get(3).getSymbol().toString().compareToIgnoreCase("false") == 0){
+
+                executableImage[i] = "00";
+                i++;
+
+            }//else
+
+            else{
+
+                executableImage[i] = currentAstNode.children.get(3).getSymbol().toString();
+                i++;
+
+            }//else
+
+            //Copy the compare-to value to t1.
+            t--;
+
+            //copy value
+            executableImage[i] = "8D";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+            //increment T to get back to next t vlaue
+            t++;
+
+            //Compare t2 and t1, and assign Z flag.
+            executableImage[i] = "AE";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+            //
+            t--;
+
+            executableImage[i] = "EC";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+            //set accumlator to 0
+            executableImage[i] = "A9";
+            i++;
+
+            executableImage[i] = "00";
+            i++;
+                
+            //if branch
+            executableImage[i] = "D0";
+            i++;
+
+            //increment j
+            j++;
+
+            executableImage[i] = "J"+j;
+            i++;
+
+            //add to jump table 
+
+            //temp
+            jumpTable[j][m] = "J" + j;
+            m++;
+
+            //var
+            jumpTable[j][m] = "00";
+
+            //reset m
+            m = 0;
+            
+            
+            //(if t2 == t1) Acc = 1.
+            executableImage[i] = "A9";
+            i++;
+
+            executableImage[i] = "01";
+            i++;
+
+            //X register = 0.
+            executableImage[i] = "A2";
+            i++;
+
+            executableImage[i] = "00";
+            i++;
+
+            //Store Acc in t1 (0x53).
+            executableImage[i] = "8D";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+            //Compare t1 and X reg,
+            executableImage[i] = "EC";
+            i++;
+
+            executableImage[i] = "T"+t;
+            i++;
+                
+            executableImage[i] = "XX";
+            i++;
+
+            //branch if unequal
+
+            executableImage[i] = "D0";
+            i++;
+
+            //increment j
+            j++;
+
+            executableImage[i] = "J"+j;
+            i++;
+
+            //add to jump table 
+
+            //temp
+            jumpTable[j][m] = "J" + j;
+            m++;
+
+            //var
+            jumpTable[j][m] = "00";
+
+            //reset m
+            m = 0;
+
         }//if
 
         //else we traverse through the ast to the next node
@@ -879,6 +1100,71 @@ public class CodeGeneration {
 
                     System.out.println("CODE GENERATION: Entering scope " + currentScope);
 
+
+                }//if
+
+                if(currentAstNode.children.get(m).getName().compareToIgnoreCase("WhileStatement") == 0){
+
+                    //unconditional jump
+
+                    //Acc = 0
+                    executableImage[i] = "A9";
+                    i++;
+
+                    executableImage[i] = "00";
+                    i++;
+
+                    //store
+                    executableImage[i] = "8D";
+                    i++;
+
+                    executableImage[i] = "T"+t;
+                    i++;
+                        
+                    executableImage[i] = "XX";
+                    i++;
+
+                    //X register = 1
+                    executableImage[i] = "A2";
+                    i++;
+
+                    executableImage[i] = "01";
+                    i++;
+
+                    //Compare t1 and X reg,
+                    executableImage[i] = "EC";
+                    i++;
+
+                    executableImage[i] = "T"+t;
+                    i++;
+                        
+                    executableImage[i] = "XX";
+                    i++;
+
+                    //branch if unequal
+
+                    executableImage[i] = "D0";
+                    i++;
+
+                    //increment j
+                    j++;
+
+                    executableImage[i] = "J"+j;
+                    i++;
+
+                    //add to jump table 
+
+                    //temp
+                    jumpTable[j][m] = "J" + j;
+                    m++;
+
+                    //var
+                    jumpTable[j][m] = "00";
+
+                    //reset m
+                    m = 0;
+
+                    executableImage[i] = "00";
 
                 }//if
 
