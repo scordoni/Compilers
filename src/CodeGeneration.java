@@ -370,7 +370,7 @@ public class CodeGeneration {
                 offset++;
                 k++;
                 l = 0;
-
+                t++;
                 
 
             }//if
@@ -406,6 +406,7 @@ public class CodeGeneration {
                 offset++;
                 k++;
                 l = 0;
+                t++;
                 
             }//else if
 
@@ -452,6 +453,7 @@ public class CodeGeneration {
                 offset++;
                 k++;
                 l = 0;
+                t++;
 
             }//else if
             
@@ -490,13 +492,65 @@ public class CodeGeneration {
 
                 executableImage[i] = "8D";
                 i++;
-                executableImage[i] = "T"+t;
-                i++;
-                //t++;
+                
+                //loop through the static data to find the correct variable to print
+                int r = 0;
+
+                fullbreak:
+                
+                for(int e = 0; e < staticData.length; e++){
+
+                    //for(int r = 0; r < staticData[e].length; r++){
+
+                        
+                        System.out.println(staticData[e][r]);
+                        System.out.println("letter " + staticData[e][r + 1]);
+                        System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
+                        System.out.println("scope " + staticData[e][r + 2]);
+                        System.out.println("scope " + currentScope);
+
+                        System.out.println("thing " + staticData[e][r + 4]);
+                        
+
+                        if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
+
+                            System.out.println("hello1");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 2]) != currentScope)){
+
+                            //System.out.println(staticData[e][r + 1]);
+                            //System.out.println(currentScope);
+                            System.out.println("hello");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//else
+
+                    //}//for
+                }//for
+
                 executableImage[i] = "XX";
                 i++;
 
-                t++;
+                
             
             }//if
 
@@ -526,12 +580,67 @@ public class CodeGeneration {
                 
                 executableImage[i] = "8D";
                 i++;
-                executableImage[i] = "T"+t;
-                i++;
+                
+
+                //loop through the static data to find the correct variable to print
+                int r = 0;
+
+                fullbreak:
+                
+                for(int e = 0; e < staticData.length; e++){
+
+                    //for(int r = 0; r < staticData[e].length; r++){
+
+                        
+                        System.out.println(staticData[e][r]);
+                        System.out.println("letter " + staticData[e][r + 1]);
+                        System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
+                        System.out.println("scope " + staticData[e][r + 2]);
+                        System.out.println("scope " + currentScope);
+
+                        System.out.println("thing " + staticData[e][r + 4]);
+                        
+
+                        if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
+
+                            System.out.println("hello1");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 2]) != currentScope)){
+
+                            //System.out.println(staticData[e][r + 1]);
+                            //System.out.println(currentScope);
+                            System.out.println("hello");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//else
+
+                    //}//for
+                }//for
+
+
                 executableImage[i] = "XX";
                 i++;
 
-                t++;
+                
             
             }//else if
 
@@ -589,12 +698,67 @@ public class CodeGeneration {
                 i++;
                 executableImage[i] = "8D";
                 i++;
-                executableImage[i] = "T"+t;
-                i++;
+                
+
+                //loop through the static data to find the correct variable to print
+                int r = 0;
+
+                fullbreak:
+                
+                for(int e = 0; e < staticData.length; e++){
+
+                    //for(int r = 0; r < staticData[e].length; r++){
+
+                        
+                        System.out.println(staticData[e][r]);
+                        System.out.println("letter " + staticData[e][r + 1]);
+                        System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
+                        System.out.println("scope " + staticData[e][r + 2]);
+                        System.out.println("scope " + currentScope);
+
+                        System.out.println("thing " + staticData[e][r + 4]);
+                        
+
+                        if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
+
+                            System.out.println("hello1");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//if
+
+                        else if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0)&& (Integer.parseInt(staticData[e][r + 2]) != currentScope)){
+
+                            //System.out.println(staticData[e][r + 1]);
+                            //System.out.println(currentScope);
+                            System.out.println("hello");
+
+                            printTemp = staticData[e][r].split("");
+
+                            executableImage[i] = printTemp[0] + printTemp[1];
+                            i++;
+
+                            Arrays.fill(printTemp, null);
+
+                            break fullbreak;
+
+                        }//else
+
+                    //}//for
+                }//for
+
+
                 executableImage[i] = "XX";
                 i++;
 
-                t++;
+                
 
             }//else if
             
