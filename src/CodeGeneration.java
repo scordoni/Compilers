@@ -42,6 +42,10 @@ public class CodeGeneration {
 
     static int ifFlag;
 
+    static int tFlag;
+
+    static int tempLength;
+
     static int offset;
 
     static int jump;
@@ -54,7 +58,7 @@ public class CodeGeneration {
 
     static int tempScope = -1;
 
-    static int newExecuableImageLength = -1;
+    static int newExecuableImageLength;
 
     static ASTNode currentAstNode;
 
@@ -84,6 +88,7 @@ public class CodeGeneration {
         m = 0;
 
         ifFlag = 0;
+        tFlag = 0;
 
         jump = 0;
         jumpNum = 0;
@@ -91,6 +96,8 @@ public class CodeGeneration {
         currentScope = -1;
 
         tempStringLength = 0;
+
+        newExecuableImageLength = -1;
 
         for(int i = 0; i < executableImage.length; i++){
 
@@ -123,6 +130,8 @@ public class CodeGeneration {
         }//else
 
         temp = temp + 1;
+
+        System.out.println(temp);
 
         System.out.println("CODE GENERATION: Replacing all null values with 00 ");
 
@@ -193,6 +202,8 @@ public class CodeGeneration {
                 //if we hit a T value we replace it with its intended value
                 if((executableImage[r].compareToIgnoreCase("T" + x) == 0) && (executableImage[r+1].compareToIgnoreCase("XX") == 0)){
     
+                    tFlag = 1;
+
                     tempString = Integer.toString(temp, 16).toUpperCase().toString();
     
                     //if it has a length of one then we pad it with a 0
@@ -206,15 +217,20 @@ public class CodeGeneration {
     
                     executableImage[r+1] = "00";
 
-                    //System.out.println("tempstring length " + tempString.length());
+                    
     
+
                 }//if
     
             }//for
 
             temp = temp + 1;
 
-            System.out.println("CODE GENERATION: Backpatching " + "T" + x + " with " + tempString);
+            if((executableImage[x] != null)&&(tFlag == 1)){
+                System.out.println("CODE GENERATION: Backpatching " + "T" + x + " with " + tempString);
+            }//if
+
+            tFlag = 0;
 
         }//for
         
@@ -502,7 +518,7 @@ public class CodeGeneration {
 
                     //for(int r = 0; r < staticData[e].length; r++){
 
-                        
+                        /*
                         System.out.println(staticData[e][r]);
                         System.out.println("letter " + staticData[e][r + 1]);
                         System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
@@ -510,11 +526,11 @@ public class CodeGeneration {
                         System.out.println("scope " + currentScope);
 
                         System.out.println("thing " + staticData[e][r + 4]);
-                        
+                        */
 
                         if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
 
-                            System.out.println("hello1");
+                            //System.out.println("hello1");
 
                             printTemp = staticData[e][r].split("");
 
@@ -531,7 +547,7 @@ public class CodeGeneration {
 
                             //System.out.println(staticData[e][r + 1]);
                             //System.out.println(currentScope);
-                            System.out.println("hello");
+                            //System.out.println("hello");
 
                             printTemp = staticData[e][r].split("");
 
@@ -591,7 +607,7 @@ public class CodeGeneration {
 
                     //for(int r = 0; r < staticData[e].length; r++){
 
-                        
+                        /*
                         System.out.println(staticData[e][r]);
                         System.out.println("letter " + staticData[e][r + 1]);
                         System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
@@ -599,11 +615,11 @@ public class CodeGeneration {
                         System.out.println("scope " + currentScope);
 
                         System.out.println("thing " + staticData[e][r + 4]);
-                        
+                        */
 
                         if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
 
-                            System.out.println("hello1");
+                            //System.out.println("hello1");
 
                             printTemp = staticData[e][r].split("");
 
@@ -620,7 +636,7 @@ public class CodeGeneration {
 
                             //System.out.println(staticData[e][r + 1]);
                             //System.out.println(currentScope);
-                            System.out.println("hello");
+                            //System.out.println("hello");
 
                             printTemp = staticData[e][r].split("");
 
@@ -660,33 +676,136 @@ public class CodeGeneration {
                 //increment the length by one to account for a break stmt
                 tempStringLength = tempStringLength + 1;
 
-                //set int value to loop through the string chars
-                int d = 1;
+                //newExecuableImageLength = executableImage.length - tempStringLength;
 
-                newExecuableImageLength = executableImage.length - tempStringLength;
-                
-                for(int w = executableImage.length - tempStringLength; w < executableImage.length - 1 ; w++){
+                if(newExecuableImageLength == -1 ){
 
-                    /*
-                    System.out.println("letter " + currentAstNode.children.get(d).getSymbol());
-                    System.out.println("letter as char " + currentAstNode.children.get(d).getSymbol().toString().charAt(0));
-                    System.out.println("char as ascii " + (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0));
-                    System.out.println("char as hex " + Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString() );
-                    */
+                    newExecuableImageLength = executableImage.length - tempStringLength;
 
-                    asciiString = Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString();
+                    int d = 1;
 
-                    executableImage[w] = asciiString;
+                    for(int w = executableImage.length - tempStringLength; w < executableImage.length - 1 ; w++){
 
-                    d++;
+                        /*
+                        System.out.println("letter " + currentAstNode.children.get(d).getSymbol());
+                        System.out.println("letter as char " + currentAstNode.children.get(d).getSymbol().toString().charAt(0));
+                        System.out.println("char as ascii " + (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0));
+                        System.out.println("char as hex " + Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString() );
+                        */
 
-                    if(w == executableImage.length - 1){
+                        if(currentAstNode.children.size() == 2){
 
-                        executableImage[w] = "00";
+                            asciiString = Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString();
 
-                    }//if
+                            executableImage[w] = asciiString;
 
-                }//for
+                            
+
+                            if(w == executableImage.length - 1){
+
+                                executableImage[w] = "00";
+
+                            }//if
+
+                        }//if
+
+                        else if(currentAstNode.children.get(d) != null){
+
+                            asciiString = Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString();
+
+                            executableImage[w] = asciiString;
+
+                            
+
+                            if(w == executableImage.length - 1){
+
+                                executableImage[w] = "00";
+
+                            }//if
+
+                            if(d != currentAstNode.children.size() - 1){
+
+                                d++;
+
+                            }//if
+                            
+                            
+                        }//if
+
+                    }//for
+
+                    tempStringLength = 0;
+
+                }//if
+
+                else{
+
+                    //System.out.println(newExecuableImageLength);
+                    //System.out.println(tempStringLength);
+
+                    tempLength = newExecuableImageLength;
+
+                    newExecuableImageLength = newExecuableImageLength - tempStringLength;
+
+                    //System.out.println(newExecuableImageLength);
+
+                    int d = 1;
+
+                    for(int w = newExecuableImageLength; w < tempLength ; w++){
+
+                        /*
+                        System.out.println("letter " + currentAstNode.children.get(d).getSymbol());
+                        System.out.println("letter as char " + currentAstNode.children.get(d).getSymbol().toString().charAt(0));
+                        System.out.println("char as ascii " + (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0));
+                        System.out.println("char as hex " + Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString() );
+                        */
+
+                        if(currentAstNode.children.size() == 2){
+
+                            asciiString = Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString();
+
+                            executableImage[w] = asciiString;
+
+                            
+
+                            if(w == tempLength - 1){
+
+                                executableImage[w] = "00";
+
+                            }//if
+
+                        }//if
+
+                        else if(currentAstNode.children.get(d) != null){
+
+                            asciiString = Integer.toString( (int)currentAstNode.children.get(d).getSymbol().toString().charAt(0) , 16 ).toUpperCase().toString();
+
+                            executableImage[w] = asciiString;
+
+                            
+
+                            if(w == tempLength - 1){
+
+                                executableImage[w] = "00";
+
+                            }//if
+
+                            if(d != currentAstNode.children.size() - 1){
+
+                                d++;
+
+                            }//if
+                            
+                            
+                        }//if
+
+                    }//for
+
+                    tempStringLength = 0;
+
+                }//else
+
+
 
 
                 //assign the string in the code
@@ -709,7 +828,7 @@ public class CodeGeneration {
 
                     //for(int r = 0; r < staticData[e].length; r++){
 
-                        
+                        /*
                         System.out.println(staticData[e][r]);
                         System.out.println("letter " + staticData[e][r + 1]);
                         System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
@@ -717,11 +836,11 @@ public class CodeGeneration {
                         System.out.println("scope " + currentScope);
 
                         System.out.println("thing " + staticData[e][r + 4]);
-                        
+                        */
 
                         if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
 
-                            System.out.println("hello1");
+                            //System.out.println("hello1");
 
                             printTemp = staticData[e][r].split("");
 
@@ -738,7 +857,7 @@ public class CodeGeneration {
 
                             //System.out.println(staticData[e][r + 1]);
                             //System.out.println(currentScope);
-                            System.out.println("hello");
+                            //System.out.println("hello");
 
                             printTemp = staticData[e][r].split("");
 
@@ -790,7 +909,7 @@ public class CodeGeneration {
 
                 //for(int r = 0; r < staticData[e].length; r++){
 
-                    
+                    /*
                     System.out.println(staticData[e][r]);
                     System.out.println("letter " + staticData[e][r + 1]);
                     System.out.println("letter " + currentAstNode.children.get(0).getSymbol());
@@ -798,11 +917,11 @@ public class CodeGeneration {
                     System.out.println("scope " + currentScope);
 
                     System.out.println("thing " + staticData[e][r + 4]);
-                    
+                    */
 
                     if((staticData[e][r] != null )&&(staticData[e][r + 1].compareToIgnoreCase(currentAstNode.children.get(0).getSymbol()) == 0) && (Integer.parseInt(staticData[e][r + 2]) == currentScope)){
 
-                        System.out.println("hello1");
+                        //System.out.println("hello1");
 
                         printTemp = staticData[e][r].split("");
 
@@ -819,7 +938,7 @@ public class CodeGeneration {
 
                         //System.out.println(staticData[e][r + 1]);
                         //System.out.println(currentScope);
-                        System.out.println("hello");
+                        //System.out.println("hello");
 
                         printTemp = staticData[e][r].split("");
 

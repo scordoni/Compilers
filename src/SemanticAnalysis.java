@@ -287,6 +287,9 @@ public class SemanticAnalysis {
 
                     }//else
 
+                    System.out.println(currentAstNode.children.get(1).getSymbol());
+
+                    /*
                     //if the symbol is an integer then we have to make sure we assign an integer
                     if(currentSymbolTableNode.mySymbolTable.get(currentAstNode.children.get(1).getSymbol()).getType().compareToIgnoreCase("int") == 0){
 
@@ -310,6 +313,7 @@ public class SemanticAnalysis {
                         ErrorFlag = 1;
 
                     }//if
+                    */
                     
 
                 }//if
