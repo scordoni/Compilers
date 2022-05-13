@@ -1,0 +1,191 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% CMPT 432
+% Spring 2022
+% Lab Five
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Short Sectioned Assignment
+% LaTeX Template
+% Version 1.0 (5/5/12)
+%
+% This template has been downloaded from: http://www.LaTeXTemplates.com
+% Original author: % Frits Wenneker (http://www.howtotex.com)
+% License: CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% Modified by Alan G. Labouseur  - alan@labouseur.com
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[letterpaper, 10pt,DIV=13]{scrartcl} 
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyph
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage{amsmath,amsfonts,amsthm,xfrac} % Math packages
+\usepackage{sectsty} % Allows customizing section commands
+\usepackage{graphicx}
+\usepackage[lined,linesnumbered,commentsnumbered]{algorithm2e}
+\usepackage{listings}
+\usepackage{parskip}
+\usepackage{lastpage}
+\usepackage{tikz}
+
+\allsectionsfont{\normalfont\scshape} % Make all section titles in default font and small caps.
+
+\usepackage{fancyhdr} % Custom headers and footers
+\pagestyle{fancyplain} % Makes all pages in the document conform to the custom headers and footers
+
+\fancyhead{} % No page header - if you want one, create it in the same way as the footers below
+\fancyfoot[L]{} % Empty left footer
+\fancyfoot[C]{} % Empty center footer
+\fancyfoot[R]{page \thepage\ of \pageref{LastPage}} % Page numbering for right footer
+
+\renewcommand{\headrulewidth}{0pt} % Remove header underlines
+\renewcommand{\footrulewidth}{0pt} % Remove footer underlines
+\setlength{\headheight}{13.6pt} % Customize the height of the header
+
+\numberwithin{equation}{section} % Number equations within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{figure}{section} % Number figures within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+\numberwithin{table}{section} % Number tables within sections (i.e. 1.1, 1.2, 2.1, 2.2 instead of 1, 2, 3, 4)
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs.
+
+\binoppenalty=3000
+\relpenalty=3000
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\horrule}[1]{\rule{\linewidth}{#1}} % Create horizontal rule command with 1 argument of height
+
+\title{	
+   \normalfont \normalsize 
+   \textsc{CMPT 432 - Spring 2022 - Dr. Labouseur} \\[10pt] % Header stuff.
+   \horrule{0.5pt} \\[0.25cm] 	% Top horizontal rule
+   \huge Lab Nine  \\     	    % Assignment title
+   \horrule{0.5pt} \\[0.25cm] 	% Bottom horizontal rule
+}
+
+\author{Shannon Cordoni \\ \normalsize Shannon.Cordoni@Marist.edu}
+
+\date{\normalsize\today} 	% Today's date.
+
+\begin{document}
+\maketitle % Print the title
+
+%----------------------------------------------------------------------------------------
+%   start PROBLEM ONE
+%----------------------------------------------------------------------------------------
+\section{Crafting A Compiler 5.5: }
+
+\paragraph{} Make the grammar LL(1).\\
+
+DeclList $\to$ DeclList ; Decl | Decl\\
+Decl $\to$ IdList : Type\\
+IdList $\to$ IdList, id | id \\
+Type $\to$ ScalarType | array (ScalarTypeList) of Type\\
+ScalarType $\to$ id | Bound .. Bound\\
+Bound $\to$ Sign inconstant | id\\
+Sign $\to$ + | - | $\lambda$\\
+ScalarTypeList $\to$ ScalarTypeList, ScalarType | ScalarType\\
+
+\\
+
+DeclList $\to$ Decl ; DeclList \\
+DeclList $\to$ Decl\\
+Decl $\to$ IdList : Type\\
+IdList $\to$ id , IdList\\
+IdList $\to$ id \\
+Type $\to$ ScalarType\\
+Type $\to$ array(ScalarTypeList) of Type\\
+ScalarType $\to$ id \\
+ScalarType $\to$ Bound .. Bound\\
+Bound $\to$ Sign inconstant \\
+Bound $\to$ id\\
+Sign $\to$ + \\
+Sign $\to$ - \\
+Sign $\to$ $\lambda$\\
+ScalarTypeList $\to$ ScalarType , ScalarTypeList\\
+ScalarTypeList $\to$ ScalarType\\
+
+Remove Left Factoring
+
+\section{Dragon Book 4.5.3: }
+
+\paragraph{} Give bottom up parse for the following input strings:\\
+\\
+a)\\
+String: 000111\\
+
+Grammar:\\
+S $\to$ 0 S 1\\
+S $\to$ 0 1\\
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ input & stack & next move\\ 
+ 000111 & $\epsilon$  & shift \\ 
+ 00111 & 0  & shift \\ 
+ 0111 & 00  & shift \\ 
+ 111 & 000  & shift \\ 
+ 11 & 0001  & reduce by 01 $\to$ S \\ 
+ 11 & 00S  & shift \\ 
+ 1 & 00S1  & reduce by 0S1 $\to$ S \\ 
+ 1 & 0S & shift \\ 
+ $\epsilon$ & 0S1  & reduce by 0S1 $\to$ S \\ 
+ $\epsilon$ & S  &  \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+b)\\
+String: aaa*a++\\
+\\
+Grammar:\\
+S $\to$ S S +\\
+S $\to$ S S *\\
+S $\to$ a\\
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+ \hline
+ input & stack & next move\\ 
+ aaa*a++ & $\epsilon$  & shift \\ 
+ aa*a++ & a  & reduce by a $\to$ S \\ 
+ aa*a++ & S  & shift \\ 
+ a*a++ & Sa  & reduce by a $\to$ S \\ 
+ a*a++ & SS  & shift \\ 
+ *a++ & SSa  & reduce by a $\to$ S \\ 
+ *a++ & SSS  & shift \\ 
+ a++ & SSS* & reduce by SS* $\to$ S \\ 
+ a++ & SS  & shift \\ 
+ ++ & SSa  & reduce by a $\to$ S \\ 
+ ++ & SSS  & shift \\ 
+ + & SSS+  & reduce by SS+ $\to$ S \\ 
+ + & SS  & shift \\ 
+ $\epsilon$ & SS+  & reduce by SS+ $\to$ S \\  
+ $\epsilon$ & S  &  \\ 
+ \hline
+\end{tabular}
+\end{center}
+
+%----------------------------------------------------------------------------------------
+%   REFERENCES
+%----------------------------------------------------------------------------------------
+% The following two commands are all you need in the initial runs of your .Tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+\bibliography{lab01} 
+% You must have a proper ".bib" file and remember to run:
+% latex bibtex latex latex
+% to resolve all references.
+
+\pagebreak
+\end{document}
