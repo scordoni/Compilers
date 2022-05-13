@@ -1,0 +1,5 @@
+Project Four
+
+I was able to keep Lex and Parse fully working, I fixed what I could in Semantic Analysis and I got single scope code generation working.
+I also got multi-scope code generation working and single if statements. While statements do not work, I was not able to figure out how to add
+multiple instances in my jump table.
