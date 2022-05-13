@@ -131,7 +131,7 @@ public class CodeGeneration {
 
         temp = temp + 1;
 
-        System.out.println(temp);
+        //System.out.println(temp);
 
         System.out.println("CODE GENERATION: Replacing all null values with 00 ");
 
@@ -145,15 +145,15 @@ public class CodeGeneration {
         }//for
 
         //print the arrays to test
-        System.out.println("  ");
+        //System.out.println("  ");
 
-        System.out.println(Arrays.deepToString(staticData));
+        //System.out.println(Arrays.deepToString(staticData));
 
-        System.out.println("  ");
+        //System.out.println("  ");
 
-        System.out.println(Arrays.deepToString(jumpTable));
+        //System.out.println(Arrays.deepToString(jumpTable));
 
-        System.out.println("  ");
+        //System.out.println("  ");
 
 
 
