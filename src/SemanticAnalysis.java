@@ -275,7 +275,7 @@ public class SemanticAnalysis {
                         System.out.println(" ");
 
                         ErrorFlag = 1;
-
+ 
                     }//if
 
                     //otherwise the string is initalized
